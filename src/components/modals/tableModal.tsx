@@ -9,7 +9,7 @@ interface TableModalProps {
 
 export default function TableModal({
   isOpen,
-  onOpenChange,
+
   closeModal,
   onSubmit,
 }: TableModalProps) {

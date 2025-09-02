@@ -10,7 +10,7 @@ interface YouTubeModalProps {
 
 export default function YoutubeModal({
   isOpen,
-  onOpenChange,
+
   closeModal,
   onSubmit,
 }: YouTubeModalProps) {

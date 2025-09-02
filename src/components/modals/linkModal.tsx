@@ -12,7 +12,6 @@ interface LinkModalProps {
 
 export default function LinkModal({
   isOpen,
-  onOpenChange,
   closeModal,
   selectedText,
   existingUrl,

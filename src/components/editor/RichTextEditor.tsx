@@ -1,4 +1,4 @@
-"use client";
+
 import React from 'react';
 import { EditorContent, useEditor } from "@tiptap/react";
 import FileMenuBar from "../menubar/submenus/FileMenuBar";

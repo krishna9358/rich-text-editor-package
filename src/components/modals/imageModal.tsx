@@ -11,7 +11,7 @@ interface ImageModalProps {
 
 export default function ImageModal({
   isOpen,
-  onOpenChange,
+
   closeModal,
   editor,
 }: ImageModalProps) {
@@ -20,8 +20,8 @@ export default function ImageModal({
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [urlError, setUrlError] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<any>(null);
+  const [isUploading, ] = useState(false);
+  const [, setUploadedImage] = useState<any>(null);
 
   const isValidImageSrc = (value: string | null | undefined): boolean => {
     if (!value) return false;

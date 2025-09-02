@@ -25,7 +25,7 @@ const HEADING_SIZES: Record<number, string> = {
   6: '14px',
 };
 
-const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
+const MenuBar = ({ editor, unsetLink }: MenuBarProps) => {
   const [isYoutubeModalOpen, setIsYoutubeModalOpen] = useState(false);
 
   const handleYoutubeSubmit = (data: { url: string; width: string; height: string }) => {

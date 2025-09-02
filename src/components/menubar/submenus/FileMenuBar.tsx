@@ -15,7 +15,7 @@ export function FileMenuBar({ editor, onOpenFindReplace }: { editor: Editor; onO
   const [editOpen, setEditOpen] = useState(false);
   const [insertOpen, setInsertOpen] = useState(false);
   const [isYoutubeModalOpen, setIsYoutubeModalOpen] = useState(false);
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [, setIsImageModalOpen] = useState(false);
   const [isTableModalOpen, setIsTableModalOpen] = useState(false);
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
 
