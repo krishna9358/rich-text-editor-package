@@ -1,7 +1,7 @@
 // ===============================================================================================
 // Format menu bar for Tiptap used for formatting text used in the File Menubar
 // ===============================================================================================
-"use client";
+import React from "react";
 import { useState } from "react";
 import { Editor } from "@tiptap/react";
 import { BoldIcon } from "../../tiptap-icons/bold-icon";

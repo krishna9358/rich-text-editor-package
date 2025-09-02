@@ -1,4 +1,4 @@
-"use client";
+import React from "react";
 import { useEditorState } from "@tiptap/react";
 import YoutubeModal from "../modals/youtube-modal";
 import TableModal from "../modals/tableModal";

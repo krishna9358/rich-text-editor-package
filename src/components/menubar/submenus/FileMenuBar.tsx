@@ -1,13 +1,11 @@
 // ===============================================================================================
 // File menu bar for Tiptap used for file operations
 // ===============================================================================================
-"use client";
+import React from "react";
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import { Editor } from "@tiptap/react";
 import YoutubeModal from "../../modals/youtube-modal";
 import TableModal from "../../modals/tableModal";
-import ImageModal from "../../modals/imageModal";
 import LinkModal from "../../modals/linkModal";
 import FormatMenu from "./FormatMenu";
 
@@ -47,7 +45,10 @@ export function FileMenuBar({ editor, onOpenFindReplace }: { editor: Editor; onO
 
   // Handle youtube submit
   const handleYoutubeSubmit = ({ url, width, height }: { url: string; width: string; height: string }) => {
-    editor.commands.setYoutubeVideo({ src: url, width: parseInt(width), height: parseInt(height) });
+    editor.chain().focus().insertContent({
+      type: 'youtube',
+      attrs: { src: url, width: parseInt(width), height: parseInt(height) }
+    }).run();
   };
 
   // Handle table submit
