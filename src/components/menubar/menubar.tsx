@@ -6,7 +6,7 @@ import LinkModal from "../modals/linkModal";
 import { useState } from "react";
 import ImageModal from "../modals/imageModal";
 import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, BlockquoteIcon, Code2Icon, CodeBlockIcon,ItalicIcon, LinkIcon, ListIcon, ListOrderedIcon, Redo2Icon, StrikeIcon, TableIcon,  UnderlineIcon, Undo2Icon, ImagePlusIcon,  BoldIcon } from "../tiptap-icons";
-import { TranslateIcon } from "../tiptap-icons/translate-icon";
+
 
 interface MenuBarProps {
   editor: any;

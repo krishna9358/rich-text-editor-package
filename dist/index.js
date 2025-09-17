@@ -8016,6 +8016,227 @@ function ImageModal(_a) {
                 React.createElement("button", { onClick: handleSubmit, disabled: (!!url && !isValidImageSrc(url)) || (!url) || !altText || isUploading, className: "px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed" }, isUploading ? 'Uploading...' : 'Insert')))));
 }
 
+var AlignJustifyIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6C22 6.55228 21.5523 7 21 7H3C2.44772 7 2 6.55228 2 6Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 12C2 11.4477 2.44772 11 3 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H3C2.44772 13 2 12.5523 2 12Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 18C2 17.4477 2.44772 17 3 17H21C21.5523 17 22 17.4477 22 18C22 18.5523 21.5523 19 21 19H3C2.44772 19 2 18.5523 2 18Z", fill: "currentColor" })));
+});
+AlignJustifyIcon.displayName = "AlignJustifyIcon";
+
+var ArrowLeftIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M12.7071 5.70711C13.0976 5.31658 13.0976 4.68342 12.7071 4.29289C12.3166 3.90237 11.6834 3.90237 11.2929 4.29289L4.29289 11.2929C3.90237 11.6834 3.90237 12.3166 4.29289 12.7071L11.2929 19.7071C11.6834 20.0976 12.3166 20.0976 12.7071 19.7071C13.0976 19.3166 13.0976 18.6834 12.7071 18.2929L7.41421 13L19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11L7.41421 11L12.7071 5.70711Z", fill: "currentColor" })));
+});
+ArrowLeftIcon.displayName = "ArrowLeftIcon";
+
+var BanIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M4.43471 4.01458C4.34773 4.06032 4.26607 4.11977 4.19292 4.19292C4.11977 4.26607 4.06032 4.34773 4.01458 4.43471C2.14611 6.40628 1 9.0693 1 12C1 18.0751 5.92487 23 12 23C14.9306 23 17.5936 21.854 19.5651 19.9856C19.6522 19.9398 19.7339 19.8803 19.8071 19.8071C19.8803 19.7339 19.9398 19.6522 19.9856 19.5651C21.854 17.5936 23 14.9306 23 12C23 5.92487 18.0751 1 12 1C9.0693 1 6.40628 2.14611 4.43471 4.01458ZM6.38231 4.9681C7.92199 3.73647 9.87499 3 12 3C16.9706 3 21 7.02944 21 12C21 14.125 20.2635 16.078 19.0319 17.6177L6.38231 4.9681ZM17.6177 19.0319C16.078 20.2635 14.125 21 12 21C7.02944 21 3 16.9706 3 12C3 9.87499 3.73647 7.92199 4.9681 6.38231L17.6177 19.0319Z", fill: "currentColor" })));
+});
+BanIcon.displayName = "BanIcon";
+
+var ChevronDownIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z", fill: "currentColor" })));
+});
+ChevronDownIcon.displayName = "ChevronDownIcon";
+
+var CloseIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M18.7071 6.70711C19.0976 6.31658 19.0976 5.68342 18.7071 5.29289C18.3166 4.90237 17.6834 4.90237 17.2929 5.29289L12 10.5858L6.70711 5.29289C6.31658 4.90237 5.68342 4.90237 5.29289 5.29289C4.90237 5.68342 4.90237 6.31658 5.29289 6.70711L10.5858 12L5.29289 17.2929C4.90237 17.6834 4.90237 18.3166 5.29289 18.7071C5.68342 19.0976 6.31658 19.0976 6.70711 18.7071L12 13.4142L17.2929 18.7071C17.6834 19.0976 18.3166 19.0976 18.7071 18.7071C19.0976 18.3166 19.0976 17.6834 18.7071 17.2929L13.4142 12L18.7071 6.70711Z", fill: "currentColor" })));
+});
+CloseIcon.displayName = "CloseIcon";
+
+var CodeBlockIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M6.70711 2.29289C7.09763 2.68342 7.09763 3.31658 6.70711 3.70711L4.41421 6L6.70711 8.29289C7.09763 8.68342 7.09763 9.31658 6.70711 9.70711C6.31658 10.0976 5.68342 10.0976 5.29289 9.70711L2.29289 6.70711C1.90237 6.31658 1.90237 5.68342 2.29289 5.29289L5.29289 2.29289C5.68342 1.90237 6.31658 1.90237 6.70711 2.29289Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M10.2929 2.29289C10.6834 1.90237 11.3166 1.90237 11.7071 2.29289L14.7071 5.29289C15.0976 5.68342 15.0976 6.31658 14.7071 6.70711L11.7071 9.70711C11.3166 10.0976 10.6834 10.0976 10.2929 9.70711C9.90237 9.31658 9.90237 8.68342 10.2929 8.29289L12.5858 6L10.2929 3.70711C9.90237 3.31658 9.90237 2.68342 10.2929 2.29289Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M17 4C17 3.44772 17.4477 3 18 3H19C20.6569 3 22 4.34315 22 6V18C22 19.6569 20.6569 21 19 21H5C3.34315 21 2 19.6569 2 18V12C2 11.4477 2.44772 11 3 11C3.55228 11 4 11.4477 4 12V18C4 18.5523 4.44772 19 5 19H19C19.5523 19 20 18.5523 20 18V6C20 5.44772 19.5523 5 19 5H18C17.4477 5 17 4.55228 17 4Z", fill: "currentColor" })));
+});
+CodeBlockIcon.displayName = "CodeBlockIcon";
+
+var CornerDownLeftIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M21 4C21 3.44772 20.5523 3 20 3C19.4477 3 19 3.44772 19 4V11C19 11.7956 18.6839 12.5587 18.1213 13.1213C17.5587 13.6839 16.7956 14 16 14H6.41421L9.70711 10.7071C10.0976 10.3166 10.0976 9.68342 9.70711 9.29289C9.31658 8.90237 8.68342 8.90237 8.29289 9.29289L3.29289 14.2929C2.90237 14.6834 2.90237 15.3166 3.29289 15.7071L8.29289 20.7071C8.68342 21.0976 9.31658 21.0976 9.70711 20.7071C10.0976 20.3166 10.0976 19.6834 9.70711 19.2929L6.41421 16H16C17.3261 16 18.5979 15.4732 19.5355 14.5355C20.4732 13.5979 21 12.3261 21 11V4Z", fill: "currentColor" })));
+});
+CornerDownLeftIcon.displayName = "CornerDownLeftIcon";
+
+var ExternalLinkIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M14 3C14 2.44772 14.4477 2 15 2H21C21.5523 2 22 2.44772 22 3V9C22 9.55228 21.5523 10 21 10C20.4477 10 20 9.55228 20 9V5.41421L10.7071 14.7071C10.3166 15.0976 9.68342 15.0976 9.29289 14.7071C8.90237 14.3166 8.90237 13.6834 9.29289 13.2929L18.5858 4H15C14.4477 4 14 3.55228 14 3Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M4.29289 7.29289C4.48043 7.10536 4.73478 7 5 7H11C11.5523 7 12 6.55228 12 6C12 5.44772 11.5523 5 11 5H5C4.20435 5 3.44129 5.31607 2.87868 5.87868C2.31607 6.44129 2 7.20435 2 8V19C2 19.7957 2.31607 20.5587 2.87868 21.1213C3.44129 21.6839 4.20435 22 5 22H16C16.7957 22 17.5587 21.6839 18.1213 21.1213C18.6839 20.5587 19 19.7957 19 19V13C19 12.4477 18.5523 12 18 12C17.4477 12 17 12.4477 17 13V19C17 19.2652 16.8946 19.5196 16.7071 19.7071C16.5196 19.8946 16.2652 20 16 20H5C4.73478 20 4.48043 19.8946 4.29289 19.7071C4.10536 19.5196 4 19.2652 4 19V8C4 7.73478 4.10536 7.48043 4.29289 7.29289Z", fill: "currentColor" })));
+});
+ExternalLinkIcon.displayName = "ExternalLinkIcon";
+
+var HeadingFiveIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M5 6C5 5.44772 4.55228 5 4 5C3.44772 5 3 5.44772 3 6V18C3 18.5523 3.44772 19 4 19C4.55228 19 5 18.5523 5 18V13H11V18C11 18.5523 11.4477 19 12 19C12.5523 19 13 18.5523 13 18V6C13 5.44772 12.5523 5 12 5C11.4477 5 11 5.44772 11 6V11H5V6Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M16 10C16 9.44772 16.4477 9 17 9H21C21.5523 9 22 9.44772 22 10C22 10.5523 21.5523 11 21 11H18V12H18.3C20.2754 12 22 13.4739 22 15.5C22 17.5261 20.2754 19 18.3 19C17.6457 19 17.0925 18.8643 16.5528 18.5944C16.0588 18.3474 15.8586 17.7468 16.1055 17.2528C16.3525 16.7588 16.9532 16.5586 17.4472 16.8056C17.7074 16.9357 17.9542 17 18.3 17C19.3246 17 20 16.2739 20 15.5C20 14.7261 19.3246 14 18.3 14H17C16.4477 14 16 13.5523 16 13L16 12.9928V10Z", fill: "currentColor" })));
+});
+HeadingFiveIcon.displayName = "HeadingFiveIcon";
+
+var HeadingFourIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M4 5C4.55228 5 5 5.44772 5 6V11H11V6C11 5.44772 11.4477 5 12 5C12.5523 5 13 5.44772 13 6V18C13 18.5523 12.5523 19 12 19C11.4477 19 11 18.5523 11 18V13H5V18C5 18.5523 4.55228 19 4 19C3.44772 19 3 18.5523 3 18V6C3 5.44772 3.44772 5 4 5Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M17 9C17.5523 9 18 9.44772 18 10V13H20V10C20 9.44772 20.4477 9 21 9C21.5523 9 22 9.44772 22 10V18C22 18.5523 21.5523 19 21 19C20.4477 19 20 18.5523 20 18V15H17C16.4477 15 16 14.5523 16 14V10C16 9.44772 16.4477 9 17 9Z", fill: "currentColor" })));
+});
+HeadingFourIcon.displayName = "HeadingFourIcon";
+
+var HeadingIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M6 3C6.55228 3 7 3.44772 7 4V11H17V4C17 3.44772 17.4477 3 18 3C18.5523 3 19 3.44772 19 4V20C19 20.5523 18.5523 21 18 21C17.4477 21 17 20.5523 17 20V13H7V20C7 20.5523 6.55228 21 6 21C5.44772 21 5 20.5523 5 20V4C5 3.44772 5.44772 3 6 3Z", fill: "currentColor" })));
+});
+HeadingIcon.displayName = "HeadingIcon";
+
+var HeadingOneIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M5 6C5 5.44772 4.55228 5 4 5C3.44772 5 3 5.44772 3 6V18C3 18.5523 3.44772 19 4 19C4.55228 19 5 18.5523 5 18V13H11V18C11 18.5523 11.4477 19 12 19C12.5523 19 13 18.5523 13 18V6C13 5.44772 12.5523 5 12 5C11.4477 5 11 5.44772 11 6V11H5V6Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M21.0001 10C21.0001 9.63121 20.7971 9.29235 20.472 9.11833C20.1468 8.94431 19.7523 8.96338 19.4454 9.16795L16.4454 11.168C15.9859 11.4743 15.8617 12.0952 16.1681 12.5547C16.4744 13.0142 17.0953 13.1384 17.5548 12.8321L19.0001 11.8685V18C19.0001 18.5523 19.4478 19 20.0001 19C20.5524 19 21.0001 18.5523 21.0001 18V10Z", fill: "currentColor" })));
+});
+HeadingOneIcon.displayName = "HeadingOneIcon";
+
+var HeadingSixIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M5 6C5 5.44772 4.55228 5 4 5C3.44772 5 3 5.44772 3 6V18C3 18.5523 3.44772 19 4 19C4.55228 19 5 18.5523 5 18V13H11V18C11 18.5523 11.4477 19 12 19C12.5523 19 13 18.5523 13 18V6C13 5.44772 12.5523 5 12 5C11.4477 5 11 5.44772 11 6V11H5V6Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M20.7071 9.29289C21.0976 9.68342 21.0976 10.3166 20.7071 10.7071C19.8392 11.575 19.2179 12.2949 18.7889 13.0073C18.8587 13.0025 18.929 13 19 13C20.6569 13 22 14.3431 22 16C22 17.6569 20.6569 19 19 19C17.3431 19 16 17.6569 16 16C16 14.6007 16.2837 13.4368 16.8676 12.3419C17.4384 11.2717 18.2728 10.3129 19.2929 9.29289C19.6834 8.90237 20.3166 8.90237 20.7071 9.29289ZM19 17C18.4477 17 18 16.5523 18 16C18 15.4477 18.4477 15 19 15C19.5523 15 20 15.4477 20 16C20 16.5523 19.5523 17 19 17Z", fill: "currentColor" })));
+});
+HeadingSixIcon.displayName = "HeadingSixIcon";
+
+var HeadingThreeIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M4 5C4.55228 5 5 5.44772 5 6V11H11V6C11 5.44772 11.4477 5 12 5C12.5523 5 13 5.44772 13 6V18C13 18.5523 12.5523 19 12 19C11.4477 19 11 18.5523 11 18V13H5V18C5 18.5523 4.55228 19 4 19C3.44772 19 3 18.5523 3 18V6C3 5.44772 3.44772 5 4 5Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M19.4608 11.2169C19.1135 11.0531 18.5876 11.0204 18.0069 11.3619C17.5309 11.642 16.918 11.4831 16.638 11.007C16.358 10.531 16.5169 9.91809 16.9929 9.63807C18.1123 8.97962 19.3364 8.94691 20.314 9.40808C21.2839 9.86558 21.9999 10.818 21.9999 12C21.9999 12.7957 21.6838 13.5587 21.1212 14.1213C20.5586 14.6839 19.7956 15 18.9999 15C18.4476 15 17.9999 14.5523 17.9999 14C17.9999 13.4477 18.4476 13 18.9999 13C19.2651 13 19.5195 12.8947 19.707 12.7071C19.8946 12.5196 19.9999 12.2652 19.9999 12C19.9999 11.6821 19.8159 11.3844 19.4608 11.2169Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M18.0001 14C18.0001 13.4477 18.4478 13 19.0001 13C19.7957 13 20.5588 13.3161 21.1214 13.8787C21.684 14.4413 22.0001 15.2043 22.0001 16C22.0001 17.2853 21.2767 18.3971 20.1604 18.8994C19.0257 19.41 17.642 19.2315 16.4001 18.3C15.9582 17.9686 15.8687 17.3418 16.2001 16.9C16.5314 16.4582 17.1582 16.3686 17.6001 16.7C18.3581 17.2685 18.9744 17.24 19.3397 17.0756C19.7234 16.9029 20.0001 16.5147 20.0001 16C20.0001 15.7348 19.8947 15.4804 19.7072 15.2929C19.5196 15.1054 19.2653 15 19.0001 15C18.4478 15 18.0001 14.5523 18.0001 14Z", fill: "currentColor" })));
+});
+HeadingThreeIcon.displayName = "HeadingThreeIcon";
+
+var HeadingTwoIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M5 6C5 5.44772 4.55228 5 4 5C3.44772 5 3 5.44772 3 6V18C3 18.5523 3.44772 19 4 19C4.55228 19 5 18.5523 5 18V13H11V18C11 18.5523 11.4477 19 12 19C12.5523 19 13 18.5523 13 18V6C13 5.44772 12.5523 5 12 5C11.4477 5 11 5.44772 11 6V11H5V6Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M22.0001 12C22.0001 10.7611 21.1663 9.79297 20.0663 9.42632C18.9547 9.05578 17.6171 9.28724 16.4001 10.2C15.9582 10.5314 15.8687 11.1582 16.2001 11.6C16.5314 12.0418 17.1582 12.1314 17.6001 11.8C18.383 11.2128 19.0455 11.1942 19.4338 11.3237C19.8339 11.457 20.0001 11.7389 20.0001 12C20.0001 12.4839 19.8554 12.7379 19.6537 12.9481C19.4275 13.1837 19.1378 13.363 18.7055 13.6307C18.6313 13.6767 18.553 13.7252 18.4701 13.777C17.9572 14.0975 17.3128 14.5261 16.8163 15.2087C16.3007 15.9177 16.0001 16.8183 16.0001 18C16.0001 18.5523 16.4478 19 17.0001 19H21.0001C21.5523 19 22.0001 18.5523 22.0001 18C22.0001 17.4477 21.5523 17 21.0001 17H18.131C18.21 16.742 18.3176 16.5448 18.4338 16.385C18.6873 16.0364 19.0429 15.7775 19.5301 15.473C19.5898 15.4357 19.6536 15.3966 19.7205 15.3556C20.139 15.0992 20.6783 14.7687 21.0964 14.3332C21.6447 13.7621 22.0001 13.0161 22.0001 12Z", fill: "currentColor" })));
+});
+HeadingTwoIcon.displayName = "HeadingTwoIcon";
+
+var HighlighterIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M14.7072 4.70711C15.0977 4.31658 15.0977 3.68342 14.7072 3.29289C14.3167 2.90237 13.6835 2.90237 13.293 3.29289L8.69294 7.89286L8.68594 7.9C8.13626 8.46079 7.82837 9.21474 7.82837 10C7.82837 10.2306 7.85491 10.4584 7.90631 10.6795L2.29289 16.2929C2.10536 16.4804 2 16.7348 2 17V20C2 20.5523 2.44772 21 3 21H12C12.2652 21 12.5196 20.8946 12.7071 20.7071L15.3205 18.0937C15.5416 18.1452 15.7695 18.1717 16.0001 18.1717C16.7853 18.1717 17.5393 17.8639 18.1001 17.3142L22.7072 12.7071C23.0977 12.3166 23.0977 11.6834 22.7072 11.2929C22.3167 10.9024 21.6835 10.9024 21.293 11.2929L16.6971 15.8887C16.5105 16.0702 16.2605 16.1717 16.0001 16.1717C15.7397 16.1717 15.4897 16.0702 15.303 15.8887L10.1113 10.697C9.92992 10.5104 9.82837 10.2604 9.82837 10C9.82837 9.73963 9.92992 9.48958 10.1113 9.30297L14.7072 4.70711ZM13.5858 17L9.00004 12.4142L4 17.4142V19H11.5858L13.5858 17Z", fill: "currentColor" })));
+});
+HighlighterIcon.displayName = "HighlighterIcon";
+
+var ImagePlusIcon = function (_a) {
+    var className = _a.className;
+    return (React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: className },
+        React.createElement("path", { d: "M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" }),
+        React.createElement("line", { x1: "16", y1: "5", x2: "22", y2: "5" }),
+        React.createElement("line", { x1: "19", y1: "2", x2: "19", y2: "8" }),
+        React.createElement("circle", { cx: "9", cy: "9", r: "2" }),
+        React.createElement("path", { d: "m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" })));
+};
+
+var LinkIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M16.9958 1.06669C15.4226 1.05302 13.907 1.65779 12.7753 2.75074L12.765 2.76086L11.045 4.47086C10.6534 4.86024 10.6515 5.49341 11.0409 5.88507C11.4303 6.27673 12.0634 6.27858 12.4551 5.88919L14.1697 4.18456C14.9236 3.45893 15.9319 3.05752 16.9784 3.06662C18.0272 3.07573 19.0304 3.49641 19.772 4.23804C20.5137 4.97967 20.9344 5.98292 20.9435 7.03171C20.9526 8.07776 20.5515 9.08563 19.8265 9.83941L16.833 12.8329C16.4274 13.2386 15.9393 13.5524 15.4019 13.7529C14.8645 13.9533 14.2903 14.0359 13.7181 13.9949C13.146 13.9539 12.5894 13.7904 12.0861 13.5154C11.5827 13.2404 11.1444 12.8604 10.8008 12.401C10.47 11.9588 9.84333 11.8685 9.40108 12.1993C8.95883 12.5301 8.86849 13.1568 9.1993 13.599C9.71464 14.288 10.3721 14.858 11.1272 15.2705C11.8822 15.683 12.7171 15.9283 13.5753 15.9898C14.4334 16.0513 15.2948 15.9274 16.1009 15.6267C16.907 15.326 17.639 14.8555 18.2473 14.247L21.2472 11.2471L21.2593 11.2347C22.3523 10.1031 22.9571 8.58751 22.9434 7.01433C22.9297 5.44115 22.2987 3.93628 21.1863 2.82383C20.0738 1.71138 18.5689 1.08036 16.9958 1.06669Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M10.4247 8.0102C9.56657 7.94874 8.70522 8.07256 7.89911 8.37326C7.09305 8.67395 6.36096 9.14458 5.75272 9.753L2.75285 12.7529L2.74067 12.7653C1.64772 13.8969 1.04295 15.4125 1.05662 16.9857C1.07029 18.5589 1.70131 20.0637 2.81376 21.1762C3.9262 22.2886 5.43108 22.9196 7.00426 22.9333C8.57744 22.947 10.0931 22.3422 11.2247 21.2493L11.2371 21.2371L12.9471 19.5271C13.3376 19.1366 13.3376 18.5034 12.9471 18.1129C12.5565 17.7223 11.9234 17.7223 11.5328 18.1129L9.82932 19.8164C9.07555 20.5414 8.06768 20.9425 7.02164 20.9334C5.97285 20.9243 4.9696 20.5036 4.22797 19.762C3.48634 19.0203 3.06566 18.0171 3.05655 16.9683C3.04746 15.9222 3.44851 14.9144 4.17355 14.1606L7.16719 11.167C7.5727 10.7613 8.06071 10.4476 8.59811 10.2471C9.13552 10.0467 9.70976 9.96412 10.2819 10.0051C10.854 10.0461 11.4106 10.2096 11.9139 10.4846C12.4173 10.7596 12.8556 11.1397 13.1992 11.599C13.53 12.0412 14.1567 12.1316 14.5989 11.8007C15.0412 11.4699 15.1315 10.8433 14.8007 10.401C14.2854 9.71205 13.6279 9.14198 12.8729 8.72948C12.1178 8.31697 11.2829 8.07166 10.4247 8.0102Z", fill: "currentColor" })));
+});
+LinkIcon.displayName = "LinkIcon";
+
+var ListTodoIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 6C2 4.89543 2.89543 4 4 4H8C9.10457 4 10 4.89543 10 6V10C10 11.1046 9.10457 12 8 12H4C2.89543 12 2 11.1046 2 10V6ZM8 6H4V10H8V6Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M9.70711 14.2929C10.0976 14.6834 10.0976 15.3166 9.70711 15.7071L5.70711 19.7071C5.31658 20.0976 4.68342 20.0976 4.29289 19.7071L2.29289 17.7071C1.90237 17.3166 1.90237 16.6834 2.29289 16.2929C2.68342 15.9024 3.31658 15.9024 3.70711 16.2929L5 17.5858L8.29289 14.2929C8.68342 13.9024 9.31658 13.9024 9.70711 14.2929Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M12 6C12 5.44772 12.4477 5 13 5H21C21.5523 5 22 5.44772 22 6C22 6.55228 21.5523 7 21 7H13C12.4477 7 12 6.55228 12 6Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M12 12C12 11.4477 12.4477 11 13 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H13C12.4477 13 12 12.5523 12 12Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M12 18C12 17.4477 12.4477 17 13 17H21C21.5523 17 22 17.4477 22 18C22 18.5523 21.5523 19 21 19H13C12.4477 19 12 18.5523 12 18Z", fill: "currentColor" })));
+});
+ListTodoIcon.displayName = "ListTodoIcon";
+
+var MoonStarIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M12 2C10.0222 2 8.08879 2.58649 6.4443 3.6853C4.79981 4.78412 3.51809 6.3459 2.76121 8.17317C2.00433 10.0004 1.8063 12.0111 2.19215 13.9509C2.578 15.8907 3.53041 17.6725 4.92894 19.0711C6.32746 20.4696 8.10929 21.422 10.0491 21.8079C11.9889 22.1937 13.9996 21.9957 15.8268 21.2388C17.6541 20.4819 19.2159 19.2002 20.3147 17.5557C21.4135 15.9112 22 13.9778 22 12C22 11.5955 21.7564 11.2309 21.3827 11.0761C21.009 10.9213 20.5789 11.0069 20.2929 11.2929C19.287 12.2988 17.9226 12.864 16.5 12.864C15.0774 12.864 13.713 12.2988 12.7071 11.2929C11.7012 10.287 11.136 8.92261 11.136 7.5C11.136 6.07739 11.7012 4.71304 12.7071 3.70711C12.9931 3.42111 13.0787 2.99099 12.9239 2.61732C12.7691 2.24364 12.4045 2 12 2ZM7.55544 5.34824C8.27036 4.87055 9.05353 4.51389 9.87357 4.28778C9.39271 5.27979 9.13604 6.37666 9.13604 7.5C9.13604 9.45304 9.91189 11.3261 11.2929 12.7071C12.6739 14.0881 14.547 14.864 16.5 14.864C17.6233 14.864 18.7202 14.6073 19.7122 14.1264C19.4861 14.9465 19.1295 15.7296 18.6518 16.4446C17.7727 17.7602 16.5233 18.7855 15.0615 19.391C13.5997 19.9965 11.9911 20.155 10.4393 19.8463C8.88743 19.5376 7.46197 18.7757 6.34315 17.6569C5.22433 16.538 4.4624 15.1126 4.15372 13.5607C3.84504 12.0089 4.00347 10.4003 4.60897 8.93853C5.21447 7.47672 6.23985 6.22729 7.55544 5.34824Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M19 2C19.5523 2 20 2.44772 20 3V4H21C21.5523 4 22 4.44772 22 5C22 5.55228 21.5523 6 21 6H20V7C20 7.55228 19.5523 8 19 8C18.4477 8 18 7.55228 18 7V6H17C16.4477 6 16 5.55228 16 5C16 4.44772 16.4477 4 17 4H18V3C18 2.44772 18.4477 2 19 2Z", fill: "currentColor" })));
+});
+MoonStarIcon.displayName = "MoonStarIcon";
+
+var Redo2Icon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M15.7071 2.29289C15.3166 1.90237 14.6834 1.90237 14.2929 2.29289C13.9024 2.68342 13.9024 3.31658 14.2929 3.70711L17.5858 7H9.5C7.77609 7 6.12279 7.68482 4.90381 8.90381C3.68482 10.1228 3 11.7761 3 13.5C3 14.3536 3.16813 15.1988 3.49478 15.9874C3.82144 16.7761 4.30023 17.4926 4.90381 18.0962C6.12279 19.3152 7.77609 20 9.5 20H13C13.5523 20 14 19.5523 14 19C14 18.4477 13.5523 18 13 18H9.5C8.30653 18 7.16193 17.5259 6.31802 16.682C5.90016 16.2641 5.56869 15.768 5.34254 15.2221C5.1164 14.6761 5 14.0909 5 13.5C5 12.3065 5.47411 11.1619 6.31802 10.318C7.16193 9.47411 8.30653 9 9.5 9H17.5858L14.2929 12.2929C13.9024 12.6834 13.9024 13.3166 14.2929 13.7071C14.6834 14.0976 15.3166 14.0976 15.7071 13.7071L20.7071 8.70711C21.0976 8.31658 21.0976 7.68342 20.7071 7.29289L15.7071 2.29289Z", fill: "currentColor" })));
+});
+Redo2Icon.displayName = "Redo2Icon";
+
+var SunIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { d: "M12 1C12.5523 1 13 1.44772 13 2V4C13 4.55228 12.5523 5 12 5C11.4477 5 11 4.55228 11 4V2C11 1.44772 11.4477 1 12 1Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12ZM12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M13 20C13 19.4477 12.5523 19 12 19C11.4477 19 11 19.4477 11 20V22C11 22.5523 11.4477 23 12 23C12.5523 23 13 22.5523 13 22V20Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M4.22282 4.22289C4.61335 3.83236 5.24651 3.83236 5.63704 4.22289L7.04704 5.63289C7.43756 6.02341 7.43756 6.65658 7.04704 7.0471C6.65651 7.43762 6.02335 7.43762 5.63283 7.0471L4.22282 5.6371C3.8323 5.24658 3.8323 4.61341 4.22282 4.22289Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M18.367 16.9529C17.9765 16.5623 17.3433 16.5623 16.9528 16.9529C16.5623 17.3434 16.5623 17.9766 16.9528 18.3671L18.3628 19.7771C18.7533 20.1676 19.3865 20.1676 19.777 19.7771C20.1675 19.3866 20.1675 18.7534 19.777 18.3629L18.367 16.9529Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M1 12C1 11.4477 1.44772 11 2 11H4C4.55228 11 5 11.4477 5 12C5 12.5523 4.55228 13 4 13H2C1.44772 13 1 12.5523 1 12Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M20 11C19.4477 11 19 11.4477 19 12C19 12.5523 19.4477 13 20 13H22C22.5523 13 23 12.5523 23 12C23 11.4477 22.5523 11 22 11H20Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M7.04704 16.9529C7.43756 17.3434 7.43756 17.9766 7.04704 18.3671L5.63704 19.7771C5.24651 20.1676 4.61335 20.1676 4.22282 19.7771C3.8323 19.3866 3.8323 18.7534 4.22283 18.3629L5.63283 16.9529C6.02335 16.5623 6.65651 16.5623 7.04704 16.9529Z", fill: "currentColor" }),
+        React__namespace.createElement("path", { d: "M19.777 5.6371C20.1675 5.24657 20.1675 4.61341 19.777 4.22289C19.3865 3.83236 18.7533 3.83236 18.3628 4.22289L16.9528 5.63289C16.5623 6.02341 16.5623 6.65658 16.9528 7.0471C17.3433 7.43762 17.9765 7.43762 18.367 7.0471L19.777 5.6371Z", fill: "currentColor" })));
+});
+SunIcon.displayName = "SunIcon";
+
+function TableIcon(props) {
+    return (React.createElement("svg", __assign({ xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, props),
+        React.createElement("rect", { width: "18", height: "18", x: "3", y: "3", rx: "2" }),
+        React.createElement("line", { x1: "3", x2: "21", y1: "9", y2: "9" }),
+        React.createElement("line", { x1: "3", x2: "21", y1: "15", y2: "15" }),
+        React.createElement("line", { x1: "9", x2: "9", y1: "3", y2: "21" }),
+        React.createElement("line", { x1: "15", x2: "15", y1: "3", y2: "21" })));
+}
+
+var TrashIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M7 5V4C7 3.17477 7.40255 2.43324 7.91789 1.91789C8.43324 1.40255 9.17477 1 10 1H14C14.8252 1 15.5668 1.40255 16.0821 1.91789C16.5975 2.43324 17 3.17477 17 4V5H21C21.5523 5 22 5.44772 22 6C22 6.55228 21.5523 7 21 7H20V20C20 20.8252 19.5975 21.5668 19.0821 22.0821C18.5668 22.5975 17.8252 23 17 23H7C6.17477 23 5.43324 22.5975 4.91789 22.0821C4.40255 21.5668 4 20.8252 4 20V7H3C2.44772 7 2 6.55228 2 6C2 5.44772 2.44772 5 3 5H7ZM9 4C9 3.82523 9.09745 3.56676 9.33211 3.33211C9.56676 3.09745 9.82523 3 10 3H14C14.1748 3 14.4332 3.09745 14.6679 3.33211C14.9025 3.56676 15 3.82523 15 4V5H9V4ZM6 7V20C6 20.1748 6.09745 20.4332 6.33211 20.6679C6.56676 20.9025 6.82523 21 7 21H17C17.1748 21 17.4332 20.9025 17.6679 20.6679C17.9025 20.4332 18 20.1748 18 20V7H6Z", fill: "currentColor" })));
+});
+TrashIcon.displayName = "TrashIcon";
+
+var Undo2Icon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M9.70711 3.70711C10.0976 3.31658 10.0976 2.68342 9.70711 2.29289C9.31658 1.90237 8.68342 1.90237 8.29289 2.29289L3.29289 7.29289C2.90237 7.68342 2.90237 8.31658 3.29289 8.70711L8.29289 13.7071C8.68342 14.0976 9.31658 14.0976 9.70711 13.7071C10.0976 13.3166 10.0976 12.6834 9.70711 12.2929L6.41421 9H14.5C15.0909 9 15.6761 9.1164 16.2221 9.34254C16.768 9.56869 17.2641 9.90016 17.682 10.318C18.0998 10.7359 18.4313 11.232 18.6575 11.7779C18.8836 12.3239 19 12.9091 19 13.5C19 14.0909 18.8836 14.6761 18.6575 15.2221C18.4313 15.768 18.0998 16.2641 17.682 16.682C17.2641 17.0998 16.768 17.4313 16.2221 17.6575C15.6761 17.8836 15.0909 18 14.5 18H11C10.4477 18 10 18.4477 10 19C10 19.5523 10.4477 20 11 20H14.5C15.3536 20 16.1988 19.8319 16.9874 19.5052C17.7761 19.1786 18.4926 18.6998 19.0962 18.0962C19.6998 17.4926 20.1786 16.7761 20.5052 15.9874C20.8319 15.1988 21 14.3536 21 13.5C21 12.6464 20.8319 11.8012 20.5052 11.0126C20.1786 10.2239 19.6998 9.50739 19.0962 8.90381C18.4926 8.30022 17.7761 7.82144 16.9874 7.49478C16.1988 7.16813 15.3536 7 14.5 7H6.41421L9.70711 3.70711Z", fill: "currentColor" })));
+});
+Undo2Icon.displayName = "Undo2Icon";
+
+var DividerIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: className }, props),
+        React__namespace.createElement("line", { x1: "3", y1: "12", x2: "21", y2: "12" })));
+});
+DividerIcon.displayName = "DividerIcon";
+
+var HighlightIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: className }, props),
+        React__namespace.createElement("path", { d: "m9 11-6 6v3h9l3-3" }),
+        React__namespace.createElement("path", { d: "m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4" })));
+});
+HighlightIcon.displayName = "HighlightIcon";
+
 var FONT_SIZES = [
     '8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '26', '28', '36', '48', '72'
 ];
@@ -8145,8 +8366,10 @@ var MenuBar = function (_a) {
     return (React.createElement("div", { className: "border-b border-gray-200 bg-white z-[9999] rounded-lg" },
         React.createElement("div", { className: "flex flex-wrap items-center gap-1 sm:gap-2.5 px-2 sm:px-4 py-2 overflow-x-auto" },
             React.createElement("div", { className: "flex items-center gap-1 border-r pr-1 sm:pr-2" },
-                React.createElement("button", { onClick: function () { return editor.chain().focus().undo().run(); }, className: "p-1.5 rounded-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", disabled: !editor.can().chain().focus().undo().run(), title: "Undo" }, "Undo"),
-                React.createElement("button", { onClick: function () { return editor.chain().focus().redo().run(); }, className: "p-1.5 rounded-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", disabled: !editor.can().chain().focus().redo().run(), title: "Redo" }, "Redo")),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().undo().run(); }, className: "p-1.5 rounded-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", disabled: !editor.can().chain().focus().undo().run(), title: "Undo" },
+                    React.createElement(Undo2Icon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-700" })),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().redo().run(); }, className: "p-1.5 rounded-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", disabled: !editor.can().chain().focus().redo().run(), title: "Redo" },
+                    React.createElement(Redo2Icon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-700" }))),
             React.createElement("div", { className: "flex items-center gap-1 border-r pr-1 sm:pr-2" },
                 React.createElement("select", { value: editor.isActive('paragraph') ? 'paragraph' : editor.isActive('heading') ? "h".concat(editor.getAttributes('heading').level) : 'paragraph', onChange: function (e) { return handleHeadingChange(e.target.value); }, className: "px-2 py-1.5 border border-gray-200 rounded-md text-xs sm:text-sm min-w-[90px] sm:min-w-[130px] bg-white hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" },
                     React.createElement("option", { value: "paragraph" }, "Paragraph"),
@@ -8160,10 +8383,14 @@ var MenuBar = function (_a) {
                     size,
                     "px")); }))),
             React.createElement("div", { className: "flex items-center gap-1 border-r pr-1 sm:pr-2" },
-                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleBold().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('bold') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Bold" }, "B"),
-                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleItalic().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('italic') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Italic" }, "I"),
-                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleUnderline().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('underline') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Underline" }, "U"),
-                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleStrike().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('strike') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Strikethrough" }, "S")),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleBold().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('bold') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Bold" },
+                    React.createElement(BoldIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleItalic().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('italic') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Italic" },
+                    React.createElement(ItalicIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleUnderline().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('underline') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Underline" },
+                    React.createElement(UnderlineIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleStrike().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('strike') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Strikethrough" },
+                    React.createElement(StrikeIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
             React.createElement("div", { className: "flex items-center gap-1 border-r pr-1 sm:pr-2" },
                 React.createElement("button", { onClick: function () {
                         if (editor.isActive('youtube')) {
@@ -8179,7 +8406,8 @@ var MenuBar = function (_a) {
                         (editor.isActive('image') && editorState.imageAlignment === 'left') ||
                         editor.isActive({ textAlign: 'left' })
                         ? 'bg-gray-100 ring-1 ring-gray-300'
-                        : ''), title: "Align left" }, "Left"),
+                        : ''), title: "Align left" },
+                    React.createElement(AlignLeftIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
                 React.createElement("button", { onClick: function () {
                         if (editor.isActive('youtube')) {
                             editor.chain().focus().updateAttributes('youtube', { align: 'center' }).run();
@@ -8194,7 +8422,8 @@ var MenuBar = function (_a) {
                         (editor.isActive('image') && editorState.imageAlignment === 'center') ||
                         editor.isActive({ textAlign: 'center' })
                         ? 'bg-gray-100 ring-1 ring-gray-300'
-                        : ''), title: "Align center" }, "Center"),
+                        : ''), title: "Align center" },
+                    React.createElement(AlignCenterIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
                 React.createElement("button", { onClick: function () {
                         if (editor.isActive('youtube')) {
                             editor.chain().focus().updateAttributes('youtube', { align: 'right' }).run();
@@ -8209,10 +8438,13 @@ var MenuBar = function (_a) {
                         (editor.isActive('image') && editorState.imageAlignment === 'right') ||
                         editor.isActive({ textAlign: 'right' })
                         ? 'bg-gray-100 ring-1 ring-gray-300'
-                        : ''), title: "Align right" }, "Right")),
+                        : ''), title: "Align right" },
+                    React.createElement(AlignRightIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
             React.createElement("div", { className: "flex items-center gap-1 border-r pr-1 sm:pr-2" },
-                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleBulletList().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('bulletList') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Bullet List" }, "\u2022"),
-                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleOrderedList().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('orderedList') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Numbered List" }, "1.")),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleBulletList().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('bulletList') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Bullet List" },
+                    React.createElement(ListIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleOrderedList().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('orderedList') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Numbered List" },
+                    React.createElement(ListOrderedIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
             React.createElement("div", { className: "flex items-center gap-1" },
                 React.createElement("button", { onClick: function () {
                         if (editor.isActive('link')) {
@@ -8221,7 +8453,8 @@ var MenuBar = function (_a) {
                         else {
                             setIsLinkModalOpen(true);
                         }
-                    }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('link') ? 'bg-red-50 ring-1 ring-red-300' : ''), title: editor.isActive('link') ? 'Remove link' : 'Insert link' }, "\uD83D\uDD17"),
+                    }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('link') ? 'bg-red-50 ring-1 ring-red-300' : ''), title: editor.isActive('link') ? 'Remove link' : 'Insert link' },
+                    React.createElement(LinkIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
                 React.createElement("div", { className: "relative group" },
                     React.createElement("button", { onClick: function () {
                             if (isTableSelected) {
@@ -8230,13 +8463,19 @@ var MenuBar = function (_a) {
                             else {
                                 setIsTableModalOpen(true);
                             }
-                        }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(isTableSelected ? 'bg-red-50 ring-1 ring-red-300' : ''), title: isTableSelected ? 'Remove Table' : 'Insert Table' }, "\uD83D\uDCCA")),
-                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleBlockquote().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('blockquote') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Blockquote" }, "\""),
-                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleCodeBlock().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('codeBlock') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Code block" }, '</>'),
-                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleCode().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('code') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Inline code" }, '{')),
+                        }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(isTableSelected ? 'bg-red-50 ring-1 ring-red-300' : ''), title: isTableSelected ? 'Remove Table' : 'Insert Table' },
+                        React.createElement(TableIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleBlockquote().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('blockquote') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Blockquote" },
+                    React.createElement(BlockquoteIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleCodeBlock().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('codeBlock') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Code block" },
+                    React.createElement(CodeBlockIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
+                React.createElement("button", { onClick: function () { return editor.chain().focus().toggleCode().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('code') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Inline code" },
+                    React.createElement(Code2Icon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
             React.createElement("div", { className: "flex items-center gap-1 border-l pr-1 sm:pr-2" },
-                React.createElement("button", { onClick: function () { return setIsImageModalOpen(true); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", title: "Upload Image" }, "\uD83D\uDCF7"),
-                React.createElement("button", { onClick: function () { return setIsYoutubeModalOpen(true); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('youtube') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Insert YouTube video" }, "\uD83D\uDCFA"))),
+                React.createElement("button", { onClick: function () { return setIsImageModalOpen(true); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", title: "Upload Image" },
+                    React.createElement(ImagePlusIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
+                React.createElement("button", { onClick: function () { return setIsYoutubeModalOpen(true); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('youtube') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Insert YouTube video" },
+                    React.createElement("img", { src: "/rte-editor/youtube-icon.svg", alt: "youtube", width: 22, height: 22 })))),
         React.createElement(ImageModal, { isOpen: isImageModalOpen, closeModal: function () { return setIsImageModalOpen(false); }, editor: editor }),
         React.createElement(YoutubeModal, { isOpen: isYoutubeModalOpen, closeModal: function () { return setIsYoutubeModalOpen(false); }, onSubmit: handleYoutubeSubmit }),
         React.createElement(TableModal, { isOpen: isTableModalOpen, closeModal: function () { return setIsTableModalOpen(false); }, onSubmit: handleTableSubmit }),
@@ -8515,6 +8754,9 @@ var RichTextEditor = function (_a) {
     }, [showFindReplace]);
     return (React.createElement("div", { className: "w-full bg-white rounded-lg shadow-lg" },
         React.createElement("div", { className: "sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm rounded-t-lg" },
+            React.createElement("div", { className: "flex items-center justify-start" },
+                React.createElement("img", { src: "/rte-editor/logo.svg", alt: "logo", width: 30, height: 30, className: "ml-2" }),
+                React.createElement("div", { className: "text-sm font-semibold text-gray-700 sm:px-4 py-2" }, "ProtiumPad")),
             editor && (React.createElement(FileMenuBar, { editor: editor, onOpenFindReplace: function () { return setShowFindReplace(true); } })),
             editor && (React.createElement(MenuBar, { editor: editor, setLink: setLink, unsetLink: unsetLink }))),
         editor && (React.createElement(EditorContainer, null,
