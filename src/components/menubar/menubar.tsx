@@ -1,15 +1,18 @@
-"use client";
+import React from "react";
 import { useEditorState } from "@tiptap/react";
 import YoutubeModal from "../modals/youtube-modal";
 import TableModal from "../modals/tableModal";
 import LinkModal from "../modals/linkModal";
 import { useState } from "react";
 import ImageModal from "../modals/imageModal";
+import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, BlockquoteIcon, Code2Icon, CodeBlockIcon,ItalicIcon, LinkIcon, ListIcon, ListOrderedIcon, Redo2Icon, StrikeIcon, TableIcon,  UnderlineIcon, Undo2Icon, ImagePlusIcon,  BoldIcon } from "../tiptap-icons";
+
 
 interface MenuBarProps {
   editor: any;
   setLink: () => void;
   unsetLink: () => void;
+  token?: string;
 }
 
 const FONT_SIZES: string[] = [
@@ -25,7 +28,7 @@ const HEADING_SIZES: Record<number, string> = {
   6: '14px',
 };
 
-const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
+const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
   const [isYoutubeModalOpen, setIsYoutubeModalOpen] = useState(false);
 
   const handleYoutubeSubmit = (data: { url: string; width: string; height: string }) => {
@@ -156,7 +159,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             disabled={!editor.can().chain().focus().undo().run()}
             title="Undo"
           >
-            Undo
+            <Undo2Icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
           </button>
           <button
             onClick={() => editor.chain().focus().redo().run()}
@@ -164,7 +167,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             disabled={!editor.can().chain().focus().redo().run()}
             title="Redo"
           >
-            Redo
+           <Redo2Icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
           </button>
         </div>
 
@@ -201,7 +204,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('bold') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Bold"
           >
-            B
+            <BoldIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
 
           <button
@@ -209,7 +212,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('italic') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Italic"
           >
-            I
+            <ItalicIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
 
           <button
@@ -217,7 +220,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('underline') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Underline"
           >
-            U
+            <UnderlineIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
 
           <button
@@ -225,7 +228,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('strike') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Strikethrough"
           >
-            S
+            <StrikeIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
         </div>
 
@@ -249,7 +252,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             }`}
             title="Align left"
           >
-            Left
+            <AlignLeftIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
 
           <button
@@ -271,7 +274,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             }`}
             title="Align center"
           >
-            Center
+            <AlignCenterIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
 
           <button
@@ -293,7 +296,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             }`}
             title="Align right"
           >
-            Right
+            <AlignRightIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
         </div>
 
@@ -303,7 +306,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('bulletList') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Bullet List"
           >
-            •
+            <ListIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
 
           <button
@@ -311,7 +314,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('orderedList') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Numbered List"
           >
-            1.
+            <ListOrderedIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
         </div>
 
@@ -327,7 +330,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
               className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('link') ? 'bg-red-50 ring-1 ring-red-300' : ''}`}
               title={editor.isActive('link') ? 'Remove link' : 'Insert link'}
             >
-              🔗
+              <LinkIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
             </button>
 
           <div className="relative group">
@@ -342,7 +345,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
               className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${isTableSelected ? 'bg-red-50 ring-1 ring-red-300' : ''}`}
               title={isTableSelected ? 'Remove Table' : 'Insert Table'}
             >
-              📊
+              <TableIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
             </button>
           </div>
 
@@ -351,7 +354,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('blockquote') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Blockquote"
           >
-            "
+            <BlockquoteIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
 
           <button
@@ -359,7 +362,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('codeBlock') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Code block"
           >
-            {'</>'}
+              <CodeBlockIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
 
           <button
@@ -367,7 +370,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('code') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Inline code"
           >
-            {'{'}
+            <Code2Icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
         </div>
 
@@ -377,7 +380,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className="p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             title="Upload Image"
           >
-            📷
+            <ImagePlusIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
 
           <button
@@ -385,7 +388,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('youtube') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Insert YouTube video"
           >
-            📺
+            <img src="/rte-editor/youtube-icon.svg" alt="youtube" width={22} height={22} />
           </button>
         </div>
       </div>
@@ -394,6 +397,7 @@ const MenuBar = ({ editor, setLink, unsetLink }: MenuBarProps) => {
         isOpen={isImageModalOpen}
         closeModal={() => setIsImageModalOpen(false)}
         editor={editor}
+        token={token}
       />
 
       <YoutubeModal

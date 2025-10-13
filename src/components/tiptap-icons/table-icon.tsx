@@ -1,4 +1,4 @@
-import { SVGProps } from "react";
+import React, { SVGProps } from "react";
 
 export function TableIcon(props: SVGProps<SVGSVGElement>) {
   return (

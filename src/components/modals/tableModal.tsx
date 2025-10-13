@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface TableModalProps {
   isOpen: boolean;
@@ -9,7 +9,7 @@ interface TableModalProps {
 
 export default function TableModal({
   isOpen,
-  onOpenChange,
+
   closeModal,
   onSubmit,
 }: TableModalProps) {

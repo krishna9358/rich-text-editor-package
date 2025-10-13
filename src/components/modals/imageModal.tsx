@@ -1,26 +1,30 @@
+import React from "react";
 import { useState } from "react";
 import { Editor } from '@tiptap/react';
+import ImageUploader from "../uploader/ImageUploader";
 
 interface ImageModalProps {
   isOpen: boolean;
   onOpenChange?: () => void;
   closeModal: () => void;
   editor: Editor;
+  token?: string;
 }
 
 export default function ImageModal({
   isOpen,
-  onOpenChange,
+
   closeModal,
   editor,
+  token,
 }: ImageModalProps) {
   const [url, setUrl] = useState("");
   const [altText, setAltText] = useState("");
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [urlError, setUrlError] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<any>(null);
+  const [isUploading, ] = useState(false);
+  const [, setUploadedImage] = useState<any>(null);
 
   const isValidImageSrc = (value: string | null | undefined): boolean => {
     if (!value) return false;
@@ -105,6 +109,13 @@ export default function ImageModal({
         </div>
 
         <div className="space-y-4">
+          <ImageUploader
+            token={token}
+            onUploaded={(uploaded) => {
+              setUrl(uploaded.link);
+            }}
+          />
+
           <div>
             <div className="flex justify-between items-center mb-1">
               <label className="block text-sm font-medium text-gray-700">Image URL</label>

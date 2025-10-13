@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getYouTubeEmbedUrl, isValidYouTubeUrl, getDefaultDimensions } from "../utils/youtube";
 
 interface YouTubeModalProps {
@@ -10,7 +10,7 @@ interface YouTubeModalProps {
 
 export default function YoutubeModal({
   isOpen,
-  onOpenChange,
+
   closeModal,
   onSubmit,
 }: YouTubeModalProps) {

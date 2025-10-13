@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 interface LinkModalProps {
   isOpen: boolean;
@@ -12,7 +12,6 @@ interface LinkModalProps {
 
 export default function LinkModal({
   isOpen,
-  onOpenChange,
   closeModal,
   selectedText,
   existingUrl,

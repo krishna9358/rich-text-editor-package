@@ -1,4 +1,4 @@
-"use client";
+
 import React from 'react';
 import { EditorContent, useEditor } from "@tiptap/react";
 import FileMenuBar from "../menubar/submenus/FileMenuBar";
@@ -67,13 +67,15 @@ interface RichTextEditorProps {
   onContentChange?: (content: string) => void;
   onHTMLChange?: (html: string) => void;
   onJSONChange?: (json: any) => void;
+  token?: string;
 }
 
 const RichTextEditor = ({ 
   initialContent = "", 
   onContentChange, 
   onHTMLChange, 
-  onJSONChange 
+  onJSONChange,
+  token,
 }: RichTextEditorProps) => {
   const [wordCount, setWordCount] = useState(0);  
   const [characterCount, setCharacterCount] = useState(0);
@@ -305,6 +307,17 @@ const RichTextEditor = ({
   return (
     <div className="w-full bg-white rounded-lg shadow-lg">
       <div className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm rounded-t-lg">
+
+      <div className="flex items-center justify-start">
+            <img
+              src="/rte-editor/logo.svg"
+              alt="logo"
+              width={30}
+              height={30}
+              className="ml-2"
+            />
+            <div className="text-sm font-semibold text-gray-700 sm:px-4 py-2">ProtiumPad</div>
+          </div>
         {editor && (
           <FileMenuBar
             editor={editor}
@@ -317,6 +330,7 @@ const RichTextEditor = ({
             editor={editor}
             setLink={setLink}
             unsetLink={unsetLink}
+            token={token}
           />
         )}
       </div>
