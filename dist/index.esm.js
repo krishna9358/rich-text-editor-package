@@ -8662,6 +8662,9 @@ var RichTextEditor = function (_a) {
             CharacterCount.configure({
                 limit: Infinity,
             }),
+            index_default.configure({
+                allowBase64: true,
+            }),
             StarterKit.configure({
                 bulletList: {
                     HTMLAttributes: {},
@@ -8750,14 +8753,17 @@ var RichTextEditor = function (_a) {
                 class: "focus:outline-none p-4 min-h-[500px] max-h-[500px] overflow-y-auto prose max-w-none bg-white",
             },
             handleDrop: function (view, event, _slice, moved) {
-                var _a;
+                var _a, _b;
                 if (!moved && ((_a = event.dataTransfer) === null || _a === void 0 ? void 0 : _a.files.length)) {
                     var files = Array.from(event.dataTransfer.files);
                     var images = files.filter(function (file) { return file.type.startsWith('image'); });
                     if (images.length === 0)
                         return false;
                     event.preventDefault();
-                    var tr_1 = view.state.tr;
+                    var _c = view.state, tr_1 = _c.tr, schema = _c.schema;
+                    var imageType_1 = (_b = schema.nodes) === null || _b === void 0 ? void 0 : _b.image;
+                    if (!imageType_1)
+                        return false;
                     var coordinates_1 = view.posAtCoords({
                         left: event.clientX,
                         top: event.clientY,
@@ -8768,7 +8774,7 @@ var RichTextEditor = function (_a) {
                         var reader = new FileReader();
                         reader.onload = function (readerEvent) {
                             var _a;
-                            var node = view.state.schema.nodes.image.create({
+                            var node = imageType_1.create({
                                 src: (_a = readerEvent.target) === null || _a === void 0 ? void 0 : _a.result,
                             });
                             var transaction = tr_1.insert(coordinates_1.pos, node);
@@ -8779,6 +8785,77 @@ var RichTextEditor = function (_a) {
                     return true;
                 }
                 return false;
+            },
+            handlePaste: function (view, event) {
+                var _a;
+                var files = Array.from(((_a = event.clipboardData) === null || _a === void 0 ? void 0 : _a.files) || []);
+                var images = files.filter(function (file) { return file.type.startsWith('image'); });
+                if (images.length === 0)
+                    return false;
+                event.preventDefault();
+                var maybeUploadAndReplace = function (file, tempSrc) { return __awaiter(void 0, void 0, void 0, function () {
+                    var formData, res, json, uploaded, link_1, state, tr_2;
+                    var _a;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0:
+                                if (!token)
+                                    return [2 /*return*/];
+                                _b.label = 1;
+                            case 1:
+                                _b.trys.push([1, 4, , 5]);
+                                formData = new FormData();
+                                formData.append('files', file);
+                                return [4 /*yield*/, fetch('https://api.mrmeds.in/admin/file/media', {
+                                        method: 'POST',
+                                        headers: { Authorization: "Bearer ".concat(token) },
+                                        body: formData,
+                                    })];
+                            case 2:
+                                res = _b.sent();
+                                if (!res.ok)
+                                    return [2 /*return*/];
+                                return [4 /*yield*/, res.json()];
+                            case 3:
+                                json = _b.sent();
+                                uploaded = (_a = json === null || json === void 0 ? void 0 : json.data) === null || _a === void 0 ? void 0 : _a[0];
+                                link_1 = uploaded === null || uploaded === void 0 ? void 0 : uploaded.link;
+                                if (!link_1)
+                                    return [2 /*return*/];
+                                state = view.state;
+                                tr_2 = state.tr;
+                                state.doc.descendants(function (node, pos) {
+                                    var _a;
+                                    if (node.type.name === 'image' && ((_a = node.attrs) === null || _a === void 0 ? void 0 : _a.src) === tempSrc) {
+                                        tr_2.setNodeMarkup(pos, undefined, __assign(__assign({}, node.attrs), { src: link_1 }));
+                                    }
+                                });
+                                if (tr_2.steps.length) {
+                                    view.dispatch(tr_2);
+                                }
+                                return [3 /*break*/, 5];
+                            case 4:
+                                _b.sent();
+                                return [3 /*break*/, 5];
+                            case 5: return [2 /*return*/];
+                        }
+                    });
+                }); };
+                images.forEach(function (image) {
+                    var _a;
+                    var tempSrc = URL.createObjectURL(image);
+                    var imageType = (_a = view.state.schema.nodes) === null || _a === void 0 ? void 0 : _a.image;
+                    if (!imageType)
+                        return;
+                    // Insert at current selection
+                    var node = imageType.create({ src: tempSrc });
+                    var tr = view.state.tr;
+                    var transaction = tr.replaceSelectionWith(node).scrollIntoView();
+                    view.dispatch(transaction);
+                    // Attempt upload and replace
+                    maybeUploadAndReplace(image, tempSrc);
+                });
+                return true;
             },
         },
         onUpdate: function (_a) {

@@ -24,6 +24,7 @@ import { FontSize } from '@tiptap/extension-font-size'
 import { EditorContainer } from './EditorStyles';
 import { CharacterCount } from '@tiptap/extension-character-count'
 import ImageResize from 'tiptap-extension-resize-image'
+import Image from '@tiptap/extension-image'
 import { FindReplace } from './features/FindReplace';
 import TableControls from './features/TableControls';
 import { MenuBar } from "../menubar/index";
@@ -86,6 +87,9 @@ const RichTextEditor = ({
     extensions: [
       CharacterCount.configure({
         limit: Infinity,
+      }),
+      Image.configure({
+        allowBase64: true,
       }),
       StarterKit.configure({
         bulletList: {
@@ -189,7 +193,9 @@ const RichTextEditor = ({
           
           event.preventDefault();
           
-          const { tr } = view.state;
+          const { tr, schema } = view.state;
+          const imageType = schema.nodes?.image;
+          if (!imageType) return false;
           const coordinates = view.posAtCoords({
             left: event.clientX,
             top: event.clientY,
@@ -200,7 +206,7 @@ const RichTextEditor = ({
           images.forEach(image => {
             const reader = new FileReader();
             reader.onload = readerEvent => {
-              const node = view.state.schema.nodes.image.create({
+              const node = imageType.create({
                 src: readerEvent.target?.result,
               });
               const transaction = tr.insert(coordinates.pos, node);
@@ -212,6 +218,59 @@ const RichTextEditor = ({
           return true;
         }
         return false;
+      },
+      handlePaste: (view: any, event: ClipboardEvent) => {
+        const files = Array.from(event.clipboardData?.files || []);
+        const images = files.filter((file) => file.type.startsWith('image'));
+        if (images.length === 0) return false;
+
+        event.preventDefault();
+
+        const maybeUploadAndReplace = async (file: File, tempSrc: string) => {
+          if (!token) return;
+          try {
+            const formData = new FormData();
+            formData.append('files', file);
+            const res = await fetch('https://api.mrmeds.in/admin/file/media', {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${token}` },
+              body: formData,
+            });
+            if (!res.ok) return;
+            const json = await res.json();
+            const uploaded = json?.data?.[0];
+            const link: string | undefined = uploaded?.link;
+            if (!link) return;
+
+            const { state } = view;
+            const tr = state.tr;
+            state.doc.descendants((node: any, pos: number) => {
+              if (node.type.name === 'image' && node.attrs?.src === tempSrc) {
+                tr.setNodeMarkup(pos, undefined, { ...node.attrs, src: link });
+              }
+            });
+            if (tr.steps.length) {
+              view.dispatch(tr);
+            }
+          } catch (e) {
+            // noop
+          }
+        };
+
+        images.forEach((image) => {
+          const tempSrc = URL.createObjectURL(image);
+          const imageType = view.state.schema.nodes?.image;
+          if (!imageType) return;
+          // Insert at current selection
+          const node = imageType.create({ src: tempSrc });
+          const { tr } = view.state;
+          const transaction = tr.replaceSelectionWith(node).scrollIntoView();
+          view.dispatch(transaction);
+          // Attempt upload and replace
+          maybeUploadAndReplace(image, tempSrc);
+        });
+
+        return true;
       },
     },
     onUpdate: ({ editor }) => {
