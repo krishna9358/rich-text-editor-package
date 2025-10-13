@@ -5,6 +5,7 @@ interface ImageModalProps {
     onOpenChange?: () => void;
     closeModal: () => void;
     editor: Editor;
+    token?: string;
 }
-export default function ImageModal({ isOpen, closeModal, editor, }: ImageModalProps): React.JSX.Element | null;
+export default function ImageModal({ isOpen, closeModal, editor, token, }: ImageModalProps): React.JSX.Element | null;
 export {};

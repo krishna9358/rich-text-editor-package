@@ -4,6 +4,7 @@ interface RichTextEditorProps {
     onContentChange?: (content: string) => void;
     onHTMLChange?: (html: string) => void;
     onJSONChange?: (json: any) => void;
+    token?: string;
 }
-declare const RichTextEditor: ({ initialContent, onContentChange, onHTMLChange, onJSONChange }: RichTextEditorProps) => React.JSX.Element;
+declare const RichTextEditor: ({ initialContent, onContentChange, onHTMLChange, onJSONChange, token, }: RichTextEditorProps) => React.JSX.Element;
 export default RichTextEditor;

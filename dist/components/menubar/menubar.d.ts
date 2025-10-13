@@ -3,6 +3,7 @@ interface MenuBarProps {
     editor: any;
     setLink: () => void;
     unsetLink: () => void;
+    token?: string;
 }
-declare const MenuBar: ({ editor, unsetLink }: MenuBarProps) => React.JSX.Element;
+declare const MenuBar: ({ editor, unsetLink, token }: MenuBarProps) => React.JSX.Element;
 export default MenuBar;
