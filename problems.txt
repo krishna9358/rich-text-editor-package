@@ -1,0 +1,6 @@
+
+fix the tsconfig outdir and rollup output file location to fix the type error in package. 
+add translation thing.
+fix the hover issue.
+
+
