@@ -12,6 +12,7 @@ interface MenuBarProps {
   editor: any;
   setLink: () => void;
   unsetLink: () => void;
+  token?: string;
 }
 
 const FONT_SIZES: string[] = [
@@ -27,7 +28,7 @@ const HEADING_SIZES: Record<number, string> = {
   6: '14px',
 };
 
-const MenuBar = ({ editor, unsetLink }: MenuBarProps) => {
+const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
   const [isYoutubeModalOpen, setIsYoutubeModalOpen] = useState(false);
 
   const handleYoutubeSubmit = (data: { url: string; width: string; height: string }) => {
@@ -396,6 +397,7 @@ const MenuBar = ({ editor, unsetLink }: MenuBarProps) => {
         isOpen={isImageModalOpen}
         closeModal={() => setIsImageModalOpen(false)}
         editor={editor}
+        token={token}
       />
 
       <YoutubeModal

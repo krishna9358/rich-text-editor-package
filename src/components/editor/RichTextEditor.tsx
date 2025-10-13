@@ -67,13 +67,15 @@ interface RichTextEditorProps {
   onContentChange?: (content: string) => void;
   onHTMLChange?: (html: string) => void;
   onJSONChange?: (json: any) => void;
+  token?: string;
 }
 
 const RichTextEditor = ({ 
   initialContent = "", 
   onContentChange, 
   onHTMLChange, 
-  onJSONChange 
+  onJSONChange,
+  token,
 }: RichTextEditorProps) => {
   const [wordCount, setWordCount] = useState(0);  
   const [characterCount, setCharacterCount] = useState(0);
@@ -328,6 +330,7 @@ const RichTextEditor = ({
             editor={editor}
             setLink={setLink}
             unsetLink={unsetLink}
+            token={token}
           />
         )}
       </div>
