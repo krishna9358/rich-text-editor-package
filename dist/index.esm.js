@@ -415,6 +415,15 @@ var AlignRightIcon = React.memo(function (_a) {
 });
 AlignRightIcon.displayName = "AlignRightIcon";
 
+var AlignJustifyIcon = React.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6C22 6.55228 21.5523 7 21 7H3C2.44772 7 2 6.55228 2 6Z", fill: "currentColor" }),
+        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 12C2 11.4477 2.44772 11 3 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H3C2.44772 13 2 12.5523 2 12Z", fill: "currentColor" }),
+        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 18C2 17.4477 2.44772 17 3 17H21C21.5523 17 22 17.4477 22 18C22 18.5523 21.5523 19 21 19H3C2.44772 19 2 18.5523 2 18Z", fill: "currentColor" })));
+});
+AlignJustifyIcon.displayName = "AlignJustifyIcon";
+
 var ListIcon = React.memo(function (_a) {
     var className = _a.className, props = __rest(_a, ["className"]);
     return (React.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
@@ -489,10 +498,25 @@ function FormatMenu(_a) {
     var _f = useState(false), alignOpen = _f[0], setAlignOpen = _f[1];
     var _g = useState(false), listsOpen = _g[0], setListsOpen = _g[1];
     var _h = useState(false), colorsOpen = _h[0], setColorsOpen = _h[1];
+    var formatRef = useRef(null);
     // Font sizes
     var fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
+    // Close menu when clicking outside
+    useEffect(function () {
+        var handleClickOutside = function (event) {
+            if (formatRef.current && !formatRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+        if (open) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return function () {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [open]);
     // Return the format menu component
-    return (React__default.createElement("div", { className: "relative", onMouseLeave: function () { return setOpen(false); } },
+    return (React__default.createElement("div", { className: "relative", ref: formatRef },
         React__default.createElement("button", { className: "text-gray-600 hover:text-gray-900 text-xs sm:text-sm", onClick: function () { return setOpen(!open); } }, "Format"),
         open && (React__default.createElement("div", { className: "absolute z-50 mt-1 bg-white border rounded shadow min-w-[220px] py-1" },
             React__default.createElement("div", { className: "relative", onMouseEnter: function () { return setTextStyleOpen(true); }, onMouseLeave: function () { return setTextStyleOpen(false); } },
@@ -571,7 +595,12 @@ function FormatMenu(_a) {
                                 editor.chain().focus().setTextAlign('right').run();
                         } },
                         React__default.createElement(AlignRightIcon, { className: "w-4 h-4 inline" }),
-                        " Right")))),
+                        " Right"),
+                    React__default.createElement("button", { className: "block w-full text-left px-2 py-1.5 hover:bg-gray-100 text-sm flex items-center gap-2 rounded-md", onClick: function () {
+                            editor.chain().focus().setTextAlign('justify').run();
+                        } },
+                        React__default.createElement(AlignJustifyIcon, { className: "w-4 h-4 inline" }),
+                        " Justify")))),
             React__default.createElement("div", { className: "relative", onMouseEnter: function () { return setListsOpen(true); }, onMouseLeave: function () { return setListsOpen(false); } },
                 React__default.createElement("button", { className: "w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-gray-100" },
                     React__default.createElement("span", null, "Lists"),
@@ -7890,38 +7919,71 @@ function TableControls(_a) {
     var editor = _a.editor;
     var _b = useState(null), buttonPos = _b[0], setButtonPos = _b[1];
     var _c = useState(false), open = _c[0], setOpen = _c[1];
+    var buttonRef = useRef(null);
+    var menuRef = useRef(null);
     useEffect(function () {
         var update = function () {
             if (!editor.isActive('table')) {
                 setButtonPos(null);
+                setOpen(false);
                 return;
             }
             var table = editor.view.dom.querySelector('table');
             if (!table) {
                 setButtonPos(null);
+                setOpen(false);
                 return;
             }
             var rect = table.getBoundingClientRect();
-            setButtonPos({ top: rect.bottom + window.scrollY - 8, left: rect.right + window.scrollX - 8 });
+            var editorContainer = editor.view.dom.closest('.prose');
+            var containerRect = editorContainer === null || editorContainer === void 0 ? void 0 : editorContainer.getBoundingClientRect();
+            if (containerRect) {
+                setButtonPos({
+                    top: rect.bottom - containerRect.top - 8,
+                    left: rect.right - containerRect.left - 8
+                });
+            }
         };
         update();
         window.addEventListener('scroll', update, true);
+        window.addEventListener('resize', update);
         editor.on('selectionUpdate', update);
+        editor.on('update', update);
         return function () {
             window.removeEventListener('scroll', update, true);
+            window.removeEventListener('resize', update);
             editor.off('selectionUpdate', update);
+            editor.off('update', update);
         };
     }, [editor]);
+    useEffect(function () {
+        var handleClickOutside = function (event) {
+            if (buttonRef.current && !buttonRef.current.contains(event.target) &&
+                menuRef.current && !menuRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+        if (open) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return function () {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [open]);
     if (!buttonPos)
         return null;
     var run = function (cmd) { cmd(); setOpen(false); };
     return (React__default.createElement("div", null,
-        React__default.createElement("button", { className: "fixed z-40 text-black w-6 h-6 font-bold flex items-center justify-center", style: { top: buttonPos.top, left: buttonPos.left }, onClick: function () { return setOpen(function (o) { return !o; }); }, "aria-label": "Table options" }, "+"),
-        open && (React__default.createElement("div", { className: "fixed z-50 bg-white border rounded shadow p-2 text-sm", style: { top: buttonPos.top + 24, left: buttonPos.left - 160 } },
-            React__default.createElement("button", { className: "block w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowAfter().run(); }); } }, "Add row below"),
-            React__default.createElement("button", { className: "block w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowBefore().run(); }); } }, "Add row above"),
-            React__default.createElement("button", { className: "block w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnAfter().run(); }); } }, "Add column right"),
-            React__default.createElement("button", { className: "block w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } }, "Add column left")))));
+        React__default.createElement("button", { ref: buttonRef, className: "absolute z-[100] bg-blue-500 hover:bg-blue-600 text-white w-7 h-7 rounded-full font-bold flex items-center justify-center shadow-lg transition-colors", style: { top: "".concat(buttonPos.top, "px"), left: "".concat(buttonPos.left, "px") }, onClick: function () { return setOpen(function (o) { return !o; }); }, "aria-label": "Table options" }, "+"),
+        open && (React__default.createElement("div", { ref: menuRef, className: "absolute z-[101] bg-white border border-gray-300 rounded-lg shadow-xl p-2 text-sm min-w-[180px]", style: { top: "".concat(buttonPos.top + 32, "px"), left: "".concat(buttonPos.left - 160, "px") } },
+            React__default.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().addRowAfter().run(); }); } }, "Add row below"),
+            React__default.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().addRowBefore().run(); }); } }, "Add row above"),
+            React__default.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().addColumnAfter().run(); }); } }, "Add column right"),
+            React__default.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } }, "Add column left"),
+            React__default.createElement("hr", { className: "my-1 border-gray-200" }),
+            React__default.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-red-50 text-red-600 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().deleteRow().run(); }); } }, "Delete row"),
+            React__default.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-red-50 text-red-600 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().deleteColumn().run(); }); } }, "Delete column"),
+            React__default.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-red-50 text-red-600 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().deleteTable().run(); }); } }, "Delete table")))));
 }
 
 var API_DOMAIN = "https://api-new.mrmeds.in";
@@ -8123,15 +8185,6 @@ function ImageModal(_a) {
                     }, className: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md" }, "Cancel"),
                 React__default.createElement("button", { onClick: handleSubmit, disabled: (!!url && !isValidImageSrc(url)) || (!url) || !altText || isUploading, className: "px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed" }, isUploading ? 'Uploading...' : 'Insert')))));
 }
-
-var AlignJustifyIcon = React.memo(function (_a) {
-    var className = _a.className, props = __rest(_a, ["className"]);
-    return (React.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
-        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6C22 6.55228 21.5523 7 21 7H3C2.44772 7 2 6.55228 2 6Z", fill: "currentColor" }),
-        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 12C2 11.4477 2.44772 11 3 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H3C2.44772 13 2 12.5523 2 12Z", fill: "currentColor" }),
-        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 18C2 17.4477 2.44772 17 3 17H21C21.5523 17 22 17.4477 22 18C22 18.5523 21.5523 19 21 19H3C2.44772 19 2 18.5523 2 18Z", fill: "currentColor" })));
-});
-AlignJustifyIcon.displayName = "AlignJustifyIcon";
 
 var ArrowLeftIcon = React.memo(function (_a) {
     var className = _a.className, props = __rest(_a, ["className"]);
@@ -8547,7 +8600,13 @@ var MenuBar = function (_a) {
                         editor.isActive({ textAlign: 'right' })
                         ? 'bg-gray-100 ring-1 ring-gray-300'
                         : ''), title: "Align right" },
-                    React__default.createElement(AlignRightIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
+                    React__default.createElement(AlignRightIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
+                React__default.createElement("button", { onClick: function () {
+                        editor.chain().focus().setTextAlign('justify').run();
+                    }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive({ textAlign: 'justify' })
+                        ? 'bg-gray-100 ring-1 ring-gray-300'
+                        : ''), title: "Justify" },
+                    React__default.createElement(AlignJustifyIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
             React__default.createElement("div", { className: "flex items-center gap-1 border-r pr-1 sm:pr-2" },
                 React__default.createElement("button", { onClick: function () { return editor.chain().focus().toggleBulletList().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('bulletList') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Bullet List" },
                     React__default.createElement(ListIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
@@ -8703,7 +8762,7 @@ var RichTextEditor = function (_a) {
             }),
             index_default$6.configure({
                 types: ["heading", "paragraph", "table", "image", "youtube"],
-                alignments: ['left', 'center', 'right'],
+                alignments: ['left', 'center', 'right', 'justify'],
             }),
             TaskList.configure({
                 HTMLAttributes: {},
