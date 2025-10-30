@@ -131,7 +131,7 @@ const RichTextEditor = ({
       }),
       TextAlign.configure({
         types: ["heading", "paragraph", "table", "image", "youtube"],
-        alignments: ['left', 'center', 'right'],
+        alignments: ['left', 'center', 'right', 'justify'],
       }),
       TaskList.configure({
         HTMLAttributes: {},

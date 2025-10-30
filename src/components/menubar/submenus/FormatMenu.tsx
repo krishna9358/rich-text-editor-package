@@ -2,7 +2,7 @@
 // Format menu bar for Tiptap used for formatting text used in the File Menubar
 // ===============================================================================================
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Editor } from "@tiptap/react";
 import { BoldIcon } from "../../tiptap-icons/bold-icon";
 import { ItalicIcon } from "../../tiptap-icons/italic-icon";
@@ -14,6 +14,7 @@ import { Code2Icon } from "../../tiptap-icons/code2-icon";
 import { AlignLeftIcon } from "../../tiptap-icons/align-left-icon";
 import { AlignCenterIcon } from "../../tiptap-icons/align-center-icon";
 import { AlignRightIcon } from "../../tiptap-icons/align-right-icon";
+import { AlignJustifyIcon } from "../../tiptap-icons/align-justify-icon";
 import { ListIcon } from "../../tiptap-icons/list-icon";
 import { ListOrderedIcon } from "../../tiptap-icons/list-ordered-icon";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
@@ -32,12 +33,30 @@ export default function FormatMenu({ editor }: Props) {
   const [listsOpen, setListsOpen] = useState(false);
   const [colorsOpen, setColorsOpen] = useState(false);
 
+  const formatRef = useRef<HTMLDivElement>(null);
+
   // Font sizes
   const fontSizes = [8,9,10,11,12,14,16,18,20,22,24,26,28,36,48,72] as const;
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (formatRef.current && !formatRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [open]);
+
   // Return the format menu component
   return (
-    <div className="relative" onMouseLeave={() => setOpen(false)}>
+    <div className="relative" ref={formatRef}>
       <button className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm" onClick={() => setOpen(!open)}>Format</button>
       {open && (
         <div className="absolute z-50 mt-1 bg-white border rounded shadow min-w-[220px] py-1">
@@ -146,6 +165,11 @@ export default function FormatMenu({ editor }: Props) {
                   else if (editor.isActive('youtube')) editor.chain().focus().updateAttributes('youtube', { align: 'right' }).run();
                   else editor.chain().focus().setTextAlign('right').run();
                 }}><AlignRightIcon className="w-4 h-4 inline"/> Right</button>
+
+                {/* Justify align button */}
+                <button className="block w-full text-left px-2 py-1.5 hover:bg-gray-100 text-sm flex items-center gap-2 rounded-md" onClick={() => {
+                  editor.chain().focus().setTextAlign('justify').run();
+                }}><AlignJustifyIcon className="w-4 h-4 inline"/> Justify</button>
               </div>
             )}
           </div>
