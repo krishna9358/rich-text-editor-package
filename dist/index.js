@@ -491,8 +491,34 @@ function ChevronRightIcon({
     d: "m8.25 4.5 7.5 7.5-7.5 7.5"
   }));
 }
-const ForwardRef = /*#__PURE__*/ React__namespace.forwardRef(ChevronRightIcon);
-var ChevronRightIcon$1 = ForwardRef;
+const ForwardRef$1 = /*#__PURE__*/ React__namespace.forwardRef(ChevronRightIcon);
+var ChevronRightIcon$1 = ForwardRef$1;
+
+function PlusCircleIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/React__namespace.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/React__namespace.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/React__namespace.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ React__namespace.forwardRef(PlusCircleIcon);
+var PlusCircleIcon$1 = ForwardRef;
 
 var BlockquoteIcon = React__namespace.memo(function (_a) {
     var className = _a.className, props = __rest(_a, ["className"]);
@@ -7935,75 +7961,58 @@ function FindReplace(_a) {
                                 matches.length > 0 ? "(".concat(matches.length, ")") : ''))))))));
 }
 
+// ===============================================================================================
+// Table controls for Tiptap used for adding rows and columns to the table after inserting a table
+// ===============================================================================================
+// Table controls component
 function TableControls(_a) {
     var editor = _a.editor;
     var _b = React.useState(null), buttonPos = _b[0], setButtonPos = _b[1];
     var _c = React.useState(false), open = _c[0], setOpen = _c[1];
-    var buttonRef = React.useRef(null);
-    var menuRef = React.useRef(null);
+    // Update the button position when the table is inserted
     React.useEffect(function () {
         var update = function () {
             if (!editor.isActive('table')) {
                 setButtonPos(null);
-                setOpen(false);
                 return;
             }
             var table = editor.view.dom.querySelector('table');
             if (!table) {
                 setButtonPos(null);
-                setOpen(false);
                 return;
             }
             var rect = table.getBoundingClientRect();
-            var editorContainer = editor.view.dom.closest('.prose');
-            var containerRect = editorContainer === null || editorContainer === void 0 ? void 0 : editorContainer.getBoundingClientRect();
-            if (containerRect) {
-                setButtonPos({
-                    top: rect.bottom - containerRect.top - 8,
-                    left: rect.right - containerRect.left - 8
-                });
-            }
+            setButtonPos({ top: rect.bottom + window.scrollY - 8, left: rect.right + window.scrollX - 8 });
         };
         update();
         window.addEventListener('scroll', update, true);
-        window.addEventListener('resize', update);
         editor.on('selectionUpdate', update);
-        editor.on('update', update);
         return function () {
             window.removeEventListener('scroll', update, true);
-            window.removeEventListener('resize', update);
             editor.off('selectionUpdate', update);
-            editor.off('update', update);
         };
     }, [editor]);
-    React.useEffect(function () {
-        var handleClickOutside = function (event) {
-            if (buttonRef.current && !buttonRef.current.contains(event.target) &&
-                menuRef.current && !menuRef.current.contains(event.target)) {
-                setOpen(false);
-            }
-        };
-        if (open) {
-            document.addEventListener('mousedown', handleClickOutside);
-        }
-        return function () {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [open]);
+    // If the button position is not set, return null
     if (!buttonPos)
         return null;
     var run = function (cmd) { cmd(); setOpen(false); };
+    // Return the table controls component
     return (React.createElement("div", null,
-        React.createElement("button", { ref: buttonRef, className: "absolute z-[100] bg-blue-500 hover:bg-blue-600 text-white w-7 h-7 rounded-full font-bold flex items-center justify-center shadow-lg transition-colors", style: { top: "".concat(buttonPos.top, "px"), left: "".concat(buttonPos.left, "px") }, onClick: function () { return setOpen(function (o) { return !o; }); }, "aria-label": "Table options" }, "+"),
-        open && (React.createElement("div", { ref: menuRef, className: "absolute z-[101] bg-white border border-gray-300 rounded-lg shadow-xl p-2 text-sm min-w-[180px]", style: { top: "".concat(buttonPos.top + 32, "px"), left: "".concat(buttonPos.left - 160, "px") } },
-            React.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().addRowAfter().run(); }); } }, "Add row below"),
-            React.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().addRowBefore().run(); }); } }, "Add row above"),
-            React.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().addColumnAfter().run(); }); } }, "Add column right"),
-            React.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } }, "Add column left"),
-            React.createElement("hr", { className: "my-1 border-gray-200" }),
-            React.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-red-50 text-red-600 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().deleteRow().run(); }); } }, "Delete row"),
-            React.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-red-50 text-red-600 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().deleteColumn().run(); }); } }, "Delete column"),
-            React.createElement("button", { className: "block w-full text-left px-3 py-2 hover:bg-red-50 text-red-600 rounded-md transition-colors", onClick: function () { return run(function () { return editor.chain().focus().deleteTable().run(); }); } }, "Delete table")))));
+        React.createElement("button", { className: "fixed z-40 text-black w-6 h-6 font-bold flex items-center justify-center ", style: { top: buttonPos.top, left: buttonPos.left }, onClick: function () { return setOpen(function (o) { return !o; }); }, "aria-label": "Table options" },
+            React.createElement(PlusCircleIcon$1, { className: "w-6 h-6" })),
+        open && (React.createElement("div", { className: "fixed z-50 bg-white border rounded shadow p-2 text-sm", style: { top: buttonPos.top + 24, left: buttonPos.left - 160 } },
+            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowAfter().run(); }); } },
+                React.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add row below"),
+            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowBefore().run(); }); } },
+                React.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add row above"),
+            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnAfter().run(); }); } },
+                React.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add column right"),
+            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } },
+                React.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add column left")))));
 }
 
 var API_DOMAIN = "https://api-new.mrmeds.in";
