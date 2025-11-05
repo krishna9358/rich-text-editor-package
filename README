@@ -1,0 +1,232 @@
+## @krishna9358/rich-text-editor
+
+A customizable, production-ready rich text editor for React, built on TipTap v3. It ships with sensible defaults, a modern toolbar, tables, links, images, YouTube embeds, find/replace, text alignment, character count and more — while remaining extensible.
+
+### Why this editor?
+- **TipTap v3** under the hood for stability and extensibility
+- **Batteries-included UI**: toolbar, modals, and useful features out of the box
+- **Typed API** with callbacks for HTML/JSON and raw content
+- **Composable**: export of building blocks for advanced custom UIs
+
+
+## Installation
+
+### From npm (public)
+```bash
+npm install @krishna9358/rich-text-editor
+# or
+yarn add @krishna9358/rich-text-editor
+# or
+pnpm add @krishna9358/rich-text-editor
+```
+
+### From GitHub Packages (if you use the GitHub registry)
+This package is configured for GitHub Packages. If you consume from GitHub, add an `.npmrc` entry:
+
+```ini
+@krishna9358:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+```
+
+Then install:
+
+```bash
+npm install @krishna9358/rich-text-editor
+```
+
+### Peer dependencies
+You must have the following installed in your app:
+- react >= 18
+- react-dom >= 18
+- styled-components >= 6
+- @tiptap/core ^3
+- @tiptap/react ^3
+- @tiptap/pm ^3
+- @tiptap/starter-kit ^3
+
+
+## Quick start
+
+```tsx
+import React from 'react';
+import { RichTextEditor } from '@krishna9358/rich-text-editor';
+
+export default function EditorExample() {
+  return (
+    <RichTextEditor
+      initialContent="<p>Hello <strong>world</strong>!</p>"
+      onContentChange={(content) => console.log('Text:', content)}
+      onHTMLChange={(html) => console.log('HTML:', html)}
+      onJSONChange={(json) => console.log('JSON:', json)}
+    />
+  );
+}
+```
+
+
+## Usage with Next.js (SSR)
+TipTap interacts with the DOM. For Next.js, load the editor on the client only:
+
+```tsx
+// app/components/ClientRTE.tsx
+'use client';
+import { RichTextEditor } from '@krishna9358/rich-text-editor';
+
+export default function ClientRTE(props: any) {
+  return <RichTextEditor {...props} />;
+}
+```
+
+```tsx
+// app/page.tsx (or any server component)
+import dynamic from 'next/dynamic';
+const ClientRTE = dynamic(() => import('./components/ClientRTE'), { ssr: false });
+
+export default function Page() {
+  return <ClientRTE initialContent="<p>Start writing…</p>" />;
+}
+```
+
+
+## Component API
+
+### RichTextEditor
+```ts
+type RichTextEditorProps = {
+  initialContent?: string;        // Initial HTML string
+  onContentChange?: (text: string) => void; // Plain text callback
+  onHTMLChange?: (html: string) => void;    // HTML callback
+  onJSONChange?: (json: any) => void;       // TipTap JSON callback
+  token?: string;                 // Optional auth token for media uploads (if applicable)
+};
+```
+
+Notes:
+- `initialContent` expects HTML. Use `onJSONChange` if you prefer persisting TipTap JSON.
+- `token` is forwarded to internal modals that may perform authenticated actions (e.g., image upload) in your environment.
+
+
+## Features included
+- Text formatting: bold, italic, underline, strike
+- Headings, paragraphs, blockquotes, code blocks
+- Lists: ordered, bullet, task
+- Links with edit/unset
+- Images (with modal)
+- Tables with controls (rows, columns, header)
+- Horizontal rule, highlight, text color, font size, text align
+- Subscript, superscript
+- YouTube embeds with alignment
+- Find & Replace
+- Character count
+
+
+## Advanced usage (building blocks)
+You can compose your own UI using exported primitives.
+
+```ts
+// Top-level exports
+export { RichTextEditor } from '@krishna9358/rich-text-editor';
+export * from '@krishna9358/rich-text-editor/dist/components/editor/features';
+export * from '@krishna9358/rich-text-editor/dist/components/menubar';
+export * from '@krishna9358/rich-text-editor/dist/components/modals';
+```
+
+### MenuBar
+```ts
+type MenuBarProps = {
+  editor: any;          // TipTap editor instance
+  setLink: () => void;  // open link modal
+  unsetLink: () => void;
+  token?: string;
+};
+```
+
+### Features
+- `FindReplace({ editor, isOpen, onClose })`
+- `TableControls({ editor })`
+- `YoutubeAlign` (TipTap node)
+- `YouTubeNodeView`
+
+### Modals
+- `ImageModal({ isOpen, closeModal, editor, token })`
+- `LinkModal({ isOpen, closeModal, selectedText?, existingUrl?, onSubmit, onUnset? })`
+- `TableModal({ isOpen, closeModal, onSubmit })`
+- `YoutubeModal({ isOpen, closeModal, onSubmit })`
+
+
+## Styling and theming
+This package uses `styled-components`. Wrap your app with `ThemeProvider` to customize if you already have a theme; otherwise it works without additional setup.
+
+```tsx
+import { ThemeProvider } from 'styled-components';
+
+const theme = {
+  colors: {
+    primary: '#4f46e5',
+  },
+};
+
+export function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      {/* your routes */}
+    </ThemeProvider>
+  );
+}
+```
+
+
+## Persisting content
+- Store `html` via `onHTMLChange` for full fidelity rendering.
+- Or store TipTap `json` via `onJSONChange` for structured content and future-proofing.
+- Use `onContentChange` if you also need a plain text representation (e.g., for search previews).
+
+
+## TypeScript
+Types are shipped with the package. Import as usual and get IntelliSense for props and helpers.
+
+
+## Package layout
+
+```
+dist/
+  index.js             CommonJS entry
+  index.esm.js         ESM entry
+  index.d.ts           Types
+  components/
+    editor/
+      RichTextEditor.js
+      features/
+        FindReplace.*
+        TableControls.*
+        youtubeAlign.*
+        YouTubeNodeView.*
+    menubar/
+      menubar.*
+    modals/
+      imageModal.*
+      linkModal.*
+      tableModal.*
+      youtube-modal.*
+```
+
+
+## FAQ
+
+**Do I need to bring my own CSS?**  No extra global CSS is required; components are styled via `styled-components`.
+
+**How do image uploads work?**  The editor provides an `ImageModal`. If your project requires auth, pass a `token`. Wire the actual upload in your app/backend as needed.
+
+**Can I disable parts of the toolbar?**  Use the exported building blocks and compose a custom menubar.
+
+
+## Contributing
+Issues and PRs are welcome. Please build locally with `npm run build` and ensure type definitions remain accurate.
+
+
+## License
+MIT © Krishna
+
+
+## Changelog
+See Git commit history and releases for details.

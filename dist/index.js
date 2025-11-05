@@ -491,8 +491,34 @@ function ChevronRightIcon({
     d: "m8.25 4.5 7.5 7.5-7.5 7.5"
   }));
 }
-const ForwardRef$1 = /*#__PURE__*/ React__namespace.forwardRef(ChevronRightIcon);
-var ChevronRightIcon$1 = ForwardRef$1;
+const ForwardRef$3 = /*#__PURE__*/ React__namespace.forwardRef(ChevronRightIcon);
+var ChevronRightIcon$1 = ForwardRef$3;
+
+function MinusCircleIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/React__namespace.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/React__namespace.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/React__namespace.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+  }));
+}
+const ForwardRef$2 = /*#__PURE__*/ React__namespace.forwardRef(MinusCircleIcon);
+var MinusCircleIcon$1 = ForwardRef$2;
 
 function PlusCircleIcon({
   title,
@@ -517,8 +543,34 @@ function PlusCircleIcon({
     d: "M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
   }));
 }
-const ForwardRef = /*#__PURE__*/ React__namespace.forwardRef(PlusCircleIcon);
-var PlusCircleIcon$1 = ForwardRef;
+const ForwardRef$1 = /*#__PURE__*/ React__namespace.forwardRef(PlusCircleIcon);
+var PlusCircleIcon$1 = ForwardRef$1;
+
+function TrashIcon$1({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/React__namespace.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/React__namespace.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/React__namespace.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ React__namespace.forwardRef(TrashIcon$1);
+var TrashIcon$2 = ForwardRef;
 
 var BlockquoteIcon = React__namespace.memo(function (_a) {
     var className = _a.className, props = __rest(_a, ["className"]);
@@ -8012,7 +8064,17 @@ function TableControls(_a) {
                 "Add column right"),
             React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } },
                 React.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
-                "Add column left")))));
+                "Add column left"),
+            React.createElement("hr", { className: "my-2" }),
+            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteRow().run(); }); } },
+                React.createElement(TrashIcon$2, { className: "w-4 h-4" }),
+                "Delete row"),
+            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteColumn().run(); }); } },
+                React.createElement(TrashIcon$2, { className: "w-4 h-4" }),
+                "Delete column"),
+            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-700 font-semibold hover:bg-red-100", onClick: function () { return run(function () { return editor.chain().focus().deleteTable().run(); }); } },
+                React.createElement(MinusCircleIcon$1, { className: "w-4 h-4" }),
+                "Delete table")))));
 }
 
 var API_DOMAIN = "https://api-new.mrmeds.in";
