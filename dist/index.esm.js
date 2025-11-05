@@ -415,6 +415,15 @@ var AlignRightIcon = React.memo(function (_a) {
 });
 AlignRightIcon.displayName = "AlignRightIcon";
 
+var AlignJustifyIcon = React.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6C22 6.55228 21.5523 7 21 7H3C2.44772 7 2 6.55228 2 6Z", fill: "currentColor" }),
+        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 12C2 11.4477 2.44772 11 3 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H3C2.44772 13 2 12.5523 2 12Z", fill: "currentColor" }),
+        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 18C2 17.4477 2.44772 17 3 17H21C21.5523 17 22 17.4477 22 18C22 18.5523 21.5523 19 21 19H3C2.44772 19 2 18.5523 2 18Z", fill: "currentColor" })));
+});
+AlignJustifyIcon.displayName = "AlignJustifyIcon";
+
 var ListIcon = React.memo(function (_a) {
     var className = _a.className, props = __rest(_a, ["className"]);
     return (React.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
@@ -462,8 +471,86 @@ function ChevronRightIcon({
     d: "m8.25 4.5 7.5 7.5-7.5 7.5"
   }));
 }
-const ForwardRef = /*#__PURE__*/ React.forwardRef(ChevronRightIcon);
-var ChevronRightIcon$1 = ForwardRef;
+const ForwardRef$3 = /*#__PURE__*/ React.forwardRef(ChevronRightIcon);
+var ChevronRightIcon$1 = ForwardRef$3;
+
+function MinusCircleIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/React.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/React.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/React.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+  }));
+}
+const ForwardRef$2 = /*#__PURE__*/ React.forwardRef(MinusCircleIcon);
+var MinusCircleIcon$1 = ForwardRef$2;
+
+function PlusCircleIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/React.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/React.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/React.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+  }));
+}
+const ForwardRef$1 = /*#__PURE__*/ React.forwardRef(PlusCircleIcon);
+var PlusCircleIcon$1 = ForwardRef$1;
+
+function TrashIcon$1({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/React.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/React.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/React.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ React.forwardRef(TrashIcon$1);
+var TrashIcon$2 = ForwardRef;
 
 var BlockquoteIcon = React.memo(function (_a) {
     var className = _a.className, props = __rest(_a, ["className"]);
@@ -489,10 +576,25 @@ function FormatMenu(_a) {
     var _f = useState(false), alignOpen = _f[0], setAlignOpen = _f[1];
     var _g = useState(false), listsOpen = _g[0], setListsOpen = _g[1];
     var _h = useState(false), colorsOpen = _h[0], setColorsOpen = _h[1];
+    var formatRef = useRef(null);
     // Font sizes
     var fontSizes = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
+    // Close menu when clicking outside
+    useEffect(function () {
+        var handleClickOutside = function (event) {
+            if (formatRef.current && !formatRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+        if (open) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return function () {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [open]);
     // Return the format menu component
-    return (React__default.createElement("div", { className: "relative", onMouseLeave: function () { return setOpen(false); } },
+    return (React__default.createElement("div", { className: "relative", ref: formatRef },
         React__default.createElement("button", { className: "text-gray-600 hover:text-gray-900 text-xs sm:text-sm", onClick: function () { return setOpen(!open); } }, "Format"),
         open && (React__default.createElement("div", { className: "absolute z-50 mt-1 bg-white border rounded shadow min-w-[220px] py-1" },
             React__default.createElement("div", { className: "relative", onMouseEnter: function () { return setTextStyleOpen(true); }, onMouseLeave: function () { return setTextStyleOpen(false); } },
@@ -571,7 +673,12 @@ function FormatMenu(_a) {
                                 editor.chain().focus().setTextAlign('right').run();
                         } },
                         React__default.createElement(AlignRightIcon, { className: "w-4 h-4 inline" }),
-                        " Right")))),
+                        " Right"),
+                    React__default.createElement("button", { className: "block w-full text-left px-2 py-1.5 hover:bg-gray-100 text-sm flex items-center gap-2 rounded-md", onClick: function () {
+                            editor.chain().focus().setTextAlign('justify').run();
+                        } },
+                        React__default.createElement(AlignJustifyIcon, { className: "w-4 h-4 inline" }),
+                        " Justify")))),
             React__default.createElement("div", { className: "relative", onMouseEnter: function () { return setListsOpen(true); }, onMouseLeave: function () { return setListsOpen(false); } },
                 React__default.createElement("button", { className: "w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-gray-100" },
                     React__default.createElement("span", null, "Lists"),
@@ -7886,10 +7993,15 @@ function FindReplace(_a) {
                                 matches.length > 0 ? "(".concat(matches.length, ")") : ''))))))));
 }
 
+// ===============================================================================================
+// Table controls for Tiptap used for adding rows and columns to the table after inserting a table
+// ===============================================================================================
+// Table controls component
 function TableControls(_a) {
     var editor = _a.editor;
     var _b = useState(null), buttonPos = _b[0], setButtonPos = _b[1];
     var _c = useState(false), open = _c[0], setOpen = _c[1];
+    // Update the button position when the table is inserted
     useEffect(function () {
         var update = function () {
             if (!editor.isActive('table')) {
@@ -7912,16 +8024,37 @@ function TableControls(_a) {
             editor.off('selectionUpdate', update);
         };
     }, [editor]);
+    // If the button position is not set, return null
     if (!buttonPos)
         return null;
     var run = function (cmd) { cmd(); setOpen(false); };
+    // Return the table controls component
     return (React__default.createElement("div", null,
-        React__default.createElement("button", { className: "fixed z-40 text-black w-6 h-6 font-bold flex items-center justify-center", style: { top: buttonPos.top, left: buttonPos.left }, onClick: function () { return setOpen(function (o) { return !o; }); }, "aria-label": "Table options" }, "+"),
+        React__default.createElement("button", { className: "fixed z-40 text-black w-6 h-6 font-bold flex items-center justify-center ", style: { top: buttonPos.top, left: buttonPos.left }, onClick: function () { return setOpen(function (o) { return !o; }); }, "aria-label": "Table options" },
+            React__default.createElement(PlusCircleIcon$1, { className: "w-6 h-6" })),
         open && (React__default.createElement("div", { className: "fixed z-50 bg-white border rounded shadow p-2 text-sm", style: { top: buttonPos.top + 24, left: buttonPos.left - 160 } },
-            React__default.createElement("button", { className: "block w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowAfter().run(); }); } }, "Add row below"),
-            React__default.createElement("button", { className: "block w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowBefore().run(); }); } }, "Add row above"),
-            React__default.createElement("button", { className: "block w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnAfter().run(); }); } }, "Add column right"),
-            React__default.createElement("button", { className: "block w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } }, "Add column left")))));
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowAfter().run(); }); } },
+                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add row below"),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowBefore().run(); }); } },
+                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add row above"),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnAfter().run(); }); } },
+                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add column right"),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } },
+                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add column left"),
+            React__default.createElement("hr", { className: "my-2" }),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteRow().run(); }); } },
+                React__default.createElement(TrashIcon$2, { className: "w-4 h-4" }),
+                "Delete row"),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteColumn().run(); }); } },
+                React__default.createElement(TrashIcon$2, { className: "w-4 h-4" }),
+                "Delete column"),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-700 font-semibold hover:bg-red-100", onClick: function () { return run(function () { return editor.chain().focus().deleteTable().run(); }); } },
+                React__default.createElement(MinusCircleIcon$1, { className: "w-4 h-4" }),
+                "Delete table")))));
 }
 
 var API_DOMAIN = "https://api-new.mrmeds.in";
@@ -8123,15 +8256,6 @@ function ImageModal(_a) {
                     }, className: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md" }, "Cancel"),
                 React__default.createElement("button", { onClick: handleSubmit, disabled: (!!url && !isValidImageSrc(url)) || (!url) || !altText || isUploading, className: "px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed" }, isUploading ? 'Uploading...' : 'Insert')))));
 }
-
-var AlignJustifyIcon = React.memo(function (_a) {
-    var className = _a.className, props = __rest(_a, ["className"]);
-    return (React.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
-        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6C22 6.55228 21.5523 7 21 7H3C2.44772 7 2 6.55228 2 6Z", fill: "currentColor" }),
-        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 12C2 11.4477 2.44772 11 3 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H3C2.44772 13 2 12.5523 2 12Z", fill: "currentColor" }),
-        React.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M2 18C2 17.4477 2.44772 17 3 17H21C21.5523 17 22 17.4477 22 18C22 18.5523 21.5523 19 21 19H3C2.44772 19 2 18.5523 2 18Z", fill: "currentColor" })));
-});
-AlignJustifyIcon.displayName = "AlignJustifyIcon";
 
 var ArrowLeftIcon = React.memo(function (_a) {
     var className = _a.className, props = __rest(_a, ["className"]);
@@ -8547,7 +8671,13 @@ var MenuBar = function (_a) {
                         editor.isActive({ textAlign: 'right' })
                         ? 'bg-gray-100 ring-1 ring-gray-300'
                         : ''), title: "Align right" },
-                    React__default.createElement(AlignRightIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
+                    React__default.createElement(AlignRightIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
+                React__default.createElement("button", { onClick: function () {
+                        editor.chain().focus().setTextAlign('justify').run();
+                    }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive({ textAlign: 'justify' })
+                        ? 'bg-gray-100 ring-1 ring-gray-300'
+                        : ''), title: "Justify" },
+                    React__default.createElement(AlignJustifyIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
             React__default.createElement("div", { className: "flex items-center gap-1 border-r pr-1 sm:pr-2" },
                 React__default.createElement("button", { onClick: function () { return editor.chain().focus().toggleBulletList().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('bulletList') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Bullet List" },
                     React__default.createElement(ListIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
@@ -8574,11 +8704,7 @@ var MenuBar = function (_a) {
                         }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(isTableSelected ? 'bg-red-50 ring-1 ring-red-300' : ''), title: isTableSelected ? 'Remove Table' : 'Insert Table' },
                         React__default.createElement(TableIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
                 React__default.createElement("button", { onClick: function () { return editor.chain().focus().toggleBlockquote().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('blockquote') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Blockquote" },
-                    React__default.createElement(BlockquoteIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
-                React__default.createElement("button", { onClick: function () { return editor.chain().focus().toggleCodeBlock().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('codeBlock') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Code block" },
-                    React__default.createElement(CodeBlockIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
-                React__default.createElement("button", { onClick: function () { return editor.chain().focus().toggleCode().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('code') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Inline code" },
-                    React__default.createElement(Code2Icon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
+                    React__default.createElement(BlockquoteIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
             React__default.createElement("div", { className: "flex items-center gap-1 border-l pr-1 sm:pr-2" },
                 React__default.createElement("button", { onClick: function () { return setIsImageModalOpen(true); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", title: "Upload Image" },
                     React__default.createElement(ImagePlusIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
@@ -8662,6 +8788,9 @@ var RichTextEditor = function (_a) {
             CharacterCount.configure({
                 limit: Infinity,
             }),
+            index_default.configure({
+                allowBase64: true,
+            }),
             StarterKit.configure({
                 bulletList: {
                     HTMLAttributes: {},
@@ -8700,7 +8829,7 @@ var RichTextEditor = function (_a) {
             }),
             index_default$6.configure({
                 types: ["heading", "paragraph", "table", "image", "youtube"],
-                alignments: ['left', 'center', 'right'],
+                alignments: ['left', 'center', 'right', 'justify'],
             }),
             TaskList.configure({
                 HTMLAttributes: {},
@@ -8750,14 +8879,17 @@ var RichTextEditor = function (_a) {
                 class: "focus:outline-none p-4 min-h-[500px] max-h-[500px] overflow-y-auto prose max-w-none bg-white",
             },
             handleDrop: function (view, event, _slice, moved) {
-                var _a;
+                var _a, _b;
                 if (!moved && ((_a = event.dataTransfer) === null || _a === void 0 ? void 0 : _a.files.length)) {
                     var files = Array.from(event.dataTransfer.files);
                     var images = files.filter(function (file) { return file.type.startsWith('image'); });
                     if (images.length === 0)
                         return false;
                     event.preventDefault();
-                    var tr_1 = view.state.tr;
+                    var _c = view.state, tr_1 = _c.tr, schema = _c.schema;
+                    var imageType_1 = (_b = schema.nodes) === null || _b === void 0 ? void 0 : _b.image;
+                    if (!imageType_1)
+                        return false;
                     var coordinates_1 = view.posAtCoords({
                         left: event.clientX,
                         top: event.clientY,
@@ -8768,7 +8900,7 @@ var RichTextEditor = function (_a) {
                         var reader = new FileReader();
                         reader.onload = function (readerEvent) {
                             var _a;
-                            var node = view.state.schema.nodes.image.create({
+                            var node = imageType_1.create({
                                 src: (_a = readerEvent.target) === null || _a === void 0 ? void 0 : _a.result,
                             });
                             var transaction = tr_1.insert(coordinates_1.pos, node);
@@ -8779,6 +8911,77 @@ var RichTextEditor = function (_a) {
                     return true;
                 }
                 return false;
+            },
+            handlePaste: function (view, event) {
+                var _a;
+                var files = Array.from(((_a = event.clipboardData) === null || _a === void 0 ? void 0 : _a.files) || []);
+                var images = files.filter(function (file) { return file.type.startsWith('image'); });
+                if (images.length === 0)
+                    return false;
+                event.preventDefault();
+                var maybeUploadAndReplace = function (file, tempSrc) { return __awaiter(void 0, void 0, void 0, function () {
+                    var formData, res, json, uploaded, link_1, state, tr_2;
+                    var _a;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0:
+                                if (!token)
+                                    return [2 /*return*/];
+                                _b.label = 1;
+                            case 1:
+                                _b.trys.push([1, 4, , 5]);
+                                formData = new FormData();
+                                formData.append('files', file);
+                                return [4 /*yield*/, fetch('https://api.mrmeds.in/admin/file/media', {
+                                        method: 'POST',
+                                        headers: { Authorization: "Bearer ".concat(token) },
+                                        body: formData,
+                                    })];
+                            case 2:
+                                res = _b.sent();
+                                if (!res.ok)
+                                    return [2 /*return*/];
+                                return [4 /*yield*/, res.json()];
+                            case 3:
+                                json = _b.sent();
+                                uploaded = (_a = json === null || json === void 0 ? void 0 : json.data) === null || _a === void 0 ? void 0 : _a[0];
+                                link_1 = uploaded === null || uploaded === void 0 ? void 0 : uploaded.link;
+                                if (!link_1)
+                                    return [2 /*return*/];
+                                state = view.state;
+                                tr_2 = state.tr;
+                                state.doc.descendants(function (node, pos) {
+                                    var _a;
+                                    if (node.type.name === 'image' && ((_a = node.attrs) === null || _a === void 0 ? void 0 : _a.src) === tempSrc) {
+                                        tr_2.setNodeMarkup(pos, undefined, __assign(__assign({}, node.attrs), { src: link_1 }));
+                                    }
+                                });
+                                if (tr_2.steps.length) {
+                                    view.dispatch(tr_2);
+                                }
+                                return [3 /*break*/, 5];
+                            case 4:
+                                _b.sent();
+                                return [3 /*break*/, 5];
+                            case 5: return [2 /*return*/];
+                        }
+                    });
+                }); };
+                images.forEach(function (image) {
+                    var _a;
+                    var tempSrc = URL.createObjectURL(image);
+                    var imageType = (_a = view.state.schema.nodes) === null || _a === void 0 ? void 0 : _a.image;
+                    if (!imageType)
+                        return;
+                    // Insert at current selection
+                    var node = imageType.create({ src: tempSrc });
+                    var tr = view.state.tr;
+                    var transaction = tr.replaceSelectionWith(node).scrollIntoView();
+                    view.dispatch(transaction);
+                    // Attempt upload and replace
+                    maybeUploadAndReplace(image, tempSrc);
+                });
+                return true;
             },
         },
         onUpdate: function (_a) {

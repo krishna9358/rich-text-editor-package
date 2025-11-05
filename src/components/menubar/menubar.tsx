@@ -5,7 +5,7 @@ import TableModal from "../modals/tableModal";
 import LinkModal from "../modals/linkModal";
 import { useState } from "react";
 import ImageModal from "../modals/imageModal";
-import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, BlockquoteIcon, Code2Icon, CodeBlockIcon,ItalicIcon, LinkIcon, ListIcon, ListOrderedIcon, Redo2Icon, StrikeIcon, TableIcon,  UnderlineIcon, Undo2Icon, ImagePlusIcon,  BoldIcon } from "../tiptap-icons";
+import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, AlignJustifyIcon, BlockquoteIcon, Code2Icon, CodeBlockIcon,ItalicIcon, LinkIcon, ListIcon, ListOrderedIcon, Redo2Icon, StrikeIcon, TableIcon,  UnderlineIcon, Undo2Icon, ImagePlusIcon,  BoldIcon } from "../tiptap-icons";
 
 
 interface MenuBarProps {
@@ -298,6 +298,20 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
           >
             <AlignRightIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
+
+          <button
+            onClick={() => {
+              editor.chain().focus().setTextAlign('justify').run();
+            }}
+            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+              editor.isActive({ textAlign: 'justify' })
+                ? 'bg-gray-100 ring-1 ring-gray-300'
+                : ''
+            }`}
+            title="Justify"
+          >
+            <AlignJustifyIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
+          </button>
         </div>
 
         <div className="flex items-center gap-1 border-r pr-1 sm:pr-2">
@@ -357,7 +371,7 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
             <BlockquoteIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
           </button>
 
-          <button
+          {/* <button
             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('codeBlock') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Code block"
@@ -371,7 +385,7 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
             title="Inline code"
           >
             <Code2Icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
-          </button>
+          </button> */}
         </div>
 
         <div className="flex items-center gap-1 border-l pr-1 sm:pr-2">
