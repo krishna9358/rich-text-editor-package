@@ -26,7 +26,7 @@ import { CharacterCount } from '@tiptap/extension-character-count'
 import ImageResize from 'tiptap-extension-resize-image'
 import Image from '@tiptap/extension-image'
 import { FindReplace } from './features/FindReplace';
-import TableControls from './features/TableControls';
+// import TableControls from './features/TableControls'; // Moved to MenuBar toolbar
 import { MenuBar } from "../menubar/index";
 
 // Link configuration
@@ -399,7 +399,8 @@ const RichTextEditor = ({
           <div className="min-h-[300px] border-t border-gray-200">
             <EditorContent editor={editor} className="prose max-w-none -z-500" />
           </div>
-          <TableControls editor={editor} />
+          {/* TableControls moved to toolbar - see MenuBar component */}
+          {/* <TableControls editor={editor} /> */}
         </EditorContainer>
       )}
 

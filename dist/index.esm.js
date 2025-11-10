@@ -7993,70 +7993,6 @@ function FindReplace(_a) {
                                 matches.length > 0 ? "(".concat(matches.length, ")") : ''))))))));
 }
 
-// ===============================================================================================
-// Table controls for Tiptap used for adding rows and columns to the table after inserting a table
-// ===============================================================================================
-// Table controls component
-function TableControls(_a) {
-    var editor = _a.editor;
-    var _b = useState(null), buttonPos = _b[0], setButtonPos = _b[1];
-    var _c = useState(false), open = _c[0], setOpen = _c[1];
-    // Update the button position when the table is inserted
-    useEffect(function () {
-        var update = function () {
-            if (!editor.isActive('table')) {
-                setButtonPos(null);
-                return;
-            }
-            var table = editor.view.dom.querySelector('table');
-            if (!table) {
-                setButtonPos(null);
-                return;
-            }
-            var rect = table.getBoundingClientRect();
-            setButtonPos({ top: rect.bottom + window.scrollY - 8, left: rect.right + window.scrollX - 8 });
-        };
-        update();
-        window.addEventListener('scroll', update, true);
-        editor.on('selectionUpdate', update);
-        return function () {
-            window.removeEventListener('scroll', update, true);
-            editor.off('selectionUpdate', update);
-        };
-    }, [editor]);
-    // If the button position is not set, return null
-    if (!buttonPos)
-        return null;
-    var run = function (cmd) { cmd(); setOpen(false); };
-    // Return the table controls component
-    return (React__default.createElement("div", null,
-        React__default.createElement("button", { className: "fixed z-40 text-black w-6 h-6 font-bold flex items-center justify-center ", style: { top: buttonPos.top, left: buttonPos.left }, onClick: function () { return setOpen(function (o) { return !o; }); }, "aria-label": "Table options" },
-            React__default.createElement(PlusCircleIcon$1, { className: "w-6 h-6" })),
-        open && (React__default.createElement("div", { className: "fixed z-50 bg-white border rounded shadow p-2 text-sm", style: { top: buttonPos.top + 24, left: buttonPos.left - 160 } },
-            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowAfter().run(); }); } },
-                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
-                "Add row below"),
-            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowBefore().run(); }); } },
-                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
-                "Add row above"),
-            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnAfter().run(); }); } },
-                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
-                "Add column right"),
-            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } },
-                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
-                "Add column left"),
-            React__default.createElement("hr", { className: "my-2" }),
-            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteRow().run(); }); } },
-                React__default.createElement(TrashIcon$2, { className: "w-4 h-4" }),
-                "Delete row"),
-            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteColumn().run(); }); } },
-                React__default.createElement(TrashIcon$2, { className: "w-4 h-4" }),
-                "Delete column"),
-            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-700 font-semibold hover:bg-red-100", onClick: function () { return run(function () { return editor.chain().focus().deleteTable().run(); }); } },
-                React__default.createElement(MinusCircleIcon$1, { className: "w-4 h-4" }),
-                "Delete table")))));
-}
-
 var API_DOMAIN = "https://api-new.mrmeds.in";
 var UPLOAD_URL = "".concat(API_DOMAIN, "/admin/file/media");
 function ImageUploader(_a) {
@@ -8596,7 +8532,7 @@ var MenuBar = function (_a) {
         },
     });
     return (React__default.createElement("div", { className: "border-b border-gray-200 bg-white z-[9999] rounded-lg" },
-        React__default.createElement("div", { className: "flex flex-wrap items-center gap-1 sm:gap-2.5 px-2 sm:px-4 py-2 overflow-x-auto" },
+        React__default.createElement("div", { className: "flex flex-wrap items-center gap-1 sm:gap-2.5 px-2 sm:px-4 py-2 overflow-x-auto overflow-y-visible" },
             React__default.createElement("div", { className: "flex items-center gap-1 border-r pr-1 sm:pr-2" },
                 React__default.createElement("button", { onClick: function () { return editor.chain().focus().undo().run(); }, className: "p-1.5 rounded-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", disabled: !editor.can().chain().focus().undo().run(), title: "Undo" },
                     React__default.createElement(Undo2Icon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-700" })),
@@ -8693,16 +8629,24 @@ var MenuBar = function (_a) {
                         }
                     }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('link') ? 'bg-red-50 ring-1 ring-red-300' : ''), title: editor.isActive('link') ? 'Remove link' : 'Insert link' },
                     React__default.createElement(LinkIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
-                React__default.createElement("div", { className: "relative group" },
-                    React__default.createElement("button", { onClick: function () {
-                            if (isTableSelected) {
-                                editor.chain().focus().deleteTable().run();
-                            }
-                            else {
-                                setIsTableModalOpen(true);
-                            }
-                        }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(isTableSelected ? 'bg-red-50 ring-1 ring-red-300' : ''), title: isTableSelected ? 'Remove Table' : 'Insert Table' },
-                        React__default.createElement(TableIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
+                React__default.createElement("button", { onClick: function () { return setIsTableModalOpen(true); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", title: "Insert Table" },
+                    React__default.createElement(TableIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
+                isTableSelected && (React__default.createElement(React__default.Fragment, null,
+                    React__default.createElement("div", { className: "h-6 w-px bg-gray-300 mx-1" }),
+                    React__default.createElement("button", { onClick: function () { return editor.chain().focus().addRowAfter().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500", title: "Add Row Below" },
+                        React__default.createElement("svg", { className: "w-4 h-4 text-green-700", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" },
+                            React__default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 4v16m0 0l-4-4m4 4l4-4M4 8h16M4 16h16" }))),
+                    React__default.createElement("button", { onClick: function () { return editor.chain().focus().addColumnAfter().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500", title: "Add Column Right" },
+                        React__default.createElement("svg", { className: "w-4 h-4 text-green-700", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" },
+                            React__default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M8 4v16M16 4v16M4 12h16m-4-4l4 4-4 4" }))),
+                    React__default.createElement("button", { onClick: function () { return editor.chain().focus().deleteRow().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Row" },
+                        React__default.createElement("svg", { className: "w-4 h-4 text-red-600", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" },
+                            React__default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12M4 8h16M4 16h16" }))),
+                    React__default.createElement("button", { onClick: function () { return editor.chain().focus().deleteColumn().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Column" },
+                        React__default.createElement("svg", { className: "w-4 h-4 text-red-600", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" },
+                            React__default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12M8 4v16M16 4v16" }))),
+                    React__default.createElement("button", { onClick: function () { return editor.chain().focus().deleteTable().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-red-100 bg-red-100/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Table" },
+                        React__default.createElement(TrashIcon, { className: "w-4 h-4 text-red-700" })))),
                 React__default.createElement("button", { onClick: function () { return editor.chain().focus().toggleBlockquote().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('blockquote') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Blockquote" },
                     React__default.createElement(BlockquoteIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }))),
             React__default.createElement("div", { className: "flex items-center gap-1 border-l pr-1 sm:pr-2" },
@@ -9072,8 +9016,7 @@ var RichTextEditor = function (_a) {
             editor && (React__default.createElement(MenuBar, { editor: editor, setLink: setLink, unsetLink: unsetLink, token: token }))),
         editor && (React__default.createElement(EditorContainer, null,
             React__default.createElement("div", { className: "min-h-[300px] border-t border-gray-200" },
-                React__default.createElement(EditorContent, { editor: editor, className: "prose max-w-none -z-500" })),
-            React__default.createElement(TableControls, { editor: editor }))),
+                React__default.createElement(EditorContent, { editor: editor, className: "prose max-w-none -z-500" })))),
         React__default.createElement("div", { className: "flex justify-end py-2 px-2 sm:px-4 border-t border-gray-200" },
             React__default.createElement("div", { className: "flex items-center text-xs text-gray-500" },
                 React__default.createElement("span", null,
@@ -9083,6 +9026,71 @@ var RichTextEditor = function (_a) {
                     " characters"))),
         React__default.createElement(FindReplace, { editor: editor, isOpen: showFindReplace, onClose: function () { return setShowFindReplace(false); } })));
 };
+
+// ===============================================================================================
+// Table controls for Tiptap used for adding rows and columns to the table after inserting a table
+// ===============================================================================================
+// Table controls component
+function TableControls(_a) {
+    var editor = _a.editor;
+    var _b = useState(null), buttonPos = _b[0], setButtonPos = _b[1];
+    var _c = useState(false), open = _c[0], setOpen = _c[1];
+    // Update the button position when the table is inserted
+    useEffect(function () {
+        var update = function () {
+            if (!editor.isActive('table')) {
+                setButtonPos(null);
+                return;
+            }
+            var table = editor.view.dom.querySelector('table');
+            if (!table) {
+                setButtonPos(null);
+                return;
+            }
+            var rect = table.getBoundingClientRect();
+            // Position the icon on the left side of the table, slightly offset
+            setButtonPos({ top: rect.top + window.scrollY - 8, left: rect.left + window.scrollX - 32 });
+        };
+        update();
+        window.addEventListener('scroll', update, true);
+        editor.on('selectionUpdate', update);
+        return function () {
+            window.removeEventListener('scroll', update, true);
+            editor.off('selectionUpdate', update);
+        };
+    }, [editor]);
+    // If the button position is not set, return null
+    if (!buttonPos)
+        return null;
+    var run = function (cmd) { cmd(); setOpen(false); };
+    // Return the table controls component
+    return (React__default.createElement("div", null,
+        React__default.createElement("button", { className: "fixed z-40 bg-blue-500 hover:bg-blue-600 text-white w-7 h-7 rounded-full font-bold flex items-center justify-center shadow-lg transition-colors", style: { top: buttonPos.top, left: buttonPos.left }, onClick: function () { return setOpen(function (o) { return !o; }); }, "aria-label": "Table options", title: "Table options" },
+            React__default.createElement(PlusCircleIcon$1, { className: "w-5 h-5" })),
+        open && (React__default.createElement("div", { className: "fixed z-50 bg-white border rounded shadow p-2 text-sm", style: { top: buttonPos.top, left: buttonPos.left + 32 } },
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowAfter().run(); }); } },
+                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add row below"),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowBefore().run(); }); } },
+                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add row above"),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnAfter().run(); }); } },
+                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add column right"),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } },
+                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                "Add column left"),
+            React__default.createElement("hr", { className: "my-2" }),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteRow().run(); }); } },
+                React__default.createElement(TrashIcon$2, { className: "w-4 h-4" }),
+                "Delete row"),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteColumn().run(); }); } },
+                React__default.createElement(TrashIcon$2, { className: "w-4 h-4" }),
+                "Delete column"),
+            React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-700 font-semibold hover:bg-red-100", onClick: function () { return run(function () { return editor.chain().focus().deleteTable().run(); }); } },
+                React__default.createElement(MinusCircleIcon$1, { className: "w-4 h-4" }),
+                "Delete table")))));
+}
 
 export { FindReplace, ImageModal, LinkModal, MenuBar, RichTextEditor, TableControls, TableModal, YouTubeNodeView, YoutubeAlign, YoutubeModal };
 //# sourceMappingURL=index.esm.js.map

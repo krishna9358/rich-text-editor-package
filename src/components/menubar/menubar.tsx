@@ -5,7 +5,7 @@ import TableModal from "../modals/tableModal";
 import LinkModal from "../modals/linkModal";
 import { useState } from "react";
 import ImageModal from "../modals/imageModal";
-import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, AlignJustifyIcon, BlockquoteIcon, Code2Icon, CodeBlockIcon,ItalicIcon, LinkIcon, ListIcon, ListOrderedIcon, Redo2Icon, StrikeIcon, TableIcon,  UnderlineIcon, Undo2Icon, ImagePlusIcon,  BoldIcon } from "../tiptap-icons";
+import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, AlignJustifyIcon, BlockquoteIcon, ItalicIcon, LinkIcon, ListIcon, ListOrderedIcon, Redo2Icon, StrikeIcon, TableIcon,  UnderlineIcon, Undo2Icon, ImagePlusIcon,  BoldIcon, TrashIcon } from "../tiptap-icons";
 
 
 interface MenuBarProps {
@@ -151,7 +151,7 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
 
   return (
     <div className="border-b border-gray-200 bg-white z-[9999] rounded-lg">
-      <div className="flex flex-wrap items-center gap-1 sm:gap-2.5 px-2 sm:px-4 py-2 overflow-x-auto">
+      <div className="flex flex-wrap items-center gap-1 sm:gap-2.5 px-2 sm:px-4 py-2 overflow-x-auto overflow-y-visible">
         <div className="flex items-center gap-1 border-r pr-1 sm:pr-2">
           <button
             onClick={() => editor.chain().focus().undo().run()}
@@ -347,21 +347,68 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
               <LinkIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
             </button>
 
-          <div className="relative group">
-            <button
-              onClick={() => {
-                if (isTableSelected) {
-                  editor.chain().focus().deleteTable().run();
-                } else {
-                  setIsTableModalOpen(true);
-                }
-              }}
-              className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${isTableSelected ? 'bg-red-50 ring-1 ring-red-300' : ''}`}
-              title={isTableSelected ? 'Remove Table' : 'Insert Table'}
-            >
-              <TableIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
-            </button>
-          </div>
+          <button
+            onClick={() => setIsTableModalOpen(true)}
+            className="p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            title="Insert Table"
+          >
+            <TableIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
+          </button>
+
+          {/* Table Controls - Individual buttons visible when table is active */}
+          {isTableSelected && (
+            <>
+              <div className="h-6 w-px bg-gray-300 mx-1"></div>
+              
+              <button
+                onClick={() => editor.chain().focus().addRowAfter().run()}
+                className="p-1.5 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
+                title="Add Row Below"
+              >
+                <svg className="w-4 h-4 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4M4 8h16M4 16h16" />
+                </svg>
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().addColumnAfter().run()}
+                className="p-1.5 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
+                title="Add Column Right"
+              >
+                <svg className="w-4 h-4 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 4v16M16 4v16M4 12h16m-4-4l4 4-4 4" />
+                </svg>
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().deleteRow().run()}
+                className="p-1.5 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                title="Delete Row"
+              >
+                <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12M4 8h16M4 16h16" />
+                </svg>
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().deleteColumn().run()}
+                className="p-1.5 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                title="Delete Column"
+              >
+                <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12M8 4v16M16 4v16" />
+                </svg>
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().deleteTable().run()}
+                className="p-1.5 rounded-md transition-colors hover:bg-red-100 bg-red-100/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                title="Delete Table"
+              >
+                <TrashIcon className="w-4 h-4 text-red-700" />
+              </button>
+            </>
+          )}
 
           <button
             onClick={() => editor.chain().focus().toggleBlockquote().run()}

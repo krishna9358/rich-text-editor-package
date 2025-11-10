@@ -23,7 +23,8 @@ export default function TableControls({ editor }: { editor: Editor }) {
       const table = editor.view.dom.querySelector('table') as HTMLElement | null;
       if (!table) { setButtonPos(null); return; }
       const rect = table.getBoundingClientRect();
-      setButtonPos({ top: rect.bottom + window.scrollY - 8, left: rect.right + window.scrollX - 8 });
+      // Position the icon on the left side of the table, slightly offset
+      setButtonPos({ top: rect.top + window.scrollY - 8, left: rect.left + window.scrollX - 32 });
     };
     update();
     window.addEventListener('scroll', update, true);
@@ -44,17 +45,18 @@ export default function TableControls({ editor }: { editor: Editor }) {
     <div>
       {/* Table controls button */}
       <button
-        className="fixed z-40 text-black w-6 h-6 font-bold flex items-center justify-center "
+        className="fixed z-40 bg-blue-500 hover:bg-blue-600 text-white w-7 h-7 rounded-full font-bold flex items-center justify-center shadow-lg transition-colors"
         style={{ top: buttonPos.top, left: buttonPos.left }}
         onClick={() => setOpen(o => !o)}
         aria-label="Table options"
+        title="Table options"
       >
-        <PlusCircleIcon className="w-6 h-6" />
+        <PlusCircleIcon className="w-5 h-5" />
       </button>
 
       {/* Table controls menu */}
       {open && (
-        <div className="fixed z-50 bg-white border rounded shadow p-2 text-sm" style={{ top: buttonPos.top + 24, left: buttonPos.left - 160 }}>
+        <div className="fixed z-50 bg-white border rounded shadow p-2 text-sm" style={{ top: buttonPos.top, left: buttonPos.left + 32 }}>
           {/* Add row below */}
           <button className="block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100"
             onClick={() => run(() => editor.chain().focus().addRowAfter().run())}>
