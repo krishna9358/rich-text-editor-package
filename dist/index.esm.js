@@ -471,34 +471,8 @@ function ChevronRightIcon({
     d: "m8.25 4.5 7.5 7.5-7.5 7.5"
   }));
 }
-const ForwardRef$3 = /*#__PURE__*/ React.forwardRef(ChevronRightIcon);
-var ChevronRightIcon$1 = ForwardRef$3;
-
-function MinusCircleIcon({
-  title,
-  titleId,
-  ...props
-}, svgRef) {
-  return /*#__PURE__*/React.createElement("svg", Object.assign({
-    xmlns: "http://www.w3.org/2000/svg",
-    fill: "none",
-    viewBox: "0 0 24 24",
-    strokeWidth: 1.5,
-    stroke: "currentColor",
-    "aria-hidden": "true",
-    "data-slot": "icon",
-    ref: svgRef,
-    "aria-labelledby": titleId
-  }, props), title ? /*#__PURE__*/React.createElement("title", {
-    id: titleId
-  }, title) : null, /*#__PURE__*/React.createElement("path", {
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    d: "M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-  }));
-}
-const ForwardRef$2 = /*#__PURE__*/ React.forwardRef(MinusCircleIcon);
-var MinusCircleIcon$1 = ForwardRef$2;
+const ForwardRef$1 = /*#__PURE__*/ React.forwardRef(ChevronRightIcon);
+var ChevronRightIcon$1 = ForwardRef$1;
 
 function PlusCircleIcon({
   title,
@@ -523,34 +497,8 @@ function PlusCircleIcon({
     d: "M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
   }));
 }
-const ForwardRef$1 = /*#__PURE__*/ React.forwardRef(PlusCircleIcon);
-var PlusCircleIcon$1 = ForwardRef$1;
-
-function TrashIcon$1({
-  title,
-  titleId,
-  ...props
-}, svgRef) {
-  return /*#__PURE__*/React.createElement("svg", Object.assign({
-    xmlns: "http://www.w3.org/2000/svg",
-    fill: "none",
-    viewBox: "0 0 24 24",
-    strokeWidth: 1.5,
-    stroke: "currentColor",
-    "aria-hidden": "true",
-    "data-slot": "icon",
-    ref: svgRef,
-    "aria-labelledby": titleId
-  }, props), title ? /*#__PURE__*/React.createElement("title", {
-    id: titleId
-  }, title) : null, /*#__PURE__*/React.createElement("path", {
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    d: "m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-  }));
-}
-const ForwardRef = /*#__PURE__*/ React.forwardRef(TrashIcon$1);
-var TrashIcon$2 = ForwardRef;
+const ForwardRef = /*#__PURE__*/ React.forwardRef(PlusCircleIcon);
+var PlusCircleIcon$1 = ForwardRef;
 
 var BlockquoteIcon = React.memo(function (_a) {
     var className = _a.className, props = __rest(_a, ["className"]);
@@ -8634,17 +8582,13 @@ var MenuBar = function (_a) {
                 isTableSelected && (React__default.createElement(React__default.Fragment, null,
                     React__default.createElement("div", { className: "h-6 w-px bg-gray-300 mx-1" }),
                     React__default.createElement("button", { onClick: function () { return editor.chain().focus().addRowAfter().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500", title: "Add Row Below" },
-                        React__default.createElement("svg", { className: "w-4 h-4 text-green-700", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" },
-                            React__default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 4v16m0 0l-4-4m4 4l4-4M4 8h16M4 16h16" }))),
+                        React__default.createElement("img", { src: "/rte-editor/Add-Row.svg", alt: "youtube", width: 22, height: 22 })),
                     React__default.createElement("button", { onClick: function () { return editor.chain().focus().addColumnAfter().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500", title: "Add Column Right" },
-                        React__default.createElement("svg", { className: "w-4 h-4 text-green-700", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" },
-                            React__default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M8 4v16M16 4v16M4 12h16m-4-4l4 4-4 4" }))),
+                        React__default.createElement("img", { src: "/rte-editor/Add-column.svg", alt: "youtube", width: 22, height: 22 })),
                     React__default.createElement("button", { onClick: function () { return editor.chain().focus().deleteRow().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Row" },
-                        React__default.createElement("svg", { className: "w-4 h-4 text-red-600", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" },
-                            React__default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12M4 8h16M4 16h16" }))),
+                        React__default.createElement("img", { src: "/rte-editor/Delete-Row.svg", alt: "youtube", width: 22, height: 22 })),
                     React__default.createElement("button", { onClick: function () { return editor.chain().focus().deleteColumn().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Column" },
-                        React__default.createElement("svg", { className: "w-4 h-4 text-red-600", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24" },
-                            React__default.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M6 18L18 6M6 6l12 12M8 4v16M16 4v16" }))),
+                        React__default.createElement("img", { src: "/rte-editor/Delete-column.svg", alt: "youtube", width: 22, height: 22 })),
                     React__default.createElement("button", { onClick: function () { return editor.chain().focus().deleteTable().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-red-100 bg-red-100/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Table" },
                         React__default.createElement(TrashIcon, { className: "w-4 h-4 text-red-700" })))),
                 React__default.createElement("button", { onClick: function () { return editor.chain().focus().toggleBlockquote().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('blockquote') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Blockquote" },
@@ -9069,26 +9013,26 @@ function TableControls(_a) {
             React__default.createElement(PlusCircleIcon$1, { className: "w-5 h-5" })),
         open && (React__default.createElement("div", { className: "fixed z-50 bg-white border rounded shadow p-2 text-sm", style: { top: buttonPos.top, left: buttonPos.left + 32 } },
             React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowAfter().run(); }); } },
-                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                React__default.createElement("img", { src: "/rte-editor/Add-Row.svg", alt: "youtube", width: 22, height: 22 }),
                 "Add row below"),
             React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowBefore().run(); }); } },
-                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                React__default.createElement("img", { src: "/rte-editor/Add-Row.svg", alt: "youtube", width: 22, height: 22 }),
                 "Add row above"),
             React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnAfter().run(); }); } },
-                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                React__default.createElement("img", { src: "/rte-editor/Add-column.svg", alt: "youtube", width: 22, height: 22 }),
                 "Add column right"),
             React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } },
-                React__default.createElement(PlusCircleIcon$1, { className: "w-4 h-4" }),
+                React__default.createElement("img", { src: "/rte-editor/Add-column.svg", alt: "youtube", width: 22, height: 22 }),
                 "Add column left"),
             React__default.createElement("hr", { className: "my-2" }),
             React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteRow().run(); }); } },
-                React__default.createElement(TrashIcon$2, { className: "w-4 h-4" }),
+                React__default.createElement("img", { src: "/rte-editor/Delete-Row.svg", alt: "youtube", width: 22, height: 22 }),
                 "Delete row"),
             React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteColumn().run(); }); } },
-                React__default.createElement(TrashIcon$2, { className: "w-4 h-4" }),
+                React__default.createElement("img", { src: "/rte-editor/Delete-column.svg", alt: "youtube", width: 22, height: 22 }),
                 "Delete column"),
             React__default.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-700 font-semibold hover:bg-red-100", onClick: function () { return run(function () { return editor.chain().focus().deleteTable().run(); }); } },
-                React__default.createElement(MinusCircleIcon$1, { className: "w-4 h-4" }),
+                React__default.createElement("img", { src: "/rte-editor/Delete-table.svg", alt: "youtube", width: 22, height: 22 }),
                 "Delete table")))));
 }
 

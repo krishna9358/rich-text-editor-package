@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react';
 import { Editor } from '@tiptap/react';
 import {
   PlusCircleIcon,
-  TrashIcon,
   MinusCircleIcon,
 } from '@heroicons/react/24/outline';
 
@@ -60,28 +59,28 @@ export default function TableControls({ editor }: { editor: Editor }) {
           {/* Add row below */}
           <button className="block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100"
             onClick={() => run(() => editor.chain().focus().addRowAfter().run())}>
-            <PlusCircleIcon className="w-4 h-4" />
+            <img src="/rte-editor/Add-Row.svg" alt="youtube" width={22} height={22} />
             Add row below
           </button>
 
           {/* Add row above */}
           <button className="block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100"
             onClick={() => run(() => editor.chain().focus().addRowBefore().run())}>
-            <PlusCircleIcon className="w-4 h-4" />
+            <img src="/rte-editor/Add-Row.svg" alt="youtube" width={22} height={22} />
             Add row above
           </button>
 
           {/* Add column right */}
           <button className="block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100"
             onClick={() => run(() => editor.chain().focus().addColumnAfter().run())}>
-            <PlusCircleIcon className="w-4 h-4" />
+            <img src="/rte-editor/Add-column.svg" alt="youtube" width={22} height={22} />
             Add column right
           </button>
 
           {/* Add column left */}
           <button className="block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100"
             onClick={() => run(() => editor.chain().focus().addColumnBefore().run())}>
-            <PlusCircleIcon className="w-4 h-4" />
+            <img src="/rte-editor/Add-column.svg" alt="youtube" width={22} height={22} />
             Add column left
           </button>
 
@@ -91,21 +90,21 @@ export default function TableControls({ editor }: { editor: Editor }) {
           {/* Delete row */}
           <button className="block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50"
             onClick={() => run(() => editor.chain().focus().deleteRow().run())}>
-            <TrashIcon className="w-4 h-4" />
+            <img src="/rte-editor/Delete-Row.svg" alt="youtube" width={22} height={22} />
             Delete row
           </button>
 
           {/* Delete column */}
           <button className="block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50"
             onClick={() => run(() => editor.chain().focus().deleteColumn().run())}>
-            <TrashIcon className="w-4 h-4" />
+              <img src="/rte-editor/Delete-column.svg" alt="youtube" width={22} height={22} />
             Delete column
           </button>
 
           {/* Delete table */}
           <button className="block flex items-center gap-2 w-full text-left px-2 py-1 text-red-700 font-semibold hover:bg-red-100"
             onClick={() => run(() => editor.chain().focus().deleteTable().run())}>
-            <MinusCircleIcon className="w-4 h-4" />
+            <img src="/rte-editor/Delete-table.svg" alt="youtube" width={22} height={22} />
             Delete table
           </button>
         </div>
