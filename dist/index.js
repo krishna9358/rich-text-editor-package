@@ -9025,8 +9025,8 @@ var RichTextEditor = function (_a) {
     }, [showFindReplace]);
     return (React.createElement("div", { className: "w-full bg-white rounded-lg shadow-lg" },
         React.createElement("div", { className: "sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm rounded-t-lg" },
-            React.createElement("div", { className: "flex items-center justify-start" },
-                React.createElement(LogoIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }),
+            React.createElement("div", { className: "flex items-center justify-start p-2" },
+                React.createElement(LogoIcon, { className: "w-8 h-8 mr-2 text-gray-800" }),
                 React.createElement("div", { className: "text-sm font-semibold text-gray-700 sm:px-4 py-2" }, "ProtiumPad")),
             editor && (React.createElement(FileMenuBar, { editor: editor, onOpenFindReplace: function () { return setShowFindReplace(true); } })),
             editor && (React.createElement(MenuBar, { editor: editor, setLink: setLink, unsetLink: unsetLink, token: token }))),

@@ -368,8 +368,8 @@ const RichTextEditor = ({
     <div className="w-full bg-white rounded-lg shadow-lg">
       <div className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm rounded-t-lg">
 
-      <div className="flex items-center justify-start">
-            <LogoIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
+      <div className="flex items-center justify-start p-2">
+            <LogoIcon className="w-8 h-8 mr-2 text-gray-800" />
             <div className="text-sm font-semibold text-gray-700 sm:px-4 py-2">ProtiumPad</div>
           </div>
         {editor && (
