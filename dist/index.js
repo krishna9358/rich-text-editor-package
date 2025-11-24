@@ -491,34 +491,8 @@ function ChevronRightIcon({
     d: "m8.25 4.5 7.5 7.5-7.5 7.5"
   }));
 }
-const ForwardRef$1 = /*#__PURE__*/ React__namespace.forwardRef(ChevronRightIcon);
-var ChevronRightIcon$1 = ForwardRef$1;
-
-function PlusCircleIcon({
-  title,
-  titleId,
-  ...props
-}, svgRef) {
-  return /*#__PURE__*/React__namespace.createElement("svg", Object.assign({
-    xmlns: "http://www.w3.org/2000/svg",
-    fill: "none",
-    viewBox: "0 0 24 24",
-    strokeWidth: 1.5,
-    stroke: "currentColor",
-    "aria-hidden": "true",
-    "data-slot": "icon",
-    ref: svgRef,
-    "aria-labelledby": titleId
-  }, props), title ? /*#__PURE__*/React__namespace.createElement("title", {
-    id: titleId
-  }, title) : null, /*#__PURE__*/React__namespace.createElement("path", {
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    d: "M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-  }));
-}
-const ForwardRef = /*#__PURE__*/ React__namespace.forwardRef(PlusCircleIcon);
-var PlusCircleIcon$1 = ForwardRef;
+const ForwardRef = /*#__PURE__*/ React__namespace.forwardRef(ChevronRightIcon);
+var ChevronRightIcon$1 = ForwardRef;
 
 var BlockquoteIcon = React__namespace.memo(function (_a) {
     var className = _a.className, props = __rest(_a, ["className"]);
@@ -7961,206 +7935,6 @@ function FindReplace(_a) {
                                 matches.length > 0 ? "(".concat(matches.length, ")") : ''))))))));
 }
 
-var API_DOMAIN = "https://api-new.mrmeds.in";
-var UPLOAD_URL = "".concat(API_DOMAIN, "/admin/file/media");
-function ImageUploader(_a) {
-    var _this = this;
-    var token = _a.token, onUploaded = _a.onUploaded, _b = _a.maxSizeMb, maxSizeMb = _b === void 0 ? 5 : _b, _c = _a.accept, accept = _c === void 0 ? "image/*" : _c;
-    var inputRef = React.useRef(null);
-    var _d = React.useState(false), isUploading = _d[0], setIsUploading = _d[1];
-    var _e = React.useState(null), error = _e[0], setError = _e[1];
-    var validate = function (file) {
-        if (!file.type.startsWith("image/")) {
-            return "Only image files are allowed";
-        }
-        if (file.size > maxSizeMb * 1024 * 1024) {
-            return "Image must be smaller than ".concat(maxSizeMb, "MB");
-        }
-        return null;
-    };
-    var handleFiles = function (files) { return __awaiter(_this, void 0, void 0, function () {
-        var file, validationError, formData, res, json, uploaded, e_1;
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    if (!files || files.length === 0)
-                        return [2 /*return*/];
-                    file = files[0];
-                    validationError = validate(file);
-                    if (validationError) {
-                        setError(validationError);
-                        return [2 /*return*/];
-                    }
-                    if (!token) {
-                        setError("Missing token for upload");
-                        return [2 /*return*/];
-                    }
-                    setError(null);
-                    setIsUploading(true);
-                    _b.label = 1;
-                case 1:
-                    _b.trys.push([1, 4, 5, 6]);
-                    formData = new FormData();
-                    formData.append("files", file);
-                    return [4 /*yield*/, fetch(UPLOAD_URL, {
-                            method: "POST",
-                            headers: {
-                                Authorization: "Bearer ".concat(token),
-                            },
-                            body: formData,
-                        })];
-                case 2:
-                    res = _b.sent();
-                    if (!res.ok) {
-                        throw new Error("Upload failed: ".concat(res.status, " ").concat(res.statusText));
-                    }
-                    return [4 /*yield*/, res.json()];
-                case 3:
-                    json = _b.sent();
-                    uploaded = (_a = json === null || json === void 0 ? void 0 : json.data) === null || _a === void 0 ? void 0 : _a[0];
-                    if (!uploaded || !uploaded.link) {
-                        throw new Error("Unexpected response from server");
-                    }
-                    onUploaded(uploaded);
-                    return [3 /*break*/, 6];
-                case 4:
-                    e_1 = _b.sent();
-                    setError((e_1 === null || e_1 === void 0 ? void 0 : e_1.message) || "Failed to upload image");
-                    return [3 /*break*/, 6];
-                case 5:
-                    setIsUploading(false);
-                    return [7 /*endfinally*/];
-                case 6: return [2 /*return*/];
-            }
-        });
-    }); };
-    return (React.createElement("div", { className: "border-2 border-dashed border-gray-300 hover:border-blue-400 hover:bg-blue-50/30 transition-all duration-300 rounded-xl relative group h-[200px] cursor-pointer overflow-hidden flex items-center justify-center" },
-        React.createElement("input", { ref: inputRef, type: "file", accept: accept, className: "hidden", onChange: function (e) { return handleFiles(e.target.files); } }),
-        React.createElement("button", { type: "button", onClick: function () { var _a; return (_a = inputRef.current) === null || _a === void 0 ? void 0 : _a.click(); }, className: "flex flex-col items-center text-gray-600", disabled: isUploading }, isUploading ? (React.createElement(React.Fragment, null,
-            React.createElement("img", { src: "/rte-editor/upload_prescription.svg", alt: "uploading", width: 90, height: 90, className: "animate-bounce" }),
-            React.createElement("span", { className: "mt-2" }, "Uploading..."))) : (React.createElement(React.Fragment, null,
-            React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-8 w-8", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
-                React.createElement("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
-                React.createElement("polyline", { points: "17 8 12 3 7 8" }),
-                React.createElement("line", { x1: "12", y1: "3", x2: "12", y2: "15" })),
-            React.createElement("span", { className: "mt-2" }, "Click to upload")))),
-        error && (React.createElement("div", { className: "absolute bottom-2 left-2 right-2 text-xs text-red-600 bg-white/80 px-2 py-1 rounded-md border border-red-200" }, error))));
-}
-
-function ImageModal(_a) {
-    var isOpen = _a.isOpen, closeModal = _a.closeModal, editor = _a.editor, token = _a.token;
-    var _b = React.useState(""), url = _b[0], setUrl = _b[1];
-    var _c = React.useState(""), altText = _c[0], setAltText = _c[1];
-    var _d = React.useState(""), width = _d[0], setWidth = _d[1];
-    var _e = React.useState(""), height = _e[0], setHeight = _e[1];
-    var _f = React.useState(null), urlError = _f[0], setUrlError = _f[1];
-    var isUploading = React.useState(false)[0];
-    var _g = React.useState(null), setUploadedImage = _g[1];
-    var isValidImageSrc = function (value) {
-        if (!value)
-            return false;
-        return (value.startsWith("http://") ||
-            value.startsWith("https://") ||
-            value.startsWith("/") ||
-            value.startsWith("data:") ||
-            value.startsWith("blob:"));
-    };
-    var handleUrlChange = function (e) {
-        setUrl(e.target.value);
-        setUploadedImage(null);
-        if (!e.target.value) {
-            setUrlError(null);
-        }
-        else if (!isValidImageSrc(e.target.value)) {
-            setUrlError('Enter a valid image URL starting with http(s)://, /, data:, or blob:');
-        }
-        else {
-            setUrlError(null);
-        }
-    };
-    var handleSubmit = function () {
-        if (!url || (url && !isValidImageSrc(url))) {
-            setUrlError('Please enter a valid image URL');
-            return;
-        }
-        if (!altText) {
-            return;
-        }
-        if (editor) {
-            try {
-                editor
-                    .chain()
-                    .focus()
-                    .setImage({
-                    src: url,
-                    alt: altText,
-                    title: altText,
-                    width: width ? parseInt(width) : undefined,
-                    height: height ? parseInt(height) : undefined,
-                })
-                    .run();
-                handleReset();
-                closeModal();
-            }
-            catch (error) {
-                console.error('Error inserting image:', error);
-            }
-        }
-    };
-    var handleReset = function () {
-        setUploadedImage(null);
-        setUrl("");
-        setAltText("");
-        setWidth("");
-        setHeight("");
-        setUrlError(null);
-    };
-    if (!isOpen)
-        return null;
-    return (React.createElement("div", { className: "fixed inset-0 bg-black/30 flex items-center justify-center z-50" },
-        React.createElement("div", { className: "bg-white p-4 rounded-lg shadow-xl w-full max-w-md z-[9999] border border-gray-200" },
-            React.createElement("div", { className: "flex justify-between items-center mb-4" },
-                React.createElement("h3", { className: "text-lg font-semibold" }, "Upload Image"),
-                React.createElement("button", { onClick: function () {
-                        closeModal();
-                        handleReset();
-                    }, className: "text-gray-500 hover:text-gray-700" }, "Close")),
-            React.createElement("div", { className: "space-y-4" },
-                React.createElement(ImageUploader, { token: token, onUploaded: function (uploaded) {
-                        setUrl(uploaded.link);
-                    } }),
-                React.createElement("div", null,
-                    React.createElement("div", { className: "flex justify-between items-center mb-1" },
-                        React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "Image URL"),
-                        url && (React.createElement("button", { onClick: function () { return setUrl(""); }, className: "text-xs text-gray-500 hover:text-red-500 transition-colors" }, "Clear"))),
-                    React.createElement("input", { value: url, onChange: handleUrlChange, placeholder: "https://example.com/image.jpg", className: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" }),
-                    urlError && (React.createElement("div", { className: "mt-1 text-xs text-red-500" }, urlError)),
-                    url && (React.createElement("div", { className: "mt-1 text-xs text-gray-500" },
-                        React.createElement("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, "View image")))),
-                React.createElement("div", { className: "space-y-4" },
-                    React.createElement("div", null,
-                        React.createElement("div", { className: "flex justify-between items-center mb-1" },
-                            React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "Alt Text"),
-                            React.createElement("div", { className: "text-xs text-gray-400" }, "Required")),
-                        React.createElement("input", { value: altText, onChange: function (e) { return setAltText(e.target.value); }, placeholder: "Describe the image...", className: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" }),
-                        React.createElement("div", { className: "mt-1 text-xs text-gray-500" }, "Helps accessibility and SEO")),
-                    React.createElement("div", null,
-                        React.createElement("div", { className: "flex justify-between items-center mb-1" },
-                            React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "Dimensions"),
-                            React.createElement("div", { className: "text-xs text-gray-400" }, "Optional")),
-                        React.createElement("div", { className: "grid grid-cols-2 gap-4" },
-                            React.createElement("input", { value: width, onChange: function (e) { return setWidth(e.target.value); }, placeholder: "Width (px)", type: "number", min: "1", className: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" }),
-                            React.createElement("input", { value: height, onChange: function (e) { return setHeight(e.target.value); }, placeholder: "Height (px)", type: "number", min: "1", className: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" })),
-                        React.createElement("div", { className: "mt-1 text-xs text-gray-500" }, "Leave empty to keep original size")))),
-            React.createElement("div", { className: "flex justify-end gap-2 mt-6" },
-                React.createElement("button", { onClick: function () {
-                        closeModal();
-                        handleReset();
-                    }, className: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md" }, "Cancel"),
-                React.createElement("button", { onClick: handleSubmit, disabled: (!!url && !isValidImageSrc(url)) || (!url) || !altText || isUploading, className: "px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed" }, isUploading ? 'Uploading...' : 'Insert')))));
-}
-
 var ArrowLeftIcon = React__namespace.memo(function (_a) {
     var className = _a.className, props = __rest(_a, ["className"]);
     return (React__namespace.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "currentColor", xmlns: "http://www.w3.org/2000/svg" }, props),
@@ -8372,6 +8146,284 @@ var HighlightIcon = React__namespace.memo(function (_a) {
         React__namespace.createElement("path", { d: "m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4" })));
 });
 HighlightIcon.displayName = "HighlightIcon";
+
+var YoutubeIcon = function (props) { return (React.createElement("svg", __assign({ width: "25", height: "25", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, props),
+    React.createElement("path", { d: "M14.783 6.252c-.726-.01-1.544-.01-2.468-.01-4 0-6 0-7.244.87-1.242.87-1.242 2.27-1.242 5.07 0 2.8-.001 4.2 1.242 5.07 1.243.87 3.243.87 7.244.87 4 0 6.001 0 7.243-.87 1.243-.87 1.243-2.27 1.243-5.07 0-.458 0-.878-.006-1.265", stroke: "#000", strokeWidth: 1.33, strokeLinecap: "round", strokeLinejoin: "round" }),
+    React.createElement("path", { d: "M10.467 9.806v4.752a.465.465 0 0 0 .468.463.455.455 0 0 0 .26-.077L14.8 12.59a.462.462 0 0 0 .004-.77l-3.606-2.397a.471.471 0 0 0-.651.125.454.454 0 0 0-.08.259Z", stroke: "#000", strokeWidth: 1.33, strokeLinecap: "round", strokeLinejoin: "round" }),
+    React.createElement("path", { d: "M16.801 7.218h4m-2-2v4", stroke: "#000", strokeWidth: 1.333, strokeLinecap: "round", strokeLinejoin: "round" }))); };
+
+var AddRowIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "20", height: "20", fill: "none", xmlns: "http://www.w3.org/2000/svg", className: className }, props),
+        React__namespace.createElement("path", { d: "M12.825 4.185h-6a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3v-1.423", stroke: "#000", strokeLinecap: "round" }),
+        React__namespace.createElement("path", { d: "M4.192 7.81h13.032", stroke: "#000" }),
+        React__namespace.createElement("path", { d: "m14.918 5.504 2.306 2.306-2.306 2.305", stroke: "#000", strokeLinecap: "round", strokeLinejoin: "round" }),
+        React__namespace.createElement("path", { fill: "#fff", d: "M6.136 10.715h7.572v7.572H6.136z" }),
+        React__namespace.createElement("path", { d: "M9.913 11.91v5.182m2.597-2.597H7.328", stroke: "#000", strokeWidth: "1.099", strokeLinecap: "round", strokeLinejoin: "round" })));
+});
+AddRowIcon.displayName = "AddRowIcon";
+
+var AddColumnIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "20", height: "20", fill: "none", xmlns: "http://www.w3.org/2000/svg", className: className }, props),
+        React__namespace.createElement("path", { d: "M3.889 12.77v-6a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-1.423", stroke: "#000", strokeLinecap: "round" }),
+        React__namespace.createElement("path", { d: "M7.514 4.137V17.17", stroke: "#000" }),
+        React__namespace.createElement("path", { d: "m5.208 14.863 2.306 2.306 2.305-2.306", stroke: "#000", strokeLinecap: "round", strokeLinejoin: "round" }),
+        React__namespace.createElement("path", { fill: "#fff", d: "M10.418 5.984h7.572v7.572h-7.572z" }),
+        React__namespace.createElement("path", { d: "M14.195 7.18v5.18m2.597-2.596H11.61", stroke: "#000", strokeWidth: "1.099", strokeLinecap: "round", strokeLinejoin: "round" })));
+});
+AddColumnIcon.displayName = "AddColumnIcon";
+
+var DeleteColumnIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "20", height: "20", fill: "none", xmlns: "http://www.w3.org/2000/svg", className: className }, props),
+        React__namespace.createElement("path", { d: "M3.889 12.77v-6a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-1.423", stroke: "#DC362E", strokeLinecap: "round" }),
+        React__namespace.createElement("path", { d: "M7.514 4.137V17.17", stroke: "#DC362E" }),
+        React__namespace.createElement("path", { d: "m5.208 14.863 2.306 2.306 2.305-2.306", stroke: "#DC362E", strokeLinecap: "round", strokeLinejoin: "round" }),
+        React__namespace.createElement("path", { fill: "#fff", d: "M10.418 5.984h7.572v7.572h-7.572z" }),
+        React__namespace.createElement("path", { d: "m16.03 7.934-3.665 3.664m3.672 0-3.664-3.664", stroke: "#DC362E", strokeWidth: "1.099", strokeLinecap: "round", strokeLinejoin: "round" })));
+});
+DeleteColumnIcon.displayName = "DeleteColumnIcon";
+
+var DeleteRowIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "20", height: "20", fill: "none", xmlns: "http://www.w3.org/2000/svg", className: className }, props),
+        React__namespace.createElement("path", { d: "M12.93 4.002h-6a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3v-1.423", stroke: "#DC362E", strokeLinecap: "round" }),
+        React__namespace.createElement("path", { d: "M4.297 7.627h13.031", stroke: "#DC362E" }),
+        React__namespace.createElement("path", { d: "m15.023 5.321 2.305 2.306-2.305 2.305", stroke: "#DC362E", strokeLinecap: "round", strokeLinejoin: "round" }),
+        React__namespace.createElement("path", { fill: "#fff", d: "M6.24 10.532h7.572v7.572H6.24z" }),
+        React__namespace.createElement("path", { d: "m11.852 12.482-3.664 3.664m3.672 0-3.665-3.664", stroke: "#DC362E", strokeWidth: 1.099, strokeLinecap: "round", strokeLinejoin: "round" })));
+});
+DeleteRowIcon.displayName = "DeleteRowIcon";
+
+var UploadIcon = React__namespace.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React__namespace.createElement("svg", __assign({ width: "162", height: "162", fill: "none", xmlns: "http://www.w3.org/2000/svg", className: className }, props),
+        React__namespace.createElement("rect", { x: ".625", y: ".743", width: "161.097", height: "161.097", rx: "80.548", fill: "#EDEAF3" }),
+        React__namespace.createElement("g", { clipPath: "url(#a)" },
+            React__namespace.createElement("path", { d: "M52.235 49.716h50.345a2.638 2.638 0 0 1 2.637 2.638v67.16a2.639 2.639 0 0 1-2.637 2.637H52.235a2.639 2.639 0 0 1-2.637-2.637v-67.16a2.639 2.639 0 0 1 2.637-2.638Z", fill: "#8373AD" }),
+            React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M49.605 119.514v-53.45c0-1.135.405-2.112 1.207-2.914L63.04 50.923a3.98 3.98 0 0 1 2.914-1.207h36.635c.918 0 1.667.75 1.667 1.668v67.796a2.005 2.005 0 0 1-2.001 2.001h-50.98a1.67 1.67 0 0 1-1.669-1.667Z", fill: "#AA9FC6" }),
+            React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M40.316 110.228v-53.45a3.98 3.98 0 0 1 1.207-2.914L53.75 41.637a3.98 3.98 0 0 1 2.914-1.207h36.635a2.643 2.643 0 0 1 2.637 2.638v67.16a2.642 2.642 0 0 1-2.638 2.637H42.955a2.643 2.643 0 0 1-2.638-2.637Z", fill: "#8373AD" }),
+            React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M40.316 110.228v-53.45a3.98 3.98 0 0 1 1.207-2.914L53.75 41.637a3.98 3.98 0 0 1 2.914-1.207h36.635c.918 0 1.667.75 1.667 1.668v67.796a2.005 2.005 0 0 1-2.001 2.001h-50.98a1.67 1.67 0 0 1-1.669-1.667Z", fill: "#C6BED9" }),
+            React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M53.75 41.637a3.98 3.98 0 0 1 2.914-1.207h1.046a4.137 4.137 0 0 0-2.562 3.814v8.381a2.642 2.642 0 0 1-2.637 2.637h-8.38a4.138 4.138 0 0 0-3.815 2.562v-1.046a3.98 3.98 0 0 1 1.207-2.914L53.75 41.637Z", fill: "#8373AD" }),
+            React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M53.75 41.637a3.98 3.98 0 0 1 2.914-1.207h1.046c-1.275.237-3.462 1.457-3.462 3.814v8.381c0 .956-.781 1.737-1.737 1.737h-8.38c-1.136 0-3.12.465-3.815 3.462v-1.046a3.98 3.98 0 0 1 1.207-2.914L53.75 41.637Z", fill: "#AA9FC6" }),
+            React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M48.733 62.947a1.334 1.334 0 1 1 0-2.669h22.216a1.334 1.334 0 0 1 0 2.669H48.733Zm13.634-7.418a1.334 1.334 0 0 1 0-2.668h11.6a1.334 1.334 0 0 1 0 2.668h-11.6Zm15.557 0a1.334 1.334 0 0 1 0-2.668h1.719a1.334 1.334 0 0 1 0 2.668h-1.72Zm5.676 0a1.334 1.334 0 0 1 0-2.668h3.922a1.334 1.334 0 0 1 0 2.668H83.6Zm-34.867 44.905a1.334 1.334 0 1 1 0-2.668h4.3a1.334 1.334 0 0 1 0 2.668h-4.3Zm8.258 0a1.334 1.334 0 1 1 0-2.668h10.361a1.334 1.334 0 1 1 0 2.668h-10.36Zm-8.258-7.497a1.334 1.334 0 1 1 0-2.669h10.89a1.334 1.334 0 0 1 0 2.669h-10.89Zm14.847 0a1.334 1.334 0 0 1 0-2.669h5.117a1.334 1.334 0 0 1 0 2.669H63.58Zm-14.847-7.498a1.334 1.334 0 1 1 0-2.668h8.472a1.334 1.334 0 0 1 0 2.668h-8.472Zm12.43 0a1.334 1.334 0 1 1 0-2.668h1.719a1.334 1.334 0 0 1 0 2.668h-1.72Zm5.676 0a1.334 1.334 0 1 1 0-2.668h4.985a1.334 1.334 0 0 1 0 2.668h-4.985Zm-18.106-7.497a1.334 1.334 0 0 1 0-2.669h4.3a1.334 1.334 0 0 1 0 2.669h-4.3Zm8.258 0a1.334 1.334 0 0 1 0-2.669h19.774a1.334 1.334 0 0 1 0 2.669H56.99Zm-8.258-7.498a1.334 1.334 0 0 1 0-2.668h30.903a1.334 1.334 0 0 1 0 2.668H48.733Zm34.86 0a1.334 1.334 0 1 1 0-2.668h3.929a1.334 1.334 0 0 1 0 2.668h-3.928Zm-8.686-7.498a1.334 1.334 0 1 1 0-2.668h.075a1.334 1.334 0 1 1 0 2.669h-.075Zm4.032 0a1.334 1.334 0 0 1 0-2.668h8.583a1.334 1.334 0 0 1 0 2.669h-8.583Z", fill: "#8373AD" }),
+            React__namespace.createElement("path", { d: "M115.281 115.412c8.982-8.981 8.982-23.542 0-32.523-8.981-8.981-23.542-8.981-32.523 0-8.981 8.98-8.981 23.542 0 32.523 8.981 8.981 23.542 8.981 32.523 0Z", fill: "#32215E" }),
+            React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M87.145 118.845c-6.661-4.03-11.114-11.342-11.114-19.695 0-8.352 4.453-15.665 11.114-19.694a22.458 22.458 0 0 1 11.012-2.867c12.46 0 22.561 10.101 22.561 22.561 0 12.461-10.101 22.562-22.561 22.562-4 0-7.755-1.042-11.012-2.867Z", fill: "#462E84" }),
+            React__namespace.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M89.7 102.502v3.614c0 1.104.897 2.002 2 2.002h14.665a2.004 2.004 0 0 0 2.002-2.002v-3.614a1.335 1.335 0 0 1 2.668 0v3.614a4.675 4.675 0 0 1-4.67 4.67H91.701a4.675 4.675 0 0 1-4.67-4.67v-3.614a1.335 1.335 0 0 1 2.668 0Zm9.333 2.151c.737 0 1.333-.597 1.333-1.334V92.07l1.415 1.414a1.333 1.333 0 1 0 1.888-1.888l-3.693-3.69a1.331 1.331 0 0 0-1.886 0l-3.693 3.69a1.336 1.336 0 0 0 1.888 1.888l1.413-1.414v11.249c0 .737.599 1.334 1.335 1.334Z", fill: "#EDEAF3" })),
+        React__namespace.createElement("defs", null,
+            React__namespace.createElement("clipPath", { id: "a" },
+                React__namespace.createElement("path", { fill: "#fff", transform: "translate(38.477 38.596)", d: "M0 0h85.39v85.39H0z" })))));
+});
+UploadIcon.displayName = "UploadIcon";
+
+var LogoIcon = function (props) { return (React.createElement("svg", __assign({ width: "36", height: "36", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, props),
+    React.createElement("circle", { cx: "18.224", cy: "17.683", r: "6.457", fill: "#462E84" }),
+    React.createElement("path", { d: "M14.003 14.326c.634-.802 1.534-1.657 3.298-1.84.953-.098 1.954 1.278-.165 1.84-2.119.562-2.963 2.362-3.133 3.447-.155.982-.821 1.233-1.053 0-.086-.454.043-2.17 1.053-3.447Z", fill: "#AB92EC" }),
+    React.createElement("path", { d: "M22.2 21.879c-.682.7-1.618 1.189-2.179 1.33-1.22.304-1.592-.457-.924-1.145.742-.764 2.186-1.17 2.706-1.17s1.166.197.398.985Z", fill: "#2F166F" }),
+    React.createElement("path", { d: "M30.673 17.683c0-6.876-5.573-12.449-12.448-12.449-6.876 0-12.449 5.573-12.449 12.449 0 6.875 5.574 12.448 12.449 12.448s12.448-5.573 12.448-12.448Zm1.052 0c0 7.455-6.045 13.5-13.5 13.5-7.456 0-13.5-6.045-13.5-13.5 0-7.456 6.044-13.5 13.5-13.5 7.455 0 13.5 6.044 13.5 13.5Z", fill: "#271949" }),
+    React.createElement("circle", { cx: "18.224", cy: "4.682", r: "3.435", fill: "#1CA3A2" }),
+    React.createElement("path", { d: "M17.745 4.084c-.698.827-.939 3.04-1.692 2.445-1.132-.893-.682-2.808 0-3.66.466-.584 1.943-1.666 3.396-.78.694.422-.99 1.15-1.704 1.995Z", fill: "#7BE4E3" }))); };
+
+var API_DOMAIN = "https://api-new.mrmeds.in";
+var UPLOAD_URL = "".concat(API_DOMAIN, "/admin/file/media");
+function ImageUploader(_a) {
+    var _this = this;
+    var token = _a.token, onUploaded = _a.onUploaded, _b = _a.maxSizeMb, maxSizeMb = _b === void 0 ? 5 : _b, _c = _a.accept, accept = _c === void 0 ? "image/*" : _c;
+    var inputRef = React.useRef(null);
+    var _d = React.useState(false), isUploading = _d[0], setIsUploading = _d[1];
+    var _e = React.useState(null), error = _e[0], setError = _e[1];
+    var validate = function (file) {
+        if (!file.type.startsWith("image/")) {
+            return "Only image files are allowed";
+        }
+        if (file.size > maxSizeMb * 1024 * 1024) {
+            return "Image must be smaller than ".concat(maxSizeMb, "MB");
+        }
+        return null;
+    };
+    var handleFiles = function (files) { return __awaiter(_this, void 0, void 0, function () {
+        var file, validationError, formData, res, json, uploaded, e_1;
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    if (!files || files.length === 0)
+                        return [2 /*return*/];
+                    file = files[0];
+                    validationError = validate(file);
+                    if (validationError) {
+                        setError(validationError);
+                        return [2 /*return*/];
+                    }
+                    if (!token) {
+                        setError("Missing token for upload");
+                        return [2 /*return*/];
+                    }
+                    setError(null);
+                    setIsUploading(true);
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 4, 5, 6]);
+                    formData = new FormData();
+                    formData.append("files", file);
+                    return [4 /*yield*/, fetch(UPLOAD_URL, {
+                            method: "POST",
+                            headers: {
+                                Authorization: "Bearer ".concat(token),
+                            },
+                            body: formData,
+                        })];
+                case 2:
+                    res = _b.sent();
+                    if (!res.ok) {
+                        throw new Error("Upload failed: ".concat(res.status, " ").concat(res.statusText));
+                    }
+                    return [4 /*yield*/, res.json()];
+                case 3:
+                    json = _b.sent();
+                    uploaded = (_a = json === null || json === void 0 ? void 0 : json.data) === null || _a === void 0 ? void 0 : _a[0];
+                    if (!uploaded || !uploaded.link) {
+                        throw new Error("Unexpected response from server");
+                    }
+                    onUploaded(uploaded);
+                    return [3 /*break*/, 6];
+                case 4:
+                    e_1 = _b.sent();
+                    setError((e_1 === null || e_1 === void 0 ? void 0 : e_1.message) || "Failed to upload image");
+                    return [3 /*break*/, 6];
+                case 5:
+                    setIsUploading(false);
+                    return [7 /*endfinally*/];
+                case 6: return [2 /*return*/];
+            }
+        });
+    }); };
+    return (React.createElement("div", { className: "border-2 border-dashed border-gray-300 hover:border-blue-400 hover:bg-blue-50/30 transition-all duration-300 rounded-xl relative group h-[200px] cursor-pointer overflow-hidden flex items-center justify-center" },
+        React.createElement("input", { ref: inputRef, type: "file", accept: accept, className: "hidden", onChange: function (e) { return handleFiles(e.target.files); } }),
+        React.createElement("button", { type: "button", onClick: function () { var _a; return (_a = inputRef.current) === null || _a === void 0 ? void 0 : _a.click(); }, className: "flex flex-col items-center text-gray-600", disabled: isUploading }, isUploading ? (React.createElement(React.Fragment, null,
+            React.createElement(UploadIcon, { className: "w-8 h-8 animate-bounce" }),
+            React.createElement("span", { className: "mt-2" }, "Uploading..."))) : (React.createElement(React.Fragment, null,
+            React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-8 w-8", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                React.createElement("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
+                React.createElement("polyline", { points: "17 8 12 3 7 8" }),
+                React.createElement("line", { x1: "12", y1: "3", x2: "12", y2: "15" })),
+            React.createElement("span", { className: "mt-2" }, "Click to upload")))),
+        error && (React.createElement("div", { className: "absolute bottom-2 left-2 right-2 text-xs text-red-600 bg-white/80 px-2 py-1 rounded-md border border-red-200" }, error))));
+}
+
+function ImageModal(_a) {
+    var isOpen = _a.isOpen, closeModal = _a.closeModal, editor = _a.editor, token = _a.token;
+    var _b = React.useState(""), url = _b[0], setUrl = _b[1];
+    var _c = React.useState(""), altText = _c[0], setAltText = _c[1];
+    var _d = React.useState(""), width = _d[0], setWidth = _d[1];
+    var _e = React.useState(""), height = _e[0], setHeight = _e[1];
+    var _f = React.useState(null), urlError = _f[0], setUrlError = _f[1];
+    var isUploading = React.useState(false)[0];
+    var _g = React.useState(null), setUploadedImage = _g[1];
+    var isValidImageSrc = function (value) {
+        if (!value)
+            return false;
+        return (value.startsWith("http://") ||
+            value.startsWith("https://") ||
+            value.startsWith("/") ||
+            value.startsWith("data:") ||
+            value.startsWith("blob:"));
+    };
+    var handleUrlChange = function (e) {
+        setUrl(e.target.value);
+        setUploadedImage(null);
+        if (!e.target.value) {
+            setUrlError(null);
+        }
+        else if (!isValidImageSrc(e.target.value)) {
+            setUrlError('Enter a valid image URL starting with http(s)://, /, data:, or blob:');
+        }
+        else {
+            setUrlError(null);
+        }
+    };
+    var handleSubmit = function () {
+        if (!url || (url && !isValidImageSrc(url))) {
+            setUrlError('Please enter a valid image URL');
+            return;
+        }
+        if (!altText) {
+            return;
+        }
+        if (editor) {
+            try {
+                editor
+                    .chain()
+                    .focus()
+                    .setImage({
+                    src: url,
+                    alt: altText,
+                    title: altText,
+                    width: width ? parseInt(width) : undefined,
+                    height: height ? parseInt(height) : undefined,
+                })
+                    .run();
+                handleReset();
+                closeModal();
+            }
+            catch (error) {
+                console.error('Error inserting image:', error);
+            }
+        }
+    };
+    var handleReset = function () {
+        setUploadedImage(null);
+        setUrl("");
+        setAltText("");
+        setWidth("");
+        setHeight("");
+        setUrlError(null);
+    };
+    if (!isOpen)
+        return null;
+    return (React.createElement("div", { className: "fixed inset-0 bg-black/30 flex items-center justify-center z-50" },
+        React.createElement("div", { className: "bg-white p-4 rounded-lg shadow-xl w-full max-w-md z-[9999] border border-gray-200" },
+            React.createElement("div", { className: "flex justify-between items-center mb-4" },
+                React.createElement("h3", { className: "text-lg font-semibold" }, "Upload Image"),
+                React.createElement("button", { onClick: function () {
+                        closeModal();
+                        handleReset();
+                    }, className: "text-gray-500 hover:text-gray-700" }, "Close")),
+            React.createElement("div", { className: "space-y-4" },
+                React.createElement(ImageUploader, { token: token, onUploaded: function (uploaded) {
+                        setUrl(uploaded.link);
+                    } }),
+                React.createElement("div", null,
+                    React.createElement("div", { className: "flex justify-between items-center mb-1" },
+                        React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "Image URL"),
+                        url && (React.createElement("button", { onClick: function () { return setUrl(""); }, className: "text-xs text-gray-500 hover:text-red-500 transition-colors" }, "Clear"))),
+                    React.createElement("input", { value: url, onChange: handleUrlChange, placeholder: "https://example.com/image.jpg", className: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" }),
+                    urlError && (React.createElement("div", { className: "mt-1 text-xs text-red-500" }, urlError)),
+                    url && (React.createElement("div", { className: "mt-1 text-xs text-gray-500" },
+                        React.createElement("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, "View image")))),
+                React.createElement("div", { className: "space-y-4" },
+                    React.createElement("div", null,
+                        React.createElement("div", { className: "flex justify-between items-center mb-1" },
+                            React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "Alt Text"),
+                            React.createElement("div", { className: "text-xs text-gray-400" }, "Required")),
+                        React.createElement("input", { value: altText, onChange: function (e) { return setAltText(e.target.value); }, placeholder: "Describe the image...", className: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" }),
+                        React.createElement("div", { className: "mt-1 text-xs text-gray-500" }, "Helps accessibility and SEO")),
+                    React.createElement("div", null,
+                        React.createElement("div", { className: "flex justify-between items-center mb-1" },
+                            React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "Dimensions"),
+                            React.createElement("div", { className: "text-xs text-gray-400" }, "Optional")),
+                        React.createElement("div", { className: "grid grid-cols-2 gap-4" },
+                            React.createElement("input", { value: width, onChange: function (e) { return setWidth(e.target.value); }, placeholder: "Width (px)", type: "number", min: "1", className: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" }),
+                            React.createElement("input", { value: height, onChange: function (e) { return setHeight(e.target.value); }, placeholder: "Height (px)", type: "number", min: "1", className: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" })),
+                        React.createElement("div", { className: "mt-1 text-xs text-gray-500" }, "Leave empty to keep original size")))),
+            React.createElement("div", { className: "flex justify-end gap-2 mt-6" },
+                React.createElement("button", { onClick: function () {
+                        closeModal();
+                        handleReset();
+                    }, className: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md" }, "Cancel"),
+                React.createElement("button", { onClick: handleSubmit, disabled: (!!url && !isValidImageSrc(url)) || (!url) || !altText || isUploading, className: "px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed" }, isUploading ? 'Uploading...' : 'Insert')))));
+}
 
 var FONT_SIZES = [
     '8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '26', '28', '36', '48', '72'
@@ -8601,14 +8653,14 @@ var MenuBar = function (_a) {
                     React.createElement(TableIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
                 isTableSelected && (React.createElement(React.Fragment, null,
                     React.createElement("div", { className: "h-6 w-px bg-gray-300 mx-1" }),
-                    React.createElement("button", { onClick: function () { return editor.chain().focus().addRowAfter().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500", title: "Add Row Below" },
-                        React.createElement("img", { src: "/rte-editor/Add-Row.svg", alt: "youtube", width: 22, height: 22 })),
-                    React.createElement("button", { onClick: function () { return editor.chain().focus().addColumnAfter().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500", title: "Add Column Right" },
-                        React.createElement("img", { src: "/rte-editor/Add-column.svg", alt: "youtube", width: 22, height: 22 })),
-                    React.createElement("button", { onClick: function () { return editor.chain().focus().deleteRow().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Row" },
-                        React.createElement("img", { src: "/rte-editor/Delete-Row.svg", alt: "youtube", width: 22, height: 22 })),
-                    React.createElement("button", { onClick: function () { return editor.chain().focus().deleteColumn().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Column" },
-                        React.createElement("img", { src: "/rte-editor/Delete-column.svg", alt: "youtube", width: 22, height: 22 })),
+                    React.createElement("button", { onClick: function () { return editor.chain().focus().addRowAfter().run(); }, className: "mt-2 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500", title: "Add Row Below" },
+                        React.createElement(AddRowIcon, { className: "w-8 h-8 text-gray-800" })),
+                    React.createElement("button", { onClick: function () { return editor.chain().focus().addColumnAfter().run(); }, className: "mt-2 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500", title: "Add Column Right" },
+                        React.createElement(AddColumnIcon, { className: "w-8 h-8 text-gray-800" })),
+                    React.createElement("button", { onClick: function () { return editor.chain().focus().deleteRow().run(); }, className: "mt-2 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Row" },
+                        React.createElement(DeleteRowIcon, { className: "w-8 h-8 text-gray-800" })),
+                    React.createElement("button", { onClick: function () { return editor.chain().focus().deleteColumn().run(); }, className: "mt-2 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Column" },
+                        React.createElement(DeleteColumnIcon, { className: "w-8 h-8 text-gray-800" })),
                     React.createElement("button", { onClick: function () { return editor.chain().focus().deleteTable().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-red-100 bg-red-100/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500", title: "Delete Table" },
                         React.createElement(TrashIcon, { className: "w-4 h-4 text-red-700" })))),
                 React.createElement("button", { onClick: function () { return editor.chain().focus().toggleBlockquote().run(); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('blockquote') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Blockquote" },
@@ -8616,8 +8668,8 @@ var MenuBar = function (_a) {
             React.createElement("div", { className: "flex items-center gap-1 border-l pr-1 sm:pr-2" },
                 React.createElement("button", { onClick: function () { return setIsImageModalOpen(true); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", title: "Upload Image" },
                     React.createElement(ImagePlusIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
-                React.createElement("button", { onClick: function () { return setIsYoutubeModalOpen(true); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('youtube') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Insert YouTube video" },
-                    React.createElement("img", { src: "/rte-editor/youtube-icon.svg", alt: "youtube", width: 22, height: 22 })))),
+                React.createElement("button", { onClick: function () { return setIsYoutubeModalOpen(true); }, className: "mt-2 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('youtube') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Insert YouTube video" },
+                    React.createElement(YoutubeIcon, { className: "w-8 h-8 text-gray-800" })))),
         React.createElement(ImageModal, { isOpen: isImageModalOpen, closeModal: function () { return setIsImageModalOpen(false); }, editor: editor, token: token }),
         React.createElement(YoutubeModal, { isOpen: isYoutubeModalOpen, closeModal: function () { return setIsYoutubeModalOpen(false); }, onSubmit: handleYoutubeSubmit }),
         React.createElement(TableModal, { isOpen: isTableModalOpen, closeModal: function () { return setIsTableModalOpen(false); }, onSubmit: handleTableSubmit }),
@@ -8974,7 +9026,7 @@ var RichTextEditor = function (_a) {
     return (React.createElement("div", { className: "w-full bg-white rounded-lg shadow-lg" },
         React.createElement("div", { className: "sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm rounded-t-lg" },
             React.createElement("div", { className: "flex items-center justify-start" },
-                React.createElement("img", { src: "/rte-editor/logo.svg", alt: "logo", width: 30, height: 30, className: "ml-2" }),
+                React.createElement(LogoIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" }),
                 React.createElement("div", { className: "text-sm font-semibold text-gray-700 sm:px-4 py-2" }, "ProtiumPad")),
             editor && (React.createElement(FileMenuBar, { editor: editor, onOpenFindReplace: function () { return setShowFindReplace(true); } })),
             editor && (React.createElement(MenuBar, { editor: editor, setLink: setLink, unsetLink: unsetLink, token: token }))),
@@ -8991,77 +9043,11 @@ var RichTextEditor = function (_a) {
         React.createElement(FindReplace, { editor: editor, isOpen: showFindReplace, onClose: function () { return setShowFindReplace(false); } })));
 };
 
-// ===============================================================================================
-// Table controls for Tiptap used for adding rows and columns to the table after inserting a table
-// ===============================================================================================
-// Table controls component
-function TableControls(_a) {
-    var editor = _a.editor;
-    var _b = React.useState(null), buttonPos = _b[0], setButtonPos = _b[1];
-    var _c = React.useState(false), open = _c[0], setOpen = _c[1];
-    // Update the button position when the table is inserted
-    React.useEffect(function () {
-        var update = function () {
-            if (!editor.isActive('table')) {
-                setButtonPos(null);
-                return;
-            }
-            var table = editor.view.dom.querySelector('table');
-            if (!table) {
-                setButtonPos(null);
-                return;
-            }
-            var rect = table.getBoundingClientRect();
-            // Position the icon on the left side of the table, slightly offset
-            setButtonPos({ top: rect.top + window.scrollY - 8, left: rect.left + window.scrollX - 32 });
-        };
-        update();
-        window.addEventListener('scroll', update, true);
-        editor.on('selectionUpdate', update);
-        return function () {
-            window.removeEventListener('scroll', update, true);
-            editor.off('selectionUpdate', update);
-        };
-    }, [editor]);
-    // If the button position is not set, return null
-    if (!buttonPos)
-        return null;
-    var run = function (cmd) { cmd(); setOpen(false); };
-    // Return the table controls component
-    return (React.createElement("div", null,
-        React.createElement("button", { className: "fixed z-40 bg-blue-500 hover:bg-blue-600 text-white w-7 h-7 rounded-full font-bold flex items-center justify-center shadow-lg transition-colors", style: { top: buttonPos.top, left: buttonPos.left }, onClick: function () { return setOpen(function (o) { return !o; }); }, "aria-label": "Table options", title: "Table options" },
-            React.createElement(PlusCircleIcon$1, { className: "w-5 h-5" })),
-        open && (React.createElement("div", { className: "fixed z-50 bg-white border rounded shadow p-2 text-sm", style: { top: buttonPos.top, left: buttonPos.left + 32 } },
-            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowAfter().run(); }); } },
-                React.createElement("img", { src: "/rte-editor/Add-Row.svg", alt: "youtube", width: 22, height: 22 }),
-                "Add row below"),
-            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addRowBefore().run(); }); } },
-                React.createElement("img", { src: "/rte-editor/Add-Row.svg", alt: "youtube", width: 22, height: 22 }),
-                "Add row above"),
-            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnAfter().run(); }); } },
-                React.createElement("img", { src: "/rte-editor/Add-column.svg", alt: "youtube", width: 22, height: 22 }),
-                "Add column right"),
-            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 hover:bg-gray-100", onClick: function () { return run(function () { return editor.chain().focus().addColumnBefore().run(); }); } },
-                React.createElement("img", { src: "/rte-editor/Add-column.svg", alt: "youtube", width: 22, height: 22 }),
-                "Add column left"),
-            React.createElement("hr", { className: "my-2" }),
-            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteRow().run(); }); } },
-                React.createElement("img", { src: "/rte-editor/Delete-Row.svg", alt: "youtube", width: 22, height: 22 }),
-                "Delete row"),
-            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-600 hover:bg-red-50", onClick: function () { return run(function () { return editor.chain().focus().deleteColumn().run(); }); } },
-                React.createElement("img", { src: "/rte-editor/Delete-column.svg", alt: "youtube", width: 22, height: 22 }),
-                "Delete column"),
-            React.createElement("button", { className: "block flex items-center gap-2 w-full text-left px-2 py-1 text-red-700 font-semibold hover:bg-red-100", onClick: function () { return run(function () { return editor.chain().focus().deleteTable().run(); }); } },
-                React.createElement("img", { src: "/rte-editor/Delete-table.svg", alt: "youtube", width: 22, height: 22 }),
-                "Delete table")))));
-}
-
 exports.FindReplace = FindReplace;
 exports.ImageModal = ImageModal;
 exports.LinkModal = LinkModal;
 exports.MenuBar = MenuBar;
 exports.RichTextEditor = RichTextEditor;
-exports.TableControls = TableControls;
 exports.TableModal = TableModal;
 exports.YouTubeNodeView = YouTubeNodeView;
 exports.YoutubeAlign = YoutubeAlign;

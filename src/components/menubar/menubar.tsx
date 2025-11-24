@@ -5,7 +5,8 @@ import TableModal from "../modals/tableModal";
 import LinkModal from "../modals/linkModal";
 import { useState } from "react";
 import ImageModal from "../modals/imageModal";
-import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, AlignJustifyIcon, BlockquoteIcon, ItalicIcon, LinkIcon, ListIcon, ListOrderedIcon, Redo2Icon, StrikeIcon, TableIcon,  UnderlineIcon, Undo2Icon, ImagePlusIcon,  BoldIcon, TrashIcon } from "../tiptap-icons";
+import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, AlignJustifyIcon, BlockquoteIcon, ItalicIcon, LinkIcon, ListIcon, ListOrderedIcon, Redo2Icon, StrikeIcon, TableIcon,  UnderlineIcon, Undo2Icon, ImagePlusIcon,  BoldIcon, TrashIcon, AddColumnIcon, AddRowIcon, DeleteColumnIcon, DeleteRowIcon } from "../tiptap-icons";
+import YoutubeIcon from "../tiptap-icons/youtube-icon";
 
 interface MenuBarProps {
   editor: any;
@@ -361,34 +362,34 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
               
               <button
                 onClick={() => editor.chain().focus().addRowAfter().run()}
-                className="p-1.5 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
+                className="mt-2 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
                 title="Add Row Below"
               >
-                <img src="/rte-editor/Add-Row.svg" alt="youtube" width={22} height={22} />
+                <AddRowIcon className="w-8 h-8 text-gray-800" />
               </button>
 
               <button
                 onClick={() => editor.chain().focus().addColumnAfter().run()}
-                className="p-1.5 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
+                className="mt-2 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
                 title="Add Column Right"
               >
-                <img src="/rte-editor/Add-column.svg" alt="youtube" width={22} height={22} />
+                <AddColumnIcon className="w-8 h-8 text-gray-800" />
               </button>
 
               <button
                 onClick={() => editor.chain().focus().deleteRow().run()}
-                className="p-1.5 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                className="mt-2 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
                 title="Delete Row"
               >
-                <img src="/rte-editor/Delete-Row.svg" alt="youtube" width={22} height={22} />
+                <DeleteRowIcon className="w-8 h-8 text-gray-800" />
               </button>
 
               <button
                 onClick={() => editor.chain().focus().deleteColumn().run()}
-                className="p-1.5 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                className="mt-2 rounded-md transition-colors hover:bg-red-50 bg-red-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
                 title="Delete Column"
               >
-                       <img src="/rte-editor/Delete-column.svg" alt="youtube" width={22} height={22} />
+                <DeleteColumnIcon className="w-8 h-8 text-gray-800" />
               </button>
 
               <button
@@ -437,10 +438,10 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
 
           <button
             onClick={() => setIsYoutubeModalOpen(true)}
-            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('youtube') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
+            className={`mt-2 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('youtube') ? 'bg-gray-100 ring-1 ring-gray-300' : ''}`}
             title="Insert YouTube video"
           >
-            <img src="/rte-editor/youtube-icon.svg" alt="youtube" width={22} height={22} />
+            <YoutubeIcon className="w-8 h-8 text-gray-800" />
           </button>
         </div>
       </div>

@@ -1,6 +1,3 @@
-
-fix the tsconfig outdir and rollup output file location to fix the type error in package. 
-add translation thing.
-fix the hover issue.
-
-
+1. fix the image link thing. Add link of the images instead of paths of the image.
+2. Remove unnecessary code and files. 
+3. Fix the lint issues.

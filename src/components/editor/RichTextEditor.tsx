@@ -28,6 +28,7 @@ import Image from '@tiptap/extension-image'
 import { FindReplace } from './features/FindReplace';
 // import TableControls from './features/TableControls'; // Moved to MenuBar toolbar
 import { MenuBar } from "../menubar/index";
+import LogoIcon from '../tiptap-icons/Logo-icon';
 
 // Link configuration
 const linkConfig = {
@@ -368,13 +369,7 @@ const RichTextEditor = ({
       <div className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm rounded-t-lg">
 
       <div className="flex items-center justify-start">
-            <img
-              src="/rte-editor/logo.svg"
-              alt="logo"
-              width={30}
-              height={30}
-              className="ml-2"
-            />
+            <LogoIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
             <div className="text-sm font-semibold text-gray-700 sm:px-4 py-2">ProtiumPad</div>
           </div>
         {editor && (

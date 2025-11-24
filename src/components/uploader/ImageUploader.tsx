@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { UploadIcon } from "../tiptap-icons";
 
 type UploadedMedia = {
   _id: string;
@@ -88,7 +89,7 @@ export default function ImageUploader({ token, onUploaded, maxSizeMb = 5, accept
       >
         {isUploading ? (
           <>
-            <img src="/rte-editor/upload_prescription.svg" alt="uploading" width={90} height={90} className="animate-bounce" />
+            <UploadIcon className="w-8 h-8 animate-bounce" />
             <span className="mt-2">Uploading...</span>
           </>
         ) : (
