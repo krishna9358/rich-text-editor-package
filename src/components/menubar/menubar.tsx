@@ -473,7 +473,9 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
           editor.state.selection.to,
         )}
         existingUrl={editor.isActive('link') ? editor.getAttributes('link').href : undefined}
-        onSubmit={({ url, text }) => {
+        existingNofollow={editor.isActive('link') ? editor.getAttributes('link').rel?.includes('nofollow') : undefined}
+        onSubmit={({ url, text, nofollow }) => {
+          const rel = nofollow ? 'nofollow' : null;
           if (editor.state.selection.empty) {
             editor.chain()
               .focus()
@@ -484,7 +486,7 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
                   marks: [
                     {
                       type: 'link',
-                      attrs: { href: url }
+                      attrs: { href: url, rel }
                     }
                   ]
                 }
@@ -493,7 +495,7 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
           } else {
             editor.chain()
               .focus()
-              .setLink({ href: url })
+              .setLink({ href: url, rel })
               .run();
           }
         }}

@@ -141,9 +141,10 @@ export function FileMenuBar({ editor, onOpenFindReplace }: { editor: Editor; onO
       <TableModal isOpen={isTableModalOpen} closeModal={() => setIsTableModalOpen(false)} onSubmit={handleTableSubmit} />
 
       {/* Link modal */}
-      <LinkModal isOpen={isLinkModalOpen} closeModal={() => setIsLinkModalOpen(false)} onSubmit={({ url, text }) => {
-        if (!editor.state.selection.empty) editor.chain().focus().setLink({ href: url }).run();
-        else editor.chain().focus().insertContent([{ type: 'text', text: text || url, marks: [{ type: 'link', attrs: { href: url } }] }]).run();
+      <LinkModal isOpen={isLinkModalOpen} closeModal={() => setIsLinkModalOpen(false)} onSubmit={({ url, text, nofollow }) => {
+        const rel = nofollow ? 'nofollow' : null;
+        if (!editor.state.selection.empty) editor.chain().focus().setLink({ href: url, rel }).run();
+        else editor.chain().focus().insertContent([{ type: 'text', text: text || url, marks: [{ type: 'link', attrs: { href: url, rel } }] }]).run();
       }} />
     </div>
   );

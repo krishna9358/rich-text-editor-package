@@ -289,9 +289,10 @@ function TableModal(_a) {
 }
 
 function LinkModal(_a) {
-    var isOpen = _a.isOpen, closeModal = _a.closeModal, selectedText = _a.selectedText, existingUrl = _a.existingUrl, onSubmit = _a.onSubmit, onUnset = _a.onUnset;
+    var isOpen = _a.isOpen, closeModal = _a.closeModal, selectedText = _a.selectedText, existingUrl = _a.existingUrl, existingNofollow = _a.existingNofollow, onSubmit = _a.onSubmit, onUnset = _a.onUnset;
     var _b = useState(""), url = _b[0], setUrl = _b[1];
     var _c = useState(""), text = _c[0], setText = _c[1];
+    var _d = useState(false), nofollow = _d[0], setNofollow = _d[1];
     useEffect(function () {
         if (isOpen) {
             if (selectedText) {
@@ -300,15 +301,19 @@ function LinkModal(_a) {
             if (existingUrl) {
                 setUrl(existingUrl);
             }
+            if (existingNofollow !== undefined) {
+                setNofollow(existingNofollow);
+            }
         }
         else {
             setText("");
             setUrl("");
+            setNofollow(false);
         }
-    }, [isOpen, selectedText, existingUrl]);
+    }, [isOpen, selectedText, existingUrl, existingNofollow]);
     var handleSubmit = function () {
         if (onSubmit) {
-            onSubmit({ url: url, text: text || undefined });
+            onSubmit({ url: url, text: text || undefined, nofollow: nofollow });
         }
         closeModal();
     };
@@ -319,6 +324,12 @@ function LinkModal(_a) {
             React__default.createElement("div", { className: "flex justify-between items-center mb-4" },
                 React__default.createElement("h3", { className: "text-lg font-semibold" }, "Insert Link"),
                 React__default.createElement("button", { onClick: closeModal, className: "text-gray-500 hover:text-gray-700" }, "Close")),
+            React__default.createElement("div", { className: "flex items-center justify-between p-3 bg-gray-50 rounded-lg mb-4" },
+                React__default.createElement("div", null,
+                    React__default.createElement("span", { className: "text-sm font-medium text-gray-700" }, "Nofollow Link"),
+                    React__default.createElement("p", { className: "text-xs text-gray-500" }, "Add rel=\"nofollow\" attribute")),
+                React__default.createElement("button", { type: "button", role: "switch", "aria-checked": nofollow, onClick: function () { return setNofollow(!nofollow); }, className: "relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ".concat(nofollow ? 'bg-blue-500' : 'bg-gray-300') },
+                    React__default.createElement("span", { className: "inline-block h-4 w-4 transform rounded-full bg-white transition-transform ".concat(nofollow ? 'translate-x-6' : 'translate-x-1') }))),
             React__default.createElement("div", { className: "space-y-4" },
                 React__default.createElement("div", null,
                     React__default.createElement("label", { className: "block text-sm font-medium text-gray-700 mb-1" }, "Text"),
@@ -702,11 +713,12 @@ function FileMenuBar(_a) {
         React__default.createElement(YoutubeModal, { isOpen: isYoutubeModalOpen, closeModal: function () { return setIsYoutubeModalOpen(false); }, onSubmit: handleYoutubeSubmit }),
         React__default.createElement(TableModal, { isOpen: isTableModalOpen, closeModal: function () { return setIsTableModalOpen(false); }, onSubmit: handleTableSubmit }),
         React__default.createElement(LinkModal, { isOpen: isLinkModalOpen, closeModal: function () { return setIsLinkModalOpen(false); }, onSubmit: function (_a) {
-                var url = _a.url, text = _a.text;
+                var url = _a.url, text = _a.text, nofollow = _a.nofollow;
+                var rel = nofollow ? 'nofollow' : null;
                 if (!editor.state.selection.empty)
-                    editor.chain().focus().setLink({ href: url }).run();
+                    editor.chain().focus().setLink({ href: url, rel: rel }).run();
                 else
-                    editor.chain().focus().insertContent([{ type: 'text', text: text || url, marks: [{ type: 'link', attrs: { href: url } }] }]).run();
+                    editor.chain().focus().insertContent([{ type: 'text', text: text || url, marks: [{ type: 'link', attrs: { href: url, rel: rel } }] }]).run();
             } })));
 }
 
@@ -8417,8 +8429,9 @@ var HEADING_SIZES = {
     6: '14px',
 };
 var MenuBar = function (_a) {
+    var _b;
     var editor = _a.editor, unsetLink = _a.unsetLink, token = _a.token;
-    var _b = useState(false), isYoutubeModalOpen = _b[0], setIsYoutubeModalOpen = _b[1];
+    var _c = useState(false), isYoutubeModalOpen = _c[0], setIsYoutubeModalOpen = _c[1];
     var handleYoutubeSubmit = function (data) {
         if (!editor)
             return;
@@ -8441,7 +8454,7 @@ var MenuBar = function (_a) {
             console.error('Error inserting YouTube video:', error);
         }
     };
-    var _c = useState(false), isImageModalOpen = _c[0], setIsImageModalOpen = _c[1];
+    var _d = useState(false), isImageModalOpen = _d[0], setIsImageModalOpen = _d[1];
     var getCurrentFontSize = function () {
         var _a;
         if (editor.isActive('heading')) {
@@ -8470,8 +8483,8 @@ var MenuBar = function (_a) {
             editor.chain().focus().toggleHeading({ level: level }).run();
         }
     };
-    var _d = useState(false), isTableModalOpen = _d[0], setIsTableModalOpen = _d[1];
-    var _e = useState(false), isLinkModalOpen = _e[0], setIsLinkModalOpen = _e[1];
+    var _e = useState(false), isTableModalOpen = _e[0], setIsTableModalOpen = _e[1];
+    var _f = useState(false), isLinkModalOpen = _f[0], setIsLinkModalOpen = _f[1];
     var handleTableSubmit = function (_a) {
         var rows = _a.rows, cols = _a.cols;
         editor.chain().focus().insertTable({
@@ -8653,8 +8666,9 @@ var MenuBar = function (_a) {
         React__default.createElement(ImageModal, { isOpen: isImageModalOpen, closeModal: function () { return setIsImageModalOpen(false); }, editor: editor, token: token }),
         React__default.createElement(YoutubeModal, { isOpen: isYoutubeModalOpen, closeModal: function () { return setIsYoutubeModalOpen(false); }, onSubmit: handleYoutubeSubmit }),
         React__default.createElement(TableModal, { isOpen: isTableModalOpen, closeModal: function () { return setIsTableModalOpen(false); }, onSubmit: handleTableSubmit }),
-        React__default.createElement(LinkModal, { isOpen: isLinkModalOpen, closeModal: function () { return setIsLinkModalOpen(false); }, selectedText: editor.state.selection.empty ? undefined : editor.state.doc.textBetween(editor.state.selection.from, editor.state.selection.to), existingUrl: editor.isActive('link') ? editor.getAttributes('link').href : undefined, onSubmit: function (_a) {
-                var url = _a.url, text = _a.text;
+        React__default.createElement(LinkModal, { isOpen: isLinkModalOpen, closeModal: function () { return setIsLinkModalOpen(false); }, selectedText: editor.state.selection.empty ? undefined : editor.state.doc.textBetween(editor.state.selection.from, editor.state.selection.to), existingUrl: editor.isActive('link') ? editor.getAttributes('link').href : undefined, existingNofollow: editor.isActive('link') ? (_b = editor.getAttributes('link').rel) === null || _b === void 0 ? void 0 : _b.includes('nofollow') : undefined, onSubmit: function (_a) {
+                var url = _a.url, text = _a.text, nofollow = _a.nofollow;
+                var rel = nofollow ? 'nofollow' : null;
                 if (editor.state.selection.empty) {
                     editor.chain()
                         .focus()
@@ -8665,7 +8679,7 @@ var MenuBar = function (_a) {
                             marks: [
                                 {
                                     type: 'link',
-                                    attrs: { href: url }
+                                    attrs: { href: url, rel: rel }
                                 }
                             ]
                         }
@@ -8675,7 +8689,7 @@ var MenuBar = function (_a) {
                 else {
                     editor.chain()
                         .focus()
-                        .setLink({ href: url })
+                        .setLink({ href: url, rel: rel })
                         .run();
                 }
             }, onUnset: function () {

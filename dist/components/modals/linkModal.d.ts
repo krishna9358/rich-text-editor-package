@@ -5,11 +5,13 @@ interface LinkModalProps {
     closeModal: () => void;
     selectedText?: string;
     existingUrl?: string;
+    existingNofollow?: boolean;
     onSubmit: (data: {
         url: string;
         text?: string;
+        nofollow: boolean;
     }) => void;
     onUnset?: () => void;
 }
-export default function LinkModal({ isOpen, closeModal, selectedText, existingUrl, onSubmit, onUnset, }: LinkModalProps): React.JSX.Element | null;
+export default function LinkModal({ isOpen, closeModal, selectedText, existingUrl, existingNofollow, onSubmit, onUnset, }: LinkModalProps): React.JSX.Element | null;
 export {};

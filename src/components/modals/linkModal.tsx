@@ -6,7 +6,8 @@ interface LinkModalProps {
   closeModal: () => void;
   selectedText?: string;
   existingUrl?: string;
-  onSubmit: (data: { url: string; text?: string }) => void;
+  existingNofollow?: boolean;
+  onSubmit: (data: { url: string; text?: string; nofollow: boolean }) => void;
   onUnset?: () => void;
 }
 
@@ -15,11 +16,13 @@ export default function LinkModal({
   closeModal,
   selectedText,
   existingUrl,
+  existingNofollow,
   onSubmit,
   onUnset,
 }: LinkModalProps) {
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
+  const [nofollow, setNofollow] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -29,15 +32,19 @@ export default function LinkModal({
       if (existingUrl) {
         setUrl(existingUrl);
       }
+      if (existingNofollow !== undefined) {
+        setNofollow(existingNofollow);
+      }
     } else {
       setText("");
       setUrl("");
+      setNofollow(false);
     }
-  }, [isOpen, selectedText, existingUrl]);
+  }, [isOpen, selectedText, existingUrl, existingNofollow]);
 
   const handleSubmit = () => {
     if (onSubmit) { 
-      onSubmit({ url, text: text || undefined });
+      onSubmit({ url, text: text || undefined, nofollow });
     }
     closeModal();
   };
@@ -54,6 +61,29 @@ export default function LinkModal({
             className="text-gray-500 hover:text-gray-700"
           >
             Close
+          </button>
+        </div>
+
+        {/* Nofollow Toggle */}
+        <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg mb-4">
+          <div>
+            <span className="text-sm font-medium text-gray-700">Nofollow Link</span>
+            <p className="text-xs text-gray-500">Add rel="nofollow" attribute</p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={nofollow}
+            onClick={() => setNofollow(!nofollow)}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+              nofollow ? 'bg-blue-500' : 'bg-gray-300'
+            }`}
+          >
+            <span
+              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                nofollow ? 'translate-x-6' : 'translate-x-1'
+              }`}
+            />
           </button>
         </div>
 
