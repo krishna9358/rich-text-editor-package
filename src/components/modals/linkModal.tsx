@@ -56,35 +56,33 @@ export default function LinkModal({
       <div className="bg-white p-4 rounded-lg shadow-xl w-full max-w-md z-[9999] border border-gray-200">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Insert Link</h3>
-          <button 
-            onClick={closeModal}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            Close
-          </button>
-        </div>
-
-        {/* Nofollow Toggle */}
-        <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg mb-4">
-          <div>
-            <span className="text-sm font-medium text-gray-700">Nofollow Link</span>
-            <p className="text-xs text-gray-500">Add rel="nofollow" attribute</p>
+          <div className="flex items-center gap-3">
+            {/* Nofollow Toggle */}
+            <label className="flex items-center gap-2 cursor-pointer">
+              <span className="text-sm text-gray-600">Nofollow</span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={nofollow}
+                onClick={() => setNofollow(!nofollow)}
+                className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ${
+                  nofollow ? 'bg-blue-500' : 'bg-gray-300'
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow-md ring-0 transition-transform duration-200 ease-in-out ${
+                    nofollow ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </label>
+            <button 
+              onClick={closeModal}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              Close
+            </button>
           </div>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={nofollow}
-            onClick={() => setNofollow(!nofollow)}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-              nofollow ? 'bg-blue-500' : 'bg-gray-300'
-            }`}
-          >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                nofollow ? 'translate-x-6' : 'translate-x-1'
-              }`}
-            />
-          </button>
         </div>
 
         <div className="space-y-4">
