@@ -65,13 +65,13 @@ export default function LinkModal({
                 role="switch"
                 aria-checked={nofollow}
                 onClick={() => setNofollow(!nofollow)}
-                className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ${
+                className={`relative inline-flex h-8 w-14 flex-shrink-0 items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ${
                   nofollow ? 'bg-blue-500' : 'bg-gray-300'
                 }`}
               >
                 <span
-                  className={`pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow-md ring-0 transition-transform duration-200 ease-in-out ${
-                    nofollow ? 'translate-x-6' : 'translate-x-1'
+                  className={`pointer-events-none inline-block h-6 w-6 rounded-full bg-white shadow-md ring-0 transition-transform duration-200 ease-in-out ${
+                    nofollow ? 'translate-x-7' : 'translate-x-1'
                   }`}
                 />
               </button>
