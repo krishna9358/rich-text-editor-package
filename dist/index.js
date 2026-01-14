@@ -1,7 +1,8 @@
 'use strict';
 
 var React = require('react');
-var react = require('@tiptap/react');
+var react$1 = require('@tiptap/react');
+var react = require('@heroui/react');
 var core = require('@tiptap/core');
 var StarterKit = require('@tiptap/starter-kit');
 var state = require('@tiptap/pm/state');
@@ -344,10 +345,8 @@ function LinkModal(_a) {
             React.createElement("div", { className: "flex justify-between items-center mb-4" },
                 React.createElement("h3", { className: "text-lg font-semibold" }, "Insert Link"),
                 React.createElement("div", { className: "flex items-center gap-3" },
-                    React.createElement("label", { className: "flex items-center gap-2 cursor-pointer" },
-                        React.createElement("span", { className: "text-sm text-gray-600" }, "Nofollow"),
-                        React.createElement("button", { type: "button", role: "switch", "aria-checked": nofollow, onClick: function () { return setNofollow(!nofollow); }, className: "relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ".concat(nofollow ? 'bg-blue-500' : 'bg-gray-300') },
-                            React.createElement("span", { className: "pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow-md ring-0 transition-transform duration-200 ease-in-out ".concat(nofollow ? 'translate-x-6' : 'translate-x-1') }))),
+                    React.createElement(react.Switch, { isSelected: nofollow, onValueChange: setNofollow, size: "sm" },
+                        React.createElement("span", { className: "text-sm text-gray-600" }, "Nofollow")),
                     React.createElement("button", { onClick: closeModal, className: "text-gray-500 hover:text-gray-700" }, "Close"))),
             React.createElement("div", { className: "space-y-4" },
                 React.createElement("div", null,
@@ -4905,7 +4904,7 @@ function YouTubeNodeView(_a) {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isResizing, dimensions, updateAttributes]);
-    return (React.createElement(react.NodeViewWrapper, { className: "youtube-wrapper" },
+    return (React.createElement(react$1.NodeViewWrapper, { className: "youtube-wrapper" },
         React.createElement("div", { ref: nodeRef, className: "youtube-video ".concat(selected ? 'ProseMirror-selectednode' : ''), "data-align": node.attrs.align || 'left', style: {
                 width: "".concat(dimensions.width, "px"),
                 height: "".concat(dimensions.height, "px"),
@@ -4979,7 +4978,7 @@ var YoutubeAlign = index_default$1.extend({
         ];
     },
     addNodeView: function () {
-        return react.ReactNodeViewRenderer(YouTubeNodeView);
+        return react$1.ReactNodeViewRenderer(YouTubeNodeView);
     }
 });
 
@@ -8513,7 +8512,7 @@ var MenuBar = function (_a) {
         }).run();
     };
     var isTableSelected = editor.isActive('table');
-    var editorState = react.useEditorState({
+    var editorState = react$1.useEditorState({
         editor: editor,
         selector: function (ctx) {
             var _a;
@@ -8755,7 +8754,7 @@ var RichTextEditor = function (_a) {
     var _c = React.useState(0), wordCount = _c[0], setWordCount = _c[1];
     var _d = React.useState(0), characterCount = _d[0], setCharacterCount = _d[1];
     var _e = React.useState(false), showFindReplace = _e[0], setShowFindReplace = _e[1];
-    var editor = react.useEditor({
+    var editor = react$1.useEditor({
         autofocus: true,
         extensions: [
             CharacterCount.configure({
@@ -9045,7 +9044,7 @@ var RichTextEditor = function (_a) {
             editor && (React.createElement(MenuBar, { editor: editor, setLink: setLink, unsetLink: unsetLink, token: token }))),
         editor && (React.createElement(EditorContainer, null,
             React.createElement("div", { className: "min-h-[300px] border-t border-gray-200" },
-                React.createElement(react.EditorContent, { editor: editor, className: "prose max-w-none -z-500" })))),
+                React.createElement(react$1.EditorContent, { editor: editor, className: "prose max-w-none -z-500" })))),
         React.createElement("div", { className: "flex justify-end py-2 px-2 sm:px-4 border-t border-gray-200" },
             React.createElement("div", { className: "flex items-center text-xs text-gray-500" },
                 React.createElement("span", null,

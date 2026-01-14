@@ -1,6 +1,7 @@
 import * as React from 'react';
 import React__default, { useState, useEffect, useRef, useCallback } from 'react';
 import { NodeViewWrapper, ReactNodeViewRenderer, useEditorState, useEditor, EditorContent } from '@tiptap/react';
+import { Switch } from '@heroui/react';
 import { Extension, Node, mergeAttributes, wrappingInputRule, getNodeType, getNodeAtPosition, isNodeActive, isAtStartOfNode, isAtEndOfNode, Mark, markInputRule, markPasteRule, canInsertNode, isNodeSelection, nodeInputRule, combineTransactionSteps, getChangedRanges, findChildrenInRange, getMarksBetween, getAttributes, callOrReturn, getExtensionField, findParentNodeClosestToPos, nodePasteRule, isNodeEmpty } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import { TextSelection as TextSelection$1, NodeSelection as NodeSelection$1, Plugin, PluginKey } from '@tiptap/pm/state';
@@ -324,10 +325,8 @@ function LinkModal(_a) {
             React__default.createElement("div", { className: "flex justify-between items-center mb-4" },
                 React__default.createElement("h3", { className: "text-lg font-semibold" }, "Insert Link"),
                 React__default.createElement("div", { className: "flex items-center gap-3" },
-                    React__default.createElement("label", { className: "flex items-center gap-2 cursor-pointer" },
-                        React__default.createElement("span", { className: "text-sm text-gray-600" }, "Nofollow"),
-                        React__default.createElement("button", { type: "button", role: "switch", "aria-checked": nofollow, onClick: function () { return setNofollow(!nofollow); }, className: "relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ".concat(nofollow ? 'bg-blue-500' : 'bg-gray-300') },
-                            React__default.createElement("span", { className: "pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow-md ring-0 transition-transform duration-200 ease-in-out ".concat(nofollow ? 'translate-x-6' : 'translate-x-1') }))),
+                    React__default.createElement(Switch, { isSelected: nofollow, onValueChange: setNofollow, size: "sm" },
+                        React__default.createElement("span", { className: "text-sm text-gray-600" }, "Nofollow")),
                     React__default.createElement("button", { onClick: closeModal, className: "text-gray-500 hover:text-gray-700" }, "Close"))),
             React__default.createElement("div", { className: "space-y-4" },
                 React__default.createElement("div", null,
