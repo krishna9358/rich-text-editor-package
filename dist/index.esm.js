@@ -11,6 +11,7 @@ import { dropCursor } from '@tiptap/pm/dropcursor';
 import { DecorationSet, Decoration } from '@tiptap/pm/view';
 import { gapCursor } from '@tiptap/pm/gapcursor';
 import { undo, redo, history } from '@tiptap/pm/history';
+import { BubbleMenu } from '@tiptap/react/menus';
 
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -8415,6 +8416,169 @@ function ImageModal(_a) {
                 React__default.createElement("button", { onClick: handleSubmit, disabled: (!!url && !isValidImageSrc(url)) || (!url) || !altText || isUploading, className: "px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed" }, isUploading ? 'Uploading...' : 'Insert')))));
 }
 
+// Placeholder URL - User will update this later
+var API_BASE_URL = "http://localhost:3001";
+var generateContent = function (prompt_1) {
+    var args_1 = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args_1[_i - 1] = arguments[_i];
+    }
+    return __awaiter(void 0, __spreadArray([prompt_1], args_1, true), void 0, function (prompt, length, style) {
+        var response, errorData, data, error_1;
+        if (length === void 0) { length = "medium"; }
+        if (style === void 0) { style = "professional"; }
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 5, , 6]);
+                    return [4 /*yield*/, fetch("".concat(API_BASE_URL, "/generate"), {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ prompt: prompt, length: length, style: style }),
+                        })];
+                case 1:
+                    response = _a.sent();
+                    if (!!response.ok) return [3 /*break*/, 3];
+                    return [4 /*yield*/, response.json().catch(function () { return ({}); })];
+                case 2:
+                    errorData = _a.sent();
+                    throw new Error(errorData.error || "Request failed with status ".concat(response.status));
+                case 3: return [4 /*yield*/, response.json()];
+                case 4:
+                    data = _a.sent();
+                    return [2 /*return*/, data.generatedContent];
+                case 5:
+                    error_1 = _a.sent();
+                    console.error("AI Service Error:", error_1);
+                    throw error_1;
+                case 6: return [2 /*return*/];
+            }
+        });
+    });
+};
+var processSelectedText = function (text, action) { return __awaiter(void 0, void 0, void 0, function () {
+    var prompt;
+    return __generator(this, function (_a) {
+        prompt = "";
+        switch (action) {
+            case "translate":
+                prompt = "Translate the following text to English (if not already) or refine it: \"".concat(text, "\"");
+                break;
+            case "rephrase":
+                prompt = "Rephrase the following text to be more clear and professional: \"".concat(text, "\"");
+                break;
+            case "summarize":
+                prompt = "Provide a concise summary of the following text: \"".concat(text, "\"");
+                break;
+            case "expand":
+                prompt = "Expand upon the following text with more details and context: \"".concat(text, "\"");
+                break;
+            default:
+                prompt = text;
+        }
+        return [2 /*return*/, generateContent(prompt)];
+    });
+}); };
+
+// Going for a cleaner standard icon: Pencil with sparkles
+function MagicPencilIcon (_a) {
+    var className = _a.className;
+    return (React__default.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: className },
+        React__default.createElement("path", { d: "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" }),
+        React__default.createElement("path", { d: "m15 5 4 4" }),
+        React__default.createElement("path", { d: "M4 20h1" }),
+        React__default.createElement("path", { d: "m2 22 1-1" }),
+        React__default.createElement("path", { d: "M20 14h2" }),
+        React__default.createElement("path", { d: "M21 13v2" }),
+        React__default.createElement("path", { d: "M17 17l2 2" })));
+}
+
+var AIModal = function (_a) {
+    var isOpen = _a.isOpen, closeModal = _a.closeModal, editor = _a.editor;
+    var _b = useState(""), prompt = _b[0], setPrompt = _b[1];
+    var _c = useState(false), isLoading = _c[0], setIsLoading = _c[1];
+    var _d = useState('medium'), length = _d[0], setLength = _d[1];
+    var _e = useState('professional'), style = _e[0], setStyle = _e[1];
+    useEffect(function () {
+        if (isOpen) {
+            setPrompt("");
+            setLength('medium');
+            setStyle('professional');
+        }
+    }, [isOpen]);
+    var handleSubmit = function (e) { return __awaiter(void 0, void 0, void 0, function () {
+        var content, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    e.preventDefault();
+                    if (!prompt.trim())
+                        return [2 /*return*/];
+                    setIsLoading(true);
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, 4, 5]);
+                    return [4 /*yield*/, generateContent(prompt, length, style)];
+                case 2:
+                    content = _a.sent();
+                    if (content) {
+                        editor.chain().focus().insertContent(content).run();
+                        closeModal();
+                    }
+                    return [3 /*break*/, 5];
+                case 3:
+                    error_1 = _a.sent();
+                    console.error(error_1);
+                    alert("Failed to generate content. Please ensure backend is running.");
+                    return [3 /*break*/, 5];
+                case 4:
+                    setIsLoading(false);
+                    return [7 /*endfinally*/];
+                case 5: return [2 /*return*/];
+            }
+        });
+    }); };
+    if (!isOpen)
+        return null;
+    return (React__default.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" },
+        React__default.createElement("div", { className: "w-full max-w-lg rounded-lg bg-white p-6 shadow-xl relative animate-in fade-in zoom-in duration-200" },
+            React__default.createElement("button", { onClick: closeModal, className: "absolute right-4 top-4 text-gray-500 hover:text-gray-700 focus:outline-none" },
+                React__default.createElement(CloseIcon, { className: "w-5 h-5" })),
+            React__default.createElement("div", { className: "mb-6 flex items-center gap-2" },
+                React__default.createElement("div", { className: "p-2 bg-purple-100 rounded-full" },
+                    React__default.createElement(MagicPencilIcon, { className: "w-6 h-6 text-purple-600" })),
+                React__default.createElement("h2", { className: "text-xl font-bold text-gray-800" }, "Generate Content with AI")),
+            React__default.createElement("form", { onSubmit: handleSubmit },
+                React__default.createElement("div", { className: "mb-4" },
+                    React__default.createElement("label", { className: "mb-2 block text-sm font-medium text-gray-700" }, "Prompt"),
+                    React__default.createElement("textarea", { value: prompt, onChange: function (e) { return setPrompt(e.target.value); }, placeholder: "Describe what you want to write about...", className: "w-full min-h-[100px] rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500", required: true })),
+                React__default.createElement("div", { className: "grid grid-cols-2 gap-4 mb-6" },
+                    React__default.createElement("div", null,
+                        React__default.createElement("label", { className: "mb-2 block text-sm font-medium text-gray-700" }, "Length"),
+                        React__default.createElement("select", { value: length, onChange: function (e) { return setLength(e.target.value); }, className: "w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500" },
+                            React__default.createElement("option", { value: "short" }, "Short"),
+                            React__default.createElement("option", { value: "medium" }, "Medium"),
+                            React__default.createElement("option", { value: "long" }, "Long"))),
+                    React__default.createElement("div", null,
+                        React__default.createElement("label", { className: "mb-2 block text-sm font-medium text-gray-700" }, "Style"),
+                        React__default.createElement("select", { value: style, onChange: function (e) { return setStyle(e.target.value); }, className: "w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500" },
+                            React__default.createElement("option", { value: "professional" }, "Professional"),
+                            React__default.createElement("option", { value: "casual" }, "Casual"),
+                            React__default.createElement("option", { value: "enthusiastic" }, "Enthusiastic"),
+                            React__default.createElement("option", { value: "informative" }, "Informative")))),
+                React__default.createElement("div", { className: "flex justify-end gap-3" },
+                    React__default.createElement("button", { type: "button", onClick: closeModal, className: "rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500", disabled: isLoading }, "Cancel"),
+                    React__default.createElement("button", { type: "submit", disabled: isLoading, className: "flex items-center gap-2 rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50" }, isLoading ? (React__default.createElement(React__default.Fragment, null,
+                        React__default.createElement("svg", { className: "h-4 w-4 animate-spin text-white", xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24" },
+                            React__default.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }),
+                            React__default.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" })),
+                        "Generating...")) : (React__default.createElement(React__default.Fragment, null,
+                        React__default.createElement(MagicPencilIcon, { className: "w-4 h-4" }),
+                        "Generate"))))))));
+};
+
 var FONT_SIZES = [
     '8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '26', '28', '36', '48', '72'
 ];
@@ -8430,6 +8594,7 @@ var MenuBar = function (_a) {
     var _b;
     var editor = _a.editor, unsetLink = _a.unsetLink, token = _a.token;
     var _c = useState(false), isYoutubeModalOpen = _c[0], setIsYoutubeModalOpen = _c[1];
+    var _d = useState(false), isAIModalOpen = _d[0], setIsAIModalOpen = _d[1];
     var handleYoutubeSubmit = function (data) {
         if (!editor)
             return;
@@ -8452,7 +8617,7 @@ var MenuBar = function (_a) {
             console.error('Error inserting YouTube video:', error);
         }
     };
-    var _d = useState(false), isImageModalOpen = _d[0], setIsImageModalOpen = _d[1];
+    var _e = useState(false), isImageModalOpen = _e[0], setIsImageModalOpen = _e[1];
     var getCurrentFontSize = function () {
         var _a;
         if (editor.isActive('heading')) {
@@ -8481,8 +8646,8 @@ var MenuBar = function (_a) {
             editor.chain().focus().toggleHeading({ level: level }).run();
         }
     };
-    var _e = useState(false), isTableModalOpen = _e[0], setIsTableModalOpen = _e[1];
-    var _f = useState(false), isLinkModalOpen = _f[0], setIsLinkModalOpen = _f[1];
+    var _f = useState(false), isTableModalOpen = _f[0], setIsTableModalOpen = _f[1];
+    var _g = useState(false), isLinkModalOpen = _g[0], setIsLinkModalOpen = _g[1];
     var handleTableSubmit = function (_a) {
         var rows = _a.rows, cols = _a.cols;
         editor.chain().focus().insertTable({
@@ -8660,7 +8825,9 @@ var MenuBar = function (_a) {
                 React__default.createElement("button", { onClick: function () { return setIsImageModalOpen(true); }, className: "p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500", title: "Upload Image" },
                     React__default.createElement(ImagePlusIcon, { className: "w-4 h-4 sm:w-5 sm:h-5 text-gray-800" })),
                 React__default.createElement("button", { onClick: function () { return setIsYoutubeModalOpen(true); }, className: "mt-2 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ".concat(editor.isActive('youtube') ? 'bg-gray-100 ring-1 ring-gray-300' : ''), title: "Insert YouTube video" },
-                    React__default.createElement(YoutubeIcon, { className: "w-8 h-8 text-gray-800" })))),
+                    React__default.createElement(YoutubeIcon, { className: "w-8 h-8 text-gray-800" })),
+                React__default.createElement("button", { onClick: function () { return setIsAIModalOpen(true); }, className: "p-1.5 rounded-md transition-colors hover:bg-purple-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500", title: "Generate content with AI" },
+                    React__default.createElement(MagicPencilIcon, { className: "w-5 h-5 text-purple-600" })))),
         React__default.createElement(ImageModal, { isOpen: isImageModalOpen, closeModal: function () { return setIsImageModalOpen(false); }, editor: editor, token: token }),
         React__default.createElement(YoutubeModal, { isOpen: isYoutubeModalOpen, closeModal: function () { return setIsYoutubeModalOpen(false); }, onSubmit: handleYoutubeSubmit }),
         React__default.createElement(TableModal, { isOpen: isTableModalOpen, closeModal: function () { return setIsTableModalOpen(false); }, onSubmit: handleTableSubmit }),
@@ -8692,7 +8859,78 @@ var MenuBar = function (_a) {
                 }
             }, onUnset: function () {
                 editor.chain().focus().unsetLink().run();
-            } })));
+            } }),
+        React__default.createElement(AIModal, { isOpen: isAIModalOpen, closeModal: function () { return setIsAIModalOpen(false); }, editor: editor })));
+};
+
+var TranslateIcon = React.memo(function (_a) {
+    var className = _a.className, props = __rest(_a, ["className"]);
+    return (React.createElement("svg", __assign({ width: "24", height: "24", className: className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", xmlns: "http://www.w3.org/2000/svg" }, props),
+        React.createElement("path", { d: "m5 8 6 6" }),
+        React.createElement("path", { d: "m4 14 6-6 2-3" }),
+        React.createElement("path", { d: "M2 5h12" }),
+        React.createElement("path", { d: "M7 2h1" }),
+        React.createElement("path", { d: "m22 22-5-10-5 10" }),
+        React.createElement("path", { d: "M14 18h6" })));
+});
+TranslateIcon.displayName = "TranslateIcon";
+
+var AIBubbleMenu = function (_a) {
+    var editor = _a.editor;
+    var _b = useState(null), isLoading = _b[0], setIsLoading = _b[1];
+    var handleAction = function (action) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, from, to, empty, text, result, error_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = editor.state.selection, from = _a.from, to = _a.to, empty = _a.empty;
+                    if (empty)
+                        return [2 /*return*/];
+                    setIsLoading(action);
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, 4, 5]);
+                    text = editor.state.doc.textBetween(from, to);
+                    return [4 /*yield*/, processSelectedText(text, action)];
+                case 2:
+                    result = _b.sent();
+                    if (result) {
+                        editor.chain().focus().insertContentAt({ from: from, to: to }, result).run();
+                    }
+                    return [3 /*break*/, 5];
+                case 3:
+                    error_1 = _b.sent();
+                    console.error(error_1);
+                    alert("Failed to process text. Ensure backend is available.");
+                    return [3 /*break*/, 5];
+                case 4:
+                    setIsLoading(null);
+                    return [7 /*endfinally*/];
+                case 5: return [2 /*return*/];
+            }
+        });
+    }); };
+    var shouldShow = function (_a) {
+        var editor = _a.editor;
+        return !editor.state.selection.empty;
+    };
+    return (React__default.createElement(BubbleMenu, { editor: editor, options: { placement: 'top' }, shouldShow: shouldShow, className: "flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5" },
+        React__default.createElement("div", { className: "flex p-1 gap-1" },
+            React__default.createElement(MenuButton, { onClick: function () { return handleAction('rephrase'); }, isActive: isLoading === 'rephrase', label: "Rephrase", icon: React__default.createElement(MagicPencilIcon, { className: "w-3.5 h-3.5" }) }),
+            React__default.createElement("div", { className: "w-px bg-gray-200 my-1" }),
+            React__default.createElement(MenuButton, { onClick: function () { return handleAction('summarize'); }, isActive: isLoading === 'summarize', label: "Summarize" }),
+            React__default.createElement(MenuButton, { onClick: function () { return handleAction('expand'); }, isActive: isLoading === 'expand', label: "Expand" }),
+            React__default.createElement("div", { className: "w-px bg-gray-200 my-1" }),
+            React__default.createElement(MenuButton, { onClick: function () { return handleAction('translate'); }, isActive: isLoading === 'translate', label: "Translate", icon: React__default.createElement(TranslateIcon, { className: "w-3.5 h-3.5" }) }))));
+};
+var MenuButton = function (_a) {
+    var onClick = _a.onClick, isActive = _a.isActive, label = _a.label, icon = _a.icon;
+    return (React__default.createElement("button", { onClick: onClick, className: "flex items-center gap-1.5 px-2 py-1.5 text-xs font-medium rounded transition-colors\n        ".concat(isActive ? 'bg-purple-50 text-purple-700 cursor-wait' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900', "\n        "), disabled: isActive },
+        icon,
+        label,
+        isActive && (React__default.createElement("svg", { className: "animate-spin h-3 w-3 text-purple-700 ml-1", xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24" },
+            React__default.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }),
+            React__default.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" })))));
 };
 
 // Link configuration
@@ -9024,6 +9262,7 @@ var RichTextEditor = function (_a) {
             editor && (React__default.createElement(MenuBar, { editor: editor, setLink: setLink, unsetLink: unsetLink, token: token }))),
         editor && (React__default.createElement(EditorContainer, null,
             React__default.createElement("div", { className: "min-h-[300px] border-t border-gray-200" },
+                React__default.createElement(AIBubbleMenu, { editor: editor }),
                 React__default.createElement(EditorContent, { editor: editor, className: "prose max-w-none -z-500" })))),
         React__default.createElement("div", { className: "flex justify-end py-2 px-2 sm:px-4 border-t border-gray-200" },
             React__default.createElement("div", { className: "flex items-center text-xs text-gray-500" },

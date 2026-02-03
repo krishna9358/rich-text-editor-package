@@ -5,8 +5,10 @@ import TableModal from "../modals/tableModal";
 import LinkModal from "../modals/linkModal";
 import { useState } from "react";
 import ImageModal from "../modals/imageModal";
-import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, AlignJustifyIcon, BlockquoteIcon, ItalicIcon, LinkIcon, ListIcon, ListOrderedIcon, Redo2Icon, StrikeIcon, TableIcon,  UnderlineIcon, Undo2Icon, ImagePlusIcon,  BoldIcon, TrashIcon, AddColumnIcon, AddRowIcon, DeleteColumnIcon, DeleteRowIcon } from "../tiptap-icons";
+import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, AlignJustifyIcon, BlockquoteIcon, ItalicIcon, LinkIcon, ListIcon, ListOrderedIcon, Redo2Icon, StrikeIcon, TableIcon, UnderlineIcon, Undo2Icon, ImagePlusIcon, BoldIcon, TrashIcon, AddColumnIcon, AddRowIcon, DeleteColumnIcon, DeleteRowIcon } from "../tiptap-icons";
 import YoutubeIcon from "../tiptap-icons/youtube-icon";
+import AIModal from "../modals/AIModal";
+import MagicPencilIcon from "../tiptap-icons/magic-pencil-icon";
 
 interface MenuBarProps {
   editor: any;
@@ -30,6 +32,7 @@ const HEADING_SIZES: Record<number, string> = {
 
 const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
   const [isYoutubeModalOpen, setIsYoutubeModalOpen] = useState(false);
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   const handleYoutubeSubmit = (data: { url: string; width: string; height: string }) => {
     if (!editor) return;
@@ -60,7 +63,7 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
       const level = editor.getAttributes('heading').level;
       return HEADING_SIZES[level]?.replace('px', '') || '16';
     }
-    
+
     const attrs = editor.getAttributes('textStyle');
     if (attrs.fontSize) {
       return attrs.fontSize.replace('px', '');
@@ -77,7 +80,7 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
 
   const handleHeadingChange = (value: string) => {
     editor.chain().focus().unsetFontSize().run();
-    
+
     if (value === 'paragraph') {
       editor.chain().focus().setParagraph().run();
     } else {
@@ -90,10 +93,10 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
 
   const handleTableSubmit = ({ rows, cols }: { rows: string; cols: string }) => {
-    editor.chain().focus().insertTable({ 
-      rows: parseInt(rows), 
-      cols: parseInt(cols), 
-      withHeaderRow: true 
+    editor.chain().focus().insertTable({
+      rows: parseInt(rows),
+      cols: parseInt(cols),
+      withHeaderRow: true
     }).run();
   };
 
@@ -167,7 +170,7 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
             disabled={!editor.can().chain().focus().redo().run()}
             title="Redo"
           >
-           <Redo2Icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
+            <Redo2Icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
           </button>
         </div>
 
@@ -243,13 +246,12 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
                 editor.chain().focus().setTextAlign('left').run();
               }
             }}
-            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
-              (editor.isActive('youtube') && editorState.youtubeAlignment === 'left') ||
-              (editor.isActive('image') && editorState.imageAlignment === 'left') ||
-              editor.isActive({ textAlign: 'left' })
+            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${(editor.isActive('youtube') && editorState.youtubeAlignment === 'left') ||
+                (editor.isActive('image') && editorState.imageAlignment === 'left') ||
+                editor.isActive({ textAlign: 'left' })
                 ? 'bg-gray-100 ring-1 ring-gray-300'
                 : ''
-            }`}
+              }`}
             title="Align left"
           >
             <AlignLeftIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
@@ -265,13 +267,12 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
                 editor.chain().focus().setTextAlign('center').run();
               }
             }}
-            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
-              (editor.isActive('youtube') && editorState.youtubeAlignment === 'center') ||
-              (editor.isActive('image') && editorState.imageAlignment === 'center') ||
-              editor.isActive({ textAlign: 'center' })
+            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${(editor.isActive('youtube') && editorState.youtubeAlignment === 'center') ||
+                (editor.isActive('image') && editorState.imageAlignment === 'center') ||
+                editor.isActive({ textAlign: 'center' })
                 ? 'bg-gray-100 ring-1 ring-gray-300'
                 : ''
-            }`}
+              }`}
             title="Align center"
           >
             <AlignCenterIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
@@ -287,13 +288,12 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
                 editor.chain().focus().setTextAlign('right').run();
               }
             }}
-            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
-              (editor.isActive('youtube') && editorState.youtubeAlignment === 'right') ||
-              (editor.isActive('image') && editorState.imageAlignment === 'right') ||
-              editor.isActive({ textAlign: 'right' })
+            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${(editor.isActive('youtube') && editorState.youtubeAlignment === 'right') ||
+                (editor.isActive('image') && editorState.imageAlignment === 'right') ||
+                editor.isActive({ textAlign: 'right' })
                 ? 'bg-gray-100 ring-1 ring-gray-300'
                 : ''
-            }`}
+              }`}
             title="Align right"
           >
             <AlignRightIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
@@ -303,11 +303,10 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
             onClick={() => {
               editor.chain().focus().setTextAlign('justify').run();
             }}
-            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
-              editor.isActive({ textAlign: 'justify' })
+            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive({ textAlign: 'justify' })
                 ? 'bg-gray-100 ring-1 ring-gray-300'
                 : ''
-            }`}
+              }`}
             title="Justify"
           >
             <AlignJustifyIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
@@ -334,18 +333,18 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
 
         <div className="flex items-center gap-1">
           <button
-              onClick={() => {
-                if (editor.isActive('link')) {
-                  unsetLink();
-                } else {
-                  setIsLinkModalOpen(true);
-                }
-              }}
-              className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('link') ? 'bg-red-50 ring-1 ring-red-300' : ''}`}
-              title={editor.isActive('link') ? 'Remove link' : 'Insert link'}
-            >
-              <LinkIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
-            </button>
+            onClick={() => {
+              if (editor.isActive('link')) {
+                unsetLink();
+              } else {
+                setIsLinkModalOpen(true);
+              }
+            }}
+            className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive('link') ? 'bg-red-50 ring-1 ring-red-300' : ''}`}
+            title={editor.isActive('link') ? 'Remove link' : 'Insert link'}
+          >
+            <LinkIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
+          </button>
 
           <button
             onClick={() => setIsTableModalOpen(true)}
@@ -359,7 +358,7 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
           {isTableSelected && (
             <>
               <div className="h-6 w-px bg-gray-300 mx-1"></div>
-              
+
               <button
                 onClick={() => editor.chain().focus().addRowAfter().run()}
                 className="mt-2 rounded-md transition-colors hover:bg-green-50 bg-green-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
@@ -443,6 +442,14 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
           >
             <YoutubeIcon className="w-8 h-8 text-gray-800" />
           </button>
+
+          <button
+            onClick={() => setIsAIModalOpen(true)}
+            className="p-1.5 rounded-md transition-colors hover:bg-purple-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
+            title="Generate content with AI"
+          >
+            <MagicPencilIcon className="w-5 h-5 text-purple-600" />
+          </button>
         </div>
       </div>
 
@@ -502,6 +509,12 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
         onUnset={() => {
           editor.chain().focus().unsetLink().run();
         }}
+      />
+
+      <AIModal
+        isOpen={isAIModalOpen}
+        closeModal={() => setIsAIModalOpen(false)}
+        editor={editor}
       />
     </div>
   );

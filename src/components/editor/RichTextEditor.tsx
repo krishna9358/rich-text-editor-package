@@ -29,6 +29,7 @@ import { FindReplace } from './features/FindReplace';
 // import TableControls from './features/TableControls'; // Moved to MenuBar toolbar
 import { MenuBar } from "../menubar/index";
 import LogoIcon from '../tiptap-icons/Logo-icon';
+import { AIBubbleMenu } from './AIBubbleMenu';
 
 // Link configuration
 const linkConfig = {
@@ -72,14 +73,14 @@ interface RichTextEditorProps {
   token?: string;
 }
 
-const RichTextEditor = ({ 
-  initialContent = "", 
-  onContentChange, 
-  onHTMLChange, 
+const RichTextEditor = ({
+  initialContent = "",
+  onContentChange,
+  onHTMLChange,
   onJSONChange,
   token,
 }: RichTextEditorProps) => {
-  const [wordCount, setWordCount] = useState(0);  
+  const [wordCount, setWordCount] = useState(0);
   const [characterCount, setCharacterCount] = useState(0);
   const [showFindReplace, setShowFindReplace] = useState(false);
 
@@ -138,7 +139,7 @@ const RichTextEditor = ({
         HTMLAttributes: {},
       }),
       Underline,
-      TaskItem.configure({ 
+      TaskItem.configure({
         nested: true,
         HTMLAttributes: {},
       }),
@@ -189,11 +190,11 @@ const RichTextEditor = ({
         if (!moved && event.dataTransfer?.files.length) {
           const files = Array.from(event.dataTransfer.files);
           const images = files.filter(file => file.type.startsWith('image'));
-          
+
           if (images.length === 0) return false;
-          
+
           event.preventDefault();
-          
+
           const { tr, schema } = view.state;
           const imageType = schema.nodes?.image;
           if (!imageType) return false;
@@ -201,9 +202,9 @@ const RichTextEditor = ({
             left: event.clientX,
             top: event.clientY,
           });
-          
+
           if (!coordinates) return false;
-          
+
           images.forEach(image => {
             const reader = new FileReader();
             reader.onload = readerEvent => {
@@ -215,7 +216,7 @@ const RichTextEditor = ({
             };
             reader.readAsDataURL(image);
           });
-          
+
           return true;
         }
         return false;
@@ -283,12 +284,12 @@ const RichTextEditor = ({
       if (onContentChange) {
         onContentChange(editor.getText());
       }
-      
+
       if (onHTMLChange) {
         const rawHtml = editor.getHTML();
         onHTMLChange(rawHtml);
       }
-      
+
       if (onJSONChange) {
         onJSONChange(editor.getJSON());
       }
@@ -368,10 +369,10 @@ const RichTextEditor = ({
     <div className="w-full bg-white rounded-lg shadow-lg">
       <div className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm rounded-t-lg">
 
-      <div className="flex items-center justify-start p-2">
-            <LogoIcon className="w-8 h-8 mr-2 text-gray-800" />
-            <div className="text-sm font-semibold text-gray-700 sm:px-4 py-2">ProtiumPad</div>
-          </div>
+        <div className="flex items-center justify-start p-2">
+          <LogoIcon className="w-8 h-8 mr-2 text-gray-800" />
+          <div className="text-sm font-semibold text-gray-700 sm:px-4 py-2">ProtiumPad</div>
+        </div>
         {editor && (
           <FileMenuBar
             editor={editor}
@@ -392,6 +393,7 @@ const RichTextEditor = ({
       {editor && (
         <EditorContainer>
           <div className="min-h-[300px] border-t border-gray-200">
+            <AIBubbleMenu editor={editor} />
             <EditorContent editor={editor} className="prose max-w-none -z-500" />
           </div>
           {/* TableControls moved to toolbar - see MenuBar component */}
@@ -405,7 +407,7 @@ const RichTextEditor = ({
         </div>
       </div>
 
-      <FindReplace 
+      <FindReplace
         editor={editor!}
         isOpen={showFindReplace}
         onClose={() => setShowFindReplace(false)}
