@@ -4,6 +4,5 @@
 4. Fix the ai thing : 
     a. generate model has black backdrop background .
     b. The bubble menu has less z index.
-    c. The Bubble menu has one less separator.
     d. Need to add the backend thing.
 5. The css style it takes from the codebase, it should have one.  

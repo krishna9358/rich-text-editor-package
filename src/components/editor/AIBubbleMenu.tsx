@@ -42,7 +42,7 @@ export const AIBubbleMenu = ({ editor }: AIBubbleMenuProps) => {
             editor={editor}
             options={{ placement: 'top' }}
             shouldShow={shouldShow}
-            className="flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5"
+            className="flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5 z-[9999]"
         >
             <div className="flex p-1 gap-1">
                 <MenuButton
@@ -59,6 +59,8 @@ export const AIBubbleMenu = ({ editor }: AIBubbleMenuProps) => {
                     isActive={isLoading === 'summarize'}
                     label="Summarize"
                 />
+
+                <div className="w-px bg-gray-200 my-1"></div>
 
                 <MenuButton
                     onClick={() => handleAction('expand')}
