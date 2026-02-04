@@ -40,9 +40,19 @@ export const AIBubbleMenu = ({ editor }: AIBubbleMenuProps) => {
     return (
         <BubbleMenu
             editor={editor}
-            options={{ placement: 'top' }}
+            options={{
+                placement: 'top',
+                strategy: 'fixed', // Fixed positioning to escape parent overflow
+                offset: 8, // Add spacing between selection and menu
+                flip: {
+                    fallbackPlacements: ['bottom', 'top-start', 'top-end', 'bottom-start', 'bottom-end'],
+                    padding: 8
+                }, // Auto-flip when near edges
+                shift: { padding: 8 }, // Shift along axis to stay in viewport
+            }}
             shouldShow={shouldShow}
-            className="flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5 z-[9999]"
+            className="flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5"
+            style={{ zIndex: 99999 }}
         >
             <div className="flex p-1 gap-1">
                 <MenuButton

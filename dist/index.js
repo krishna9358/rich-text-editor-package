@@ -8562,7 +8562,7 @@ var AIModal = function (_a) {
     }); };
     if (!isOpen)
         return null;
-    return (React.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-20" },
+    return (React.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center  backdrop-blur-sm bg-black " },
         React.createElement("div", { className: "w-full max-w-lg rounded-lg bg-white p-6 shadow-xl relative animate-in fade-in zoom-in duration-200" },
             React.createElement("button", { onClick: closeModal, className: "absolute right-4 top-4 text-gray-500 hover:text-gray-700 focus:outline-none" },
                 React.createElement(CloseIcon, { className: "w-5 h-5" })),
@@ -8934,7 +8934,16 @@ var AIBubbleMenu = function (_a) {
         var editor = _a.editor;
         return !editor.state.selection.empty;
     };
-    return (React.createElement(menus.BubbleMenu, { editor: editor, options: { placement: 'top' }, shouldShow: shouldShow, className: "flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5 z-[9999]" },
+    return (React.createElement(menus.BubbleMenu, { editor: editor, options: {
+            placement: 'top',
+            strategy: 'fixed', // Fixed positioning to escape parent overflow
+            offset: 8, // Add spacing between selection and menu
+            flip: {
+                fallbackPlacements: ['bottom', 'top-start', 'top-end', 'bottom-start', 'bottom-end'],
+                padding: 8
+            }, // Auto-flip when near edges
+            shift: { padding: 8 }, // Shift along axis to stay in viewport
+        }, shouldShow: shouldShow, className: "flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5", style: { zIndex: 99999 } },
         React.createElement("div", { className: "flex p-1 gap-1" },
             React.createElement(MenuButton, { onClick: function () { return handleAction('rephrase'); }, isActive: isLoading === 'rephrase', label: "Rephrase", icon: React.createElement(MagicPencilIcon, { className: "w-3.5 h-3.5" }) }),
             React.createElement("div", { className: "w-px bg-gray-200 my-1" }),
