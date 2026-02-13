@@ -1,7 +1,7 @@
 
 import { Editor } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { processSelectedText, AIAction } from '../../services/aiService'
 import { TranslateIcon } from '../tiptap-icons/translate-icon'
 import MagicPencilIcon from '../tiptap-icons/magic-pencil-icon'
@@ -12,6 +12,17 @@ interface AIBubbleMenuProps {
 
 export const AIBubbleMenu = ({ editor }: AIBubbleMenuProps) => {
     const [isLoading, setIsLoading] = useState<AIAction | null>(null);
+    const bubbleMenuRef = useRef<HTMLDivElement>(null);
+
+    // Set z-index on the outer bubble menu container element so it renders
+    // above the sticky menu bar (which has z-index: 50 via Tailwind's z-50).
+    // The tiptap BubbleMenu creates an outer wrapper div that doesn't inherit
+    // the inner style prop, so we must set it via ref.
+    useEffect(() => {
+        if (bubbleMenuRef.current) {
+            bubbleMenuRef.current.style.zIndex = '99999';
+        }
+    }, []);
 
     const handleAction = async (action: AIAction) => {
         const { from, to, empty } = editor.state.selection
@@ -39,16 +50,26 @@ export const AIBubbleMenu = ({ editor }: AIBubbleMenuProps) => {
 
     return (
         <BubbleMenu
+            ref={bubbleMenuRef}
             editor={editor}
             options={{
                 placement: 'top',
-                strategy: 'fixed', // Fixed positioning to escape parent overflow
-                offset: 8, // Add spacing between selection and menu
+                strategy: 'fixed',
+                offset: 10,
                 flip: {
-                    fallbackPlacements: ['bottom', 'top-start', 'top-end', 'bottom-start', 'bottom-end'],
-                    padding: 8
-                }, // Auto-flip when near edges
-                shift: { padding: 8 }, // Shift along axis to stay in viewport
+                    // If there's no room on top (e.g. near the sticky menu bar),
+                    // flip to bottom; try start/end variants for left/right edge cases
+                    fallbackPlacements: ['bottom', 'bottom-start', 'bottom-end', 'top-start', 'top-end'],
+                    // Reserve space for the sticky header (~130px) at the top,
+                    // and some padding on all other sides to avoid edge clipping
+                    padding: { top: 130, left: 16, right: 16, bottom: 16 },
+                },
+                shift: {
+                    // Keep the menu fully visible within the viewport,
+                    // accounting for the sticky header on top and edges on left/right
+                    padding: { top: 130, left: 16, right: 16, bottom: 16 },
+                    crossAxis: true,
+                },
             }}
             shouldShow={shouldShow}
             className="flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5"

@@ -8562,7 +8562,7 @@ var AIModal = function (_a) {
     }); };
     if (!isOpen)
         return null;
-    return (React.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center  backdrop-blur-sm bg-black " },
+    return (React.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40" },
         React.createElement("div", { className: "w-full max-w-lg rounded-lg bg-white p-6 shadow-xl relative animate-in fade-in zoom-in duration-200" },
             React.createElement("button", { onClick: closeModal, className: "absolute right-4 top-4 text-gray-500 hover:text-gray-700 focus:outline-none" },
                 React.createElement(CloseIcon, { className: "w-5 h-5" })),
@@ -8898,6 +8898,16 @@ TranslateIcon.displayName = "TranslateIcon";
 var AIBubbleMenu = function (_a) {
     var editor = _a.editor;
     var _b = React.useState(null), isLoading = _b[0], setIsLoading = _b[1];
+    var bubbleMenuRef = React.useRef(null);
+    // Set z-index on the outer bubble menu container element so it renders
+    // above the sticky menu bar (which has z-index: 50 via Tailwind's z-50).
+    // The tiptap BubbleMenu creates an outer wrapper div that doesn't inherit
+    // the inner style prop, so we must set it via ref.
+    React.useEffect(function () {
+        if (bubbleMenuRef.current) {
+            bubbleMenuRef.current.style.zIndex = '99999';
+        }
+    }, []);
     var handleAction = function (action) { return __awaiter(void 0, void 0, void 0, function () {
         var _a, from, to, empty, text, result, error_1;
         return __generator(this, function (_b) {
@@ -8934,15 +8944,24 @@ var AIBubbleMenu = function (_a) {
         var editor = _a.editor;
         return !editor.state.selection.empty;
     };
-    return (React.createElement(menus.BubbleMenu, { editor: editor, options: {
+    return (React.createElement(menus.BubbleMenu, { ref: bubbleMenuRef, editor: editor, options: {
             placement: 'top',
-            strategy: 'fixed', // Fixed positioning to escape parent overflow
-            offset: 8, // Add spacing between selection and menu
+            strategy: 'fixed',
+            offset: 10,
             flip: {
-                fallbackPlacements: ['bottom', 'top-start', 'top-end', 'bottom-start', 'bottom-end'],
-                padding: 8
-            }, // Auto-flip when near edges
-            shift: { padding: 8 }, // Shift along axis to stay in viewport
+                // If there's no room on top (e.g. near the sticky menu bar),
+                // flip to bottom; try start/end variants for left/right edge cases
+                fallbackPlacements: ['bottom', 'bottom-start', 'bottom-end', 'top-start', 'top-end'],
+                // Reserve space for the sticky header (~130px) at the top,
+                // and some padding on all other sides to avoid edge clipping
+                padding: { top: 130, left: 16, right: 16, bottom: 16 },
+            },
+            shift: {
+                // Keep the menu fully visible within the viewport,
+                // accounting for the sticky header on top and edges on left/right
+                padding: { top: 130, left: 16, right: 16, bottom: 16 },
+                crossAxis: true,
+            },
         }, shouldShow: shouldShow, className: "flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5", style: { zIndex: 99999 } },
         React.createElement("div", { className: "flex p-1 gap-1" },
             React.createElement(MenuButton, { onClick: function () { return handleAction('rephrase'); }, isActive: isLoading === 'rephrase', label: "Rephrase", icon: React.createElement(MagicPencilIcon, { className: "w-3.5 h-3.5" }) }),
