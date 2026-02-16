@@ -9,12 +9,15 @@ import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon, AlignJustifyIcon, Block
 import YoutubeIcon from "../tiptap-icons/youtube-icon";
 import AIModal from "../modals/AIModal";
 import MagicPencilIcon from "../tiptap-icons/magic-pencil-icon";
+import type { AIChangeEvent } from "../editor/AIBubbleMenu";
 
 interface MenuBarProps {
   editor: any;
   setLink: () => void;
   unsetLink: () => void;
   token?: string;
+  aiBaseUrl?: string;
+  onAIChange?: (event: AIChangeEvent) => void;
 }
 
 const FONT_SIZES: string[] = [
@@ -30,7 +33,7 @@ const HEADING_SIZES: Record<number, string> = {
   6: '14px',
 };
 
-const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
+const MenuBar = ({ editor, unsetLink, token, aiBaseUrl, onAIChange }: MenuBarProps) => {
   const [isYoutubeModalOpen, setIsYoutubeModalOpen] = useState(false);
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
@@ -247,10 +250,10 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
               }
             }}
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${(editor.isActive('youtube') && editorState.youtubeAlignment === 'left') ||
-                (editor.isActive('image') && editorState.imageAlignment === 'left') ||
-                editor.isActive({ textAlign: 'left' })
-                ? 'bg-gray-100 ring-1 ring-gray-300'
-                : ''
+              (editor.isActive('image') && editorState.imageAlignment === 'left') ||
+              editor.isActive({ textAlign: 'left' })
+              ? 'bg-gray-100 ring-1 ring-gray-300'
+              : ''
               }`}
             title="Align left"
           >
@@ -268,10 +271,10 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
               }
             }}
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${(editor.isActive('youtube') && editorState.youtubeAlignment === 'center') ||
-                (editor.isActive('image') && editorState.imageAlignment === 'center') ||
-                editor.isActive({ textAlign: 'center' })
-                ? 'bg-gray-100 ring-1 ring-gray-300'
-                : ''
+              (editor.isActive('image') && editorState.imageAlignment === 'center') ||
+              editor.isActive({ textAlign: 'center' })
+              ? 'bg-gray-100 ring-1 ring-gray-300'
+              : ''
               }`}
             title="Align center"
           >
@@ -289,10 +292,10 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
               }
             }}
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${(editor.isActive('youtube') && editorState.youtubeAlignment === 'right') ||
-                (editor.isActive('image') && editorState.imageAlignment === 'right') ||
-                editor.isActive({ textAlign: 'right' })
-                ? 'bg-gray-100 ring-1 ring-gray-300'
-                : ''
+              (editor.isActive('image') && editorState.imageAlignment === 'right') ||
+              editor.isActive({ textAlign: 'right' })
+              ? 'bg-gray-100 ring-1 ring-gray-300'
+              : ''
               }`}
             title="Align right"
           >
@@ -304,8 +307,8 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
               editor.chain().focus().setTextAlign('justify').run();
             }}
             className={`p-1.5 rounded-md transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${editor.isActive({ textAlign: 'justify' })
-                ? 'bg-gray-100 ring-1 ring-gray-300'
-                : ''
+              ? 'bg-gray-100 ring-1 ring-gray-300'
+              : ''
               }`}
             title="Justify"
           >
@@ -515,6 +518,8 @@ const MenuBar = ({ editor, unsetLink, token }: MenuBarProps) => {
         isOpen={isAIModalOpen}
         closeModal={() => setIsAIModalOpen(false)}
         editor={editor}
+        aiBaseUrl={aiBaseUrl}
+        onAIChange={onAIChange}
       />
     </div>
   );

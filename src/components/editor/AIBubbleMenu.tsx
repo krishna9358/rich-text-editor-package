@@ -6,38 +6,92 @@ import { processSelectedText, AIAction } from '../../services/aiService'
 import { TranslateIcon } from '../tiptap-icons/translate-icon'
 import MagicPencilIcon from '../tiptap-icons/magic-pencil-icon'
 
-interface AIBubbleMenuProps {
-    editor: Editor
+const LANGUAGES = [
+    { code: 'as', label: 'Assamese' },
+    { code: 'bn', label: 'Bengali' },
+    { code: 'gu', label: 'Gujarati' },
+    { code: 'hi', label: 'Hindi' },
+    { code: 'kn', label: 'Kannada' },
+    { code: 'ml', label: 'Malayalam' },
+    { code: 'mr', label: 'Marathi' },
+    { code: 'ne', label: 'Nepali' },
+    { code: 'or', label: 'Odia' },
+    { code: 'pa', label: 'Punjabi' },
+    { code: 'sd', label: 'Sindhi' },
+    { code: 'si', label: 'Sinhala' },
+    { code: 'ta', label: 'Tamil' },
+    { code: 'te', label: 'Telugu' },
+]
+
+export interface AIChangeEvent {
+    originalText: string;
+    newText: string;
 }
 
-export const AIBubbleMenu = ({ editor }: AIBubbleMenuProps) => {
-    const [isLoading, setIsLoading] = useState<AIAction | null>(null);
-    const bubbleMenuRef = useRef<HTMLDivElement>(null);
+interface AIBubbleMenuProps {
+    editor: Editor
+    aiBaseUrl?: string
+    onAIChange?: (event: AIChangeEvent) => void
+}
 
-    // Set z-index on the outer bubble menu container element so it renders
-    // above the sticky menu bar (which has z-index: 50 via Tailwind's z-50).
-    // The tiptap BubbleMenu creates an outer wrapper div that doesn't inherit
-    // the inner style prop, so we must set it via ref.
+export const AIBubbleMenu = ({ editor, aiBaseUrl, onAIChange }: AIBubbleMenuProps) => {
+    const [isLoading, setIsLoading] = useState<AIAction | null>(null);
+    const [showLangPicker, setShowLangPicker] = useState(false);
+    const bubbleMenuRef = useRef<HTMLDivElement>(null);
+    const langPickerRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         if (bubbleMenuRef.current) {
             bubbleMenuRef.current.style.zIndex = '99999';
         }
     }, []);
 
-    const handleAction = async (action: AIAction) => {
+    // Close language picker on outside click
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (
+                langPickerRef.current &&
+                !langPickerRef.current.contains(e.target as Node)
+            ) {
+                setShowLangPicker(false);
+            }
+        };
+        if (showLangPicker) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [showLangPicker]);
+
+    const handleAction = async (action: AIAction, targetLanguage?: string) => {
         const { from, to, empty } = editor.state.selection
         if (empty) return
 
         setIsLoading(action)
+        setShowLangPicker(false)
         try {
-            const text = editor.state.doc.textBetween(from, to)
-            const result = await processSelectedText(text, action)
+            const originalText = editor.state.doc.textBetween(from, to)
+            console.log(`[AI BubbleMenu] Action: ${action}, Selection: "${originalText}" (from: ${from}, to: ${to})`)
 
-            if (result) {
-                editor.chain().focus().insertContentAt({ from, to }, result).run()
+            const newText = await processSelectedText(
+                originalText,
+                action,
+                { targetLanguage },
+                aiBaseUrl,
+            )
+
+            console.log(`[AI BubbleMenu] API returned newText:`, newText)
+            console.log(`[AI BubbleMenu] newText type: ${typeof newText}, truthy: ${!!newText}`)
+
+            if (newText) {
+                console.log(`[AI BubbleMenu] Replacing text at (${from}, ${to}) with new text`)
+                editor.chain().focus().insertContentAt({ from, to }, newText).run()
+                onAIChange?.({ originalText, newText })
+                console.log(`[AI BubbleMenu] Replacement done`)
+            } else {
+                console.warn(`[AI BubbleMenu] newText is falsy, skipping replacement`)
             }
         } catch (error) {
-            console.error(error)
+            console.error('[AI BubbleMenu] Error:', error)
             alert("Failed to process text. Ensure backend is available.")
         } finally {
             setIsLoading(null)
@@ -57,22 +111,16 @@ export const AIBubbleMenu = ({ editor }: AIBubbleMenuProps) => {
                 strategy: 'fixed',
                 offset: 10,
                 flip: {
-                    // If there's no room on top (e.g. near the sticky menu bar),
-                    // flip to bottom; try start/end variants for left/right edge cases
                     fallbackPlacements: ['bottom', 'bottom-start', 'bottom-end', 'top-start', 'top-end'],
-                    // Reserve space for the sticky header (~130px) at the top,
-                    // and some padding on all other sides to avoid edge clipping
                     padding: { top: 130, left: 16, right: 16, bottom: 16 },
                 },
                 shift: {
-                    // Keep the menu fully visible within the viewport,
-                    // accounting for the sticky header on top and edges on left/right
                     padding: { top: 130, left: 16, right: 16, bottom: 16 },
                     crossAxis: true,
                 },
             }}
             shouldShow={shouldShow}
-            className="flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5"
+            className="flex overflow-visible rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5"
             style={{ zIndex: 99999 }}
         >
             <div className="flex p-1 gap-1">
@@ -101,12 +149,29 @@ export const AIBubbleMenu = ({ editor }: AIBubbleMenuProps) => {
 
                 <div className="w-px bg-gray-200 my-1"></div>
 
-                <MenuButton
-                    onClick={() => handleAction('translate')}
-                    isActive={isLoading === 'translate'}
-                    label="Translate"
-                    icon={<TranslateIcon className="w-3.5 h-3.5" />}
-                />
+                {/* Translate with language picker */}
+                <div className="relative" ref={langPickerRef}>
+                    <MenuButton
+                        onClick={() => setShowLangPicker((v) => !v)}
+                        isActive={isLoading === 'translate'}
+                        label="Translate"
+                        icon={<TranslateIcon className="w-3.5 h-3.5" />}
+                    />
+
+                    {showLangPicker && (
+                        <div className="absolute top-full left-0 mt-1 w-40 max-h-52 overflow-y-auto rounded-md border border-gray-200 bg-white shadow-lg z-[100000]">
+                            {LANGUAGES.map((lang) => (
+                                <button
+                                    key={lang.code}
+                                    onClick={() => handleAction('translate', lang.code)}
+                                    className="w-full text-left px-3 py-1.5 text-xs text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors"
+                                >
+                                    {lang.label}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         </BubbleMenu>
     )

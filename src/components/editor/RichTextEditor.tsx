@@ -30,6 +30,7 @@ import { FindReplace } from './features/FindReplace';
 import { MenuBar } from "../menubar/index";
 import LogoIcon from '../tiptap-icons/Logo-icon';
 import { AIBubbleMenu } from './AIBubbleMenu';
+import type { AIChangeEvent } from './AIBubbleMenu';
 
 // Link configuration
 const linkConfig = {
@@ -71,6 +72,8 @@ interface RichTextEditorProps {
   onHTMLChange?: (html: string) => void;
   onJSONChange?: (json: any) => void;
   token?: string;
+  aiBaseUrl?: string;
+  onAIChange?: (event: AIChangeEvent) => void;
 }
 
 const RichTextEditor = ({
@@ -79,6 +82,8 @@ const RichTextEditor = ({
   onHTMLChange,
   onJSONChange,
   token,
+  aiBaseUrl,
+  onAIChange,
 }: RichTextEditorProps) => {
   const [wordCount, setWordCount] = useState(0);
   const [characterCount, setCharacterCount] = useState(0);
@@ -386,6 +391,8 @@ const RichTextEditor = ({
             setLink={setLink}
             unsetLink={unsetLink}
             token={token}
+            aiBaseUrl={aiBaseUrl}
+            onAIChange={onAIChange}
           />
         )}
       </div>
@@ -393,7 +400,7 @@ const RichTextEditor = ({
       {editor && (
         <EditorContainer>
           <div className="min-h-[300px] border-t border-gray-200">
-            <AIBubbleMenu editor={editor} />
+            <AIBubbleMenu editor={editor} aiBaseUrl={aiBaseUrl} onAIChange={onAIChange} />
             <EditorContent editor={editor} className="prose max-w-none -z-500" />
           </div>
           {/* TableControls moved to toolbar - see MenuBar component */}

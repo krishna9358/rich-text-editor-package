@@ -4,14 +4,17 @@ import { Editor } from "@tiptap/react";
 import { CloseIcon } from "../tiptap-icons/close-icon";
 import { generateContent } from "../../services/aiService";
 import MagicPencilIcon from "../tiptap-icons/magic-pencil-icon";
+import type { AIChangeEvent } from "../editor/AIBubbleMenu";
 
 interface AIModalProps {
     isOpen: boolean;
     closeModal: () => void;
     editor: Editor;
+    aiBaseUrl?: string;
+    onAIChange?: (event: AIChangeEvent) => void;
 }
 
-const AIModal = ({ isOpen, closeModal, editor }: AIModalProps) => {
+const AIModal = ({ isOpen, closeModal, editor, aiBaseUrl, onAIChange }: AIModalProps) => {
     const [prompt, setPrompt] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [length, setLength] = useState<'short' | 'medium' | 'long'>('medium');
@@ -31,9 +34,13 @@ const AIModal = ({ isOpen, closeModal, editor }: AIModalProps) => {
 
         setIsLoading(true);
         try {
-            const content = await generateContent(prompt, length, style);
+            const content = await generateContent(prompt, length, style, aiBaseUrl);
             if (content) {
+                // For generate, there's no original text being replaced — it's a fresh insertion
+                const { from, to, empty } = editor.state.selection;
+                const originalText = empty ? '' : editor.state.doc.textBetween(from, to);
                 editor.chain().focus().insertContent(content).run();
+                onAIChange?.({ originalText, newText: content });
                 closeModal();
             }
         } catch (error) {

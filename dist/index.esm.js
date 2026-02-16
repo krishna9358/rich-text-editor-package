@@ -8416,71 +8416,258 @@ function ImageModal(_a) {
                 React__default.createElement("button", { onClick: handleSubmit, disabled: (!!url && !isValidImageSrc(url)) || (!url) || !altText || isUploading, className: "px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed" }, isUploading ? 'Uploading...' : 'Insert')))));
 }
 
-// Placeholder URL - User will update this later
-var API_BASE_URL = "http://localhost:3001";
+var DEFAULT_AI_BASE_URL = "https://able-marmot-loosely.ngrok-free.app/admin/ai-editor";
+// ---------------------------------------------------------------------------
+// Shared fetch helper — unwraps data.aiEditor automatically
+// ---------------------------------------------------------------------------
+function apiFetch(url, body) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, errorData, json;
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(body),
+                    })];
+                case 1:
+                    response = _b.sent();
+                    if (!!response.ok) return [3 /*break*/, 3];
+                    return [4 /*yield*/, response.json().catch(function () { return ({}); })];
+                case 2:
+                    errorData = _b.sent();
+                    throw new Error(errorData.message ||
+                        "Request failed with status ".concat(response.status));
+                case 3: return [4 /*yield*/, response.json()];
+                case 4:
+                    json = (_b.sent());
+                    console.log("[AI Service] Raw API response:", JSON.stringify(json, null, 2));
+                    console.log("[AI Service] Extracted data.aiEditor:", (_a = json.data) === null || _a === void 0 ? void 0 : _a.aiEditor);
+                    return [2 /*return*/, json.data.aiEditor];
+            }
+        });
+    });
+}
+// ---------------------------------------------------------------------------
+// /generate – Generate content from a prompt
+// ---------------------------------------------------------------------------
 var generateContent = function (prompt_1) {
     var args_1 = [];
     for (var _i = 1; _i < arguments.length; _i++) {
         args_1[_i - 1] = arguments[_i];
     }
-    return __awaiter(void 0, __spreadArray([prompt_1], args_1, true), void 0, function (prompt, length, style) {
-        var response, errorData, data, error_1;
+    return __awaiter(void 0, __spreadArray([prompt_1], args_1, true), void 0, function (prompt, length, style, baseUrl) {
+        var result, error_1;
         if (length === void 0) { length = "medium"; }
         if (style === void 0) { style = "professional"; }
+        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 5, , 6]);
-                    return [4 /*yield*/, fetch("".concat(API_BASE_URL, "/generate"), {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({ prompt: prompt, length: length, style: style }),
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, apiFetch("".concat(baseUrl, "/generate"), {
+                            prompt: prompt,
+                            length: length,
+                            style: style,
                         })];
                 case 1:
-                    response = _a.sent();
-                    if (!!response.ok) return [3 /*break*/, 3];
-                    return [4 /*yield*/, response.json().catch(function () { return ({}); })];
+                    result = _a.sent();
+                    return [2 /*return*/, result.generatedContent];
                 case 2:
-                    errorData = _a.sent();
-                    throw new Error(errorData.error || "Request failed with status ".concat(response.status));
-                case 3: return [4 /*yield*/, response.json()];
-                case 4:
-                    data = _a.sent();
-                    return [2 /*return*/, data.generatedContent];
-                case 5:
                     error_1 = _a.sent();
-                    console.error("AI Service Error:", error_1);
+                    console.error("AI Generate Error:", error_1);
                     throw error_1;
-                case 6: return [2 /*return*/];
+                case 3: return [2 /*return*/];
             }
         });
     });
 };
-var processSelectedText = function (text, action) { return __awaiter(void 0, void 0, void 0, function () {
-    var prompt;
-    return __generator(this, function (_a) {
-        prompt = "";
-        switch (action) {
-            case "translate":
-                prompt = "Translate the following text to English (if not already) or refine it: \"".concat(text, "\"");
-                break;
-            case "rephrase":
-                prompt = "Rephrase the following text to be more clear and professional: \"".concat(text, "\"");
-                break;
-            case "summarize":
-                prompt = "Provide a concise summary of the following text: \"".concat(text, "\"");
-                break;
-            case "expand":
-                prompt = "Expand upon the following text with more details and context: \"".concat(text, "\"");
-                break;
-            default:
-                prompt = text;
-        }
-        return [2 /*return*/, generateContent(prompt)];
+// ---------------------------------------------------------------------------
+// /expand – Expand selected text with more detail
+// ---------------------------------------------------------------------------
+var expandText = function (text_1) {
+    var args_1 = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args_1[_i - 1] = arguments[_i];
+    }
+    return __awaiter(void 0, __spreadArray([text_1], args_1, true), void 0, function (text, targetLength, baseUrl) {
+        var result, error_2;
+        if (targetLength === void 0) { targetLength = "longer"; }
+        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, apiFetch("".concat(baseUrl, "/expand"), {
+                            text: text,
+                            targetLength: targetLength,
+                        })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result.newText];
+                case 2:
+                    error_2 = _a.sent();
+                    console.error("AI Expand Error:", error_2);
+                    throw error_2;
+                case 3: return [2 /*return*/];
+            }
+        });
     });
-}); };
+};
+// ---------------------------------------------------------------------------
+// /rephrase – Rephrase selected text
+// ---------------------------------------------------------------------------
+var rephraseText = function (text_1) {
+    var args_1 = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args_1[_i - 1] = arguments[_i];
+    }
+    return __awaiter(void 0, __spreadArray([text_1], args_1, true), void 0, function (text, tone, instructions, baseUrl) {
+        var result, error_3;
+        if (tone === void 0) { tone = "neutral"; }
+        if (instructions === void 0) { instructions = "Make it clearer and more engaging"; }
+        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, apiFetch("".concat(baseUrl, "/rephrase"), {
+                            text: text,
+                            tone: tone,
+                            instructions: instructions,
+                        })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result.newText];
+                case 2:
+                    error_3 = _a.sent();
+                    console.error("AI Rephrase Error:", error_3);
+                    throw error_3;
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+};
+// ---------------------------------------------------------------------------
+// /summarize – Summarize selected text
+// ---------------------------------------------------------------------------
+var summarizeText = function (text_1) {
+    var args_1 = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args_1[_i - 1] = arguments[_i];
+    }
+    return __awaiter(void 0, __spreadArray([text_1], args_1, true), void 0, function (text, length, style, baseUrl) {
+        var result, error_4;
+        if (length === void 0) { length = "medium"; }
+        if (style === void 0) { style = "bullet-points"; }
+        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, apiFetch("".concat(baseUrl, "/summarize"), {
+                            text: text,
+                            length: length,
+                            style: style,
+                        })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result.newText];
+                case 2:
+                    error_4 = _a.sent();
+                    console.error("AI Summarize Error:", error_4);
+                    throw error_4;
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+};
+// ---------------------------------------------------------------------------
+// /translate – Translate text or HTML to target language
+// ---------------------------------------------------------------------------
+var translateText = function (text_1, targetLanguage_1) {
+    var args_1 = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+        args_1[_i - 2] = arguments[_i];
+    }
+    return __awaiter(void 0, __spreadArray([text_1, targetLanguage_1], args_1, true), void 0, function (text, targetLanguage, baseUrl) {
+        var result, error_5;
+        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, apiFetch("".concat(baseUrl, "/translate"), {
+                            text: text,
+                            targetLanguage: targetLanguage,
+                        })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result.newText];
+                case 2:
+                    error_5 = _a.sent();
+                    console.error("AI Translate Error:", error_5);
+                    throw error_5;
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+};
+var translateHtml = function (html_1, targetLanguage_1) {
+    var args_1 = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+        args_1[_i - 2] = arguments[_i];
+    }
+    return __awaiter(void 0, __spreadArray([html_1, targetLanguage_1], args_1, true), void 0, function (html, targetLanguage, baseUrl) {
+        var result, error_6;
+        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, apiFetch("".concat(baseUrl, "/translate"), {
+                            html: html,
+                            targetLanguage: targetLanguage,
+                        })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result.translatedHTML];
+                case 2:
+                    error_6 = _a.sent();
+                    console.error("AI Translate HTML Error:", error_6);
+                    throw error_6;
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+};
+// ---------------------------------------------------------------------------
+// Convenience wrapper used by AIBubbleMenu
+// ---------------------------------------------------------------------------
+var processSelectedText = function (text_1, action_1, options_1) {
+    var args_1 = [];
+    for (var _i = 3; _i < arguments.length; _i++) {
+        args_1[_i - 3] = arguments[_i];
+    }
+    return __awaiter(void 0, __spreadArray([text_1, action_1, options_1], args_1, true), void 0, function (text, action, options, baseUrl) {
+        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
+        return __generator(this, function (_a) {
+            switch (action) {
+                case "expand":
+                    return [2 /*return*/, expandText(text, "longer", baseUrl)];
+                case "rephrase":
+                    return [2 /*return*/, rephraseText(text, "neutral", "Make it clearer and more engaging", baseUrl)];
+                case "summarize":
+                    return [2 /*return*/, summarizeText(text, "medium", "bullet-points", baseUrl)];
+                case "translate":
+                    return [2 /*return*/, translateText(text, (options === null || options === void 0 ? void 0 : options.targetLanguage) || "English", baseUrl)];
+                default:
+                    throw new Error("Unknown AI action: ".concat(action));
+            }
+        });
+    });
+};
 
 // Going for a cleaner standard icon: Pencil with sparkles
 function MagicPencilIcon (_a) {
@@ -8496,7 +8683,7 @@ function MagicPencilIcon (_a) {
 }
 
 var AIModal = function (_a) {
-    var isOpen = _a.isOpen, closeModal = _a.closeModal, editor = _a.editor;
+    var isOpen = _a.isOpen, closeModal = _a.closeModal, editor = _a.editor, aiBaseUrl = _a.aiBaseUrl, onAIChange = _a.onAIChange;
     var _b = useState(""), prompt = _b[0], setPrompt = _b[1];
     var _c = useState(false), isLoading = _c[0], setIsLoading = _c[1];
     var _d = useState('medium'), length = _d[0], setLength = _d[1];
@@ -8509,27 +8696,30 @@ var AIModal = function (_a) {
         }
     }, [isOpen]);
     var handleSubmit = function (e) { return __awaiter(void 0, void 0, void 0, function () {
-        var content, error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var content, _a, from, to, empty, originalText, error_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     e.preventDefault();
                     if (!prompt.trim())
                         return [2 /*return*/];
                     setIsLoading(true);
-                    _a.label = 1;
+                    _b.label = 1;
                 case 1:
-                    _a.trys.push([1, 3, 4, 5]);
-                    return [4 /*yield*/, generateContent(prompt, length, style)];
+                    _b.trys.push([1, 3, 4, 5]);
+                    return [4 /*yield*/, generateContent(prompt, length, style, aiBaseUrl)];
                 case 2:
-                    content = _a.sent();
+                    content = _b.sent();
                     if (content) {
+                        _a = editor.state.selection, from = _a.from, to = _a.to, empty = _a.empty;
+                        originalText = empty ? '' : editor.state.doc.textBetween(from, to);
                         editor.chain().focus().insertContent(content).run();
+                        onAIChange === null || onAIChange === void 0 ? void 0 : onAIChange({ originalText: originalText, newText: content });
                         closeModal();
                     }
                     return [3 /*break*/, 5];
                 case 3:
-                    error_1 = _a.sent();
+                    error_1 = _b.sent();
                     console.error(error_1);
                     alert("Failed to generate content. Please ensure backend is running.");
                     return [3 /*break*/, 5];
@@ -8592,7 +8782,7 @@ var HEADING_SIZES = {
 };
 var MenuBar = function (_a) {
     var _b;
-    var editor = _a.editor, unsetLink = _a.unsetLink, token = _a.token;
+    var editor = _a.editor, unsetLink = _a.unsetLink, token = _a.token, aiBaseUrl = _a.aiBaseUrl, onAIChange = _a.onAIChange;
     var _c = useState(false), isYoutubeModalOpen = _c[0], setIsYoutubeModalOpen = _c[1];
     var _d = useState(false), isAIModalOpen = _d[0], setIsAIModalOpen = _d[1];
     var handleYoutubeSubmit = function (data) {
@@ -8860,7 +9050,7 @@ var MenuBar = function (_a) {
             }, onUnset: function () {
                 editor.chain().focus().unsetLink().run();
             } }),
-        React__default.createElement(AIModal, { isOpen: isAIModalOpen, closeModal: function () { return setIsAIModalOpen(false); }, editor: editor })));
+        React__default.createElement(AIModal, { isOpen: isAIModalOpen, closeModal: function () { return setIsAIModalOpen(false); }, editor: editor, aiBaseUrl: aiBaseUrl, onAIChange: onAIChange })));
 };
 
 var TranslateIcon = React.memo(function (_a) {
@@ -8875,21 +9065,48 @@ var TranslateIcon = React.memo(function (_a) {
 });
 TranslateIcon.displayName = "TranslateIcon";
 
+var LANGUAGES = [
+    { code: 'as', label: 'Assamese' },
+    { code: 'bn', label: 'Bengali' },
+    { code: 'gu', label: 'Gujarati' },
+    { code: 'hi', label: 'Hindi' },
+    { code: 'kn', label: 'Kannada' },
+    { code: 'ml', label: 'Malayalam' },
+    { code: 'mr', label: 'Marathi' },
+    { code: 'ne', label: 'Nepali' },
+    { code: 'or', label: 'Odia' },
+    { code: 'pa', label: 'Punjabi' },
+    { code: 'sd', label: 'Sindhi' },
+    { code: 'si', label: 'Sinhala' },
+    { code: 'ta', label: 'Tamil' },
+    { code: 'te', label: 'Telugu' },
+];
 var AIBubbleMenu = function (_a) {
-    var editor = _a.editor;
+    var editor = _a.editor, aiBaseUrl = _a.aiBaseUrl, onAIChange = _a.onAIChange;
     var _b = useState(null), isLoading = _b[0], setIsLoading = _b[1];
+    var _c = useState(false), showLangPicker = _c[0], setShowLangPicker = _c[1];
     var bubbleMenuRef = useRef(null);
-    // Set z-index on the outer bubble menu container element so it renders
-    // above the sticky menu bar (which has z-index: 50 via Tailwind's z-50).
-    // The tiptap BubbleMenu creates an outer wrapper div that doesn't inherit
-    // the inner style prop, so we must set it via ref.
+    var langPickerRef = useRef(null);
     useEffect(function () {
         if (bubbleMenuRef.current) {
             bubbleMenuRef.current.style.zIndex = '99999';
         }
     }, []);
-    var handleAction = function (action) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, from, to, empty, text, result, error_1;
+    // Close language picker on outside click
+    useEffect(function () {
+        var handleClickOutside = function (e) {
+            if (langPickerRef.current &&
+                !langPickerRef.current.contains(e.target)) {
+                setShowLangPicker(false);
+            }
+        };
+        if (showLangPicker) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return function () { return document.removeEventListener('mousedown', handleClickOutside); };
+    }, [showLangPicker]);
+    var handleAction = function (action, targetLanguage) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, from, to, empty, originalText, newText, error_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -8897,20 +9114,30 @@ var AIBubbleMenu = function (_a) {
                     if (empty)
                         return [2 /*return*/];
                     setIsLoading(action);
+                    setShowLangPicker(false);
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, 4, 5]);
-                    text = editor.state.doc.textBetween(from, to);
-                    return [4 /*yield*/, processSelectedText(text, action)];
+                    originalText = editor.state.doc.textBetween(from, to);
+                    console.log("[AI BubbleMenu] Action: ".concat(action, ", Selection: \"").concat(originalText, "\" (from: ").concat(from, ", to: ").concat(to, ")"));
+                    return [4 /*yield*/, processSelectedText(originalText, action, { targetLanguage: targetLanguage }, aiBaseUrl)];
                 case 2:
-                    result = _b.sent();
-                    if (result) {
-                        editor.chain().focus().insertContentAt({ from: from, to: to }, result).run();
+                    newText = _b.sent();
+                    console.log("[AI BubbleMenu] API returned newText:", newText);
+                    console.log("[AI BubbleMenu] newText type: ".concat(typeof newText, ", truthy: ").concat(!!newText));
+                    if (newText) {
+                        console.log("[AI BubbleMenu] Replacing text at (".concat(from, ", ").concat(to, ") with new text"));
+                        editor.chain().focus().insertContentAt({ from: from, to: to }, newText).run();
+                        onAIChange === null || onAIChange === void 0 ? void 0 : onAIChange({ originalText: originalText, newText: newText });
+                        console.log("[AI BubbleMenu] Replacement done");
+                    }
+                    else {
+                        console.warn("[AI BubbleMenu] newText is falsy, skipping replacement");
                     }
                     return [3 /*break*/, 5];
                 case 3:
                     error_1 = _b.sent();
-                    console.error(error_1);
+                    console.error('[AI BubbleMenu] Error:', error_1);
                     alert("Failed to process text. Ensure backend is available.");
                     return [3 /*break*/, 5];
                 case 4:
@@ -8929,20 +9156,14 @@ var AIBubbleMenu = function (_a) {
             strategy: 'fixed',
             offset: 10,
             flip: {
-                // If there's no room on top (e.g. near the sticky menu bar),
-                // flip to bottom; try start/end variants for left/right edge cases
                 fallbackPlacements: ['bottom', 'bottom-start', 'bottom-end', 'top-start', 'top-end'],
-                // Reserve space for the sticky header (~130px) at the top,
-                // and some padding on all other sides to avoid edge clipping
                 padding: { top: 130, left: 16, right: 16, bottom: 16 },
             },
             shift: {
-                // Keep the menu fully visible within the viewport,
-                // accounting for the sticky header on top and edges on left/right
                 padding: { top: 130, left: 16, right: 16, bottom: 16 },
                 crossAxis: true,
             },
-        }, shouldShow: shouldShow, className: "flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5", style: { zIndex: 99999 } },
+        }, shouldShow: shouldShow, className: "flex overflow-visible rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5", style: { zIndex: 99999 } },
         React__default.createElement("div", { className: "flex p-1 gap-1" },
             React__default.createElement(MenuButton, { onClick: function () { return handleAction('rephrase'); }, isActive: isLoading === 'rephrase', label: "Rephrase", icon: React__default.createElement(MagicPencilIcon, { className: "w-3.5 h-3.5" }) }),
             React__default.createElement("div", { className: "w-px bg-gray-200 my-1" }),
@@ -8950,7 +9171,9 @@ var AIBubbleMenu = function (_a) {
             React__default.createElement("div", { className: "w-px bg-gray-200 my-1" }),
             React__default.createElement(MenuButton, { onClick: function () { return handleAction('expand'); }, isActive: isLoading === 'expand', label: "Expand" }),
             React__default.createElement("div", { className: "w-px bg-gray-200 my-1" }),
-            React__default.createElement(MenuButton, { onClick: function () { return handleAction('translate'); }, isActive: isLoading === 'translate', label: "Translate", icon: React__default.createElement(TranslateIcon, { className: "w-3.5 h-3.5" }) }))));
+            React__default.createElement("div", { className: "relative", ref: langPickerRef },
+                React__default.createElement(MenuButton, { onClick: function () { return setShowLangPicker(function (v) { return !v; }); }, isActive: isLoading === 'translate', label: "Translate", icon: React__default.createElement(TranslateIcon, { className: "w-3.5 h-3.5" }) }),
+                showLangPicker && (React__default.createElement("div", { className: "absolute top-full left-0 mt-1 w-40 max-h-52 overflow-y-auto rounded-md border border-gray-200 bg-white shadow-lg z-[100000]" }, LANGUAGES.map(function (lang) { return (React__default.createElement("button", { key: lang.code, onClick: function () { return handleAction('translate', lang.code); }, className: "w-full text-left px-3 py-1.5 text-xs text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors" }, lang.label)); })))))));
 };
 var MenuButton = function (_a) {
     var onClick = _a.onClick, isActive = _a.isActive, label = _a.label, icon = _a.icon;
@@ -8997,7 +9220,7 @@ var linkConfig = {
     }
 };
 var RichTextEditor = function (_a) {
-    var _b = _a.initialContent, initialContent = _b === void 0 ? "" : _b, onContentChange = _a.onContentChange, onHTMLChange = _a.onHTMLChange, onJSONChange = _a.onJSONChange, token = _a.token;
+    var _b = _a.initialContent, initialContent = _b === void 0 ? "" : _b, onContentChange = _a.onContentChange, onHTMLChange = _a.onHTMLChange, onJSONChange = _a.onJSONChange, token = _a.token, aiBaseUrl = _a.aiBaseUrl, onAIChange = _a.onAIChange;
     var _c = useState(0), wordCount = _c[0], setWordCount = _c[1];
     var _d = useState(0), characterCount = _d[0], setCharacterCount = _d[1];
     var _e = useState(false), showFindReplace = _e[0], setShowFindReplace = _e[1];
@@ -9288,10 +9511,10 @@ var RichTextEditor = function (_a) {
                 React__default.createElement(LogoIcon, { className: "w-8 h-8 mr-2 text-gray-800" }),
                 React__default.createElement("div", { className: "text-sm font-semibold text-gray-700 sm:px-4 py-2" }, "ProtiumPad")),
             editor && (React__default.createElement(FileMenuBar, { editor: editor, onOpenFindReplace: function () { return setShowFindReplace(true); } })),
-            editor && (React__default.createElement(MenuBar, { editor: editor, setLink: setLink, unsetLink: unsetLink, token: token }))),
+            editor && (React__default.createElement(MenuBar, { editor: editor, setLink: setLink, unsetLink: unsetLink, token: token, aiBaseUrl: aiBaseUrl, onAIChange: onAIChange }))),
         editor && (React__default.createElement(EditorContainer, null,
             React__default.createElement("div", { className: "min-h-[300px] border-t border-gray-200" },
-                React__default.createElement(AIBubbleMenu, { editor: editor }),
+                React__default.createElement(AIBubbleMenu, { editor: editor, aiBaseUrl: aiBaseUrl, onAIChange: onAIChange }),
                 React__default.createElement(EditorContent, { editor: editor, className: "prose max-w-none -z-500" })))),
         React__default.createElement("div", { className: "flex justify-end py-2 px-2 sm:px-4 border-t border-gray-200" },
             React__default.createElement("div", { className: "flex items-center text-xs text-gray-500" },
@@ -9303,5 +9526,5 @@ var RichTextEditor = function (_a) {
         React__default.createElement(FindReplace, { editor: editor, isOpen: showFindReplace, onClose: function () { return setShowFindReplace(false); } })));
 };
 
-export { FindReplace, ImageModal, LinkModal, MenuBar, RichTextEditor, TableModal, YouTubeNodeView, YoutubeAlign, YoutubeModal };
+export { FindReplace, ImageModal, LinkModal, MenuBar, RichTextEditor, TableModal, YouTubeNodeView, YoutubeAlign, YoutubeModal, expandText, generateContent, processSelectedText, rephraseText, summarizeText, translateHtml, translateText };
 //# sourceMappingURL=index.esm.js.map
