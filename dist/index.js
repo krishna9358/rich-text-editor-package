@@ -13,6 +13,7 @@ var view = require('@tiptap/pm/view');
 var gapcursor = require('@tiptap/pm/gapcursor');
 var history = require('@tiptap/pm/history');
 var menus = require('@tiptap/react/menus');
+var reactDom = require('react-dom');
 
 function _interopNamespaceDefault(e) {
     var n = Object.create(null);
@@ -8436,21 +8437,74 @@ function ImageModal(_a) {
                 React.createElement("button", { onClick: handleSubmit, disabled: (!!url && !isValidImageSrc(url)) || (!url) || !altText || isUploading, className: "px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed" }, isUploading ? 'Uploading...' : 'Insert')))));
 }
 
-var DEFAULT_AI_BASE_URL = "https://able-marmot-loosely.ngrok-free.app/admin/ai-editor";
+// Fallback languages used when the API is unavailable
+var FALLBACK_LANGUAGES = [
+    { code: "hi", label: "Hindi" },
+    { code: "en", label: "English" },
+];
+// ---------------------------------------------------------------------------
+// Fetch available languages from ${adminUserApiUrl}/multi-lingual
+// ---------------------------------------------------------------------------
+var fetchLanguages = function (adminUserApiUrl, token) { return __awaiter(void 0, void 0, void 0, function () {
+    var headers, response, json, languages, error_1;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 3, , 4]);
+                headers = { "Content-Type": "application/json" };
+                if (token) {
+                    headers["Authorization"] = "Bearer ".concat(token);
+                }
+                return [4 /*yield*/, fetch("".concat(adminUserApiUrl, "/multi-lingual"), {
+                        method: "GET",
+                        headers: headers,
+                    })];
+            case 1:
+                response = _b.sent();
+                if (!response.ok) {
+                    console.warn("[AI Service] Failed to fetch languages, using fallback");
+                    return [2 /*return*/, FALLBACK_LANGUAGES];
+                }
+                return [4 /*yield*/, response.json()];
+            case 2:
+                json = _b.sent();
+                languages = ((_a = json === null || json === void 0 ? void 0 : json.data) === null || _a === void 0 ? void 0 : _a.languages) || (json === null || json === void 0 ? void 0 : json.data) || (json === null || json === void 0 ? void 0 : json.languages) || json;
+                if (Array.isArray(languages) && languages.length > 0) {
+                    return [2 /*return*/, languages.map(function (lang) { return ({
+                            code: lang.code || lang.language_code || lang.id,
+                            label: lang.label || lang.name || lang.language_name || lang.code,
+                        }); })];
+                }
+                console.warn("[AI Service] Unexpected language response format, using fallback");
+                return [2 /*return*/, FALLBACK_LANGUAGES];
+            case 3:
+                error_1 = _b.sent();
+                console.error("[AI Service] Error fetching languages:", error_1);
+                return [2 /*return*/, FALLBACK_LANGUAGES];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
 // ---------------------------------------------------------------------------
 // Shared fetch helper — unwraps data.aiEditor automatically
 // ---------------------------------------------------------------------------
-function apiFetch(url, body) {
+function apiFetch(url, body, token) {
     return __awaiter(this, void 0, void 0, function () {
-        var response, errorData, json;
+        var headers, response, errorData, json;
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, fetch(url, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(body),
-                    })];
+                case 0:
+                    headers = { "Content-Type": "application/json" };
+                    if (token) {
+                        headers["Authorization"] = "Bearer ".concat(token);
+                    }
+                    return [4 /*yield*/, fetch(url, {
+                            method: "POST",
+                            headers: headers,
+                            body: JSON.stringify(body),
+                        })];
                 case 1:
                     response = _b.sent();
                     if (!!response.ok) return [3 /*break*/, 3];
@@ -8477,28 +8531,31 @@ var generateContent = function (prompt_1) {
     for (var _i = 1; _i < arguments.length; _i++) {
         args_1[_i - 1] = arguments[_i];
     }
-    return __awaiter(void 0, __spreadArray([prompt_1], args_1, true), void 0, function (prompt, length, style, baseUrl) {
-        var result, error_1;
+    return __awaiter(void 0, __spreadArray([prompt_1], args_1, true), void 0, function (prompt, length, style, baseUrl, token) {
+        var result, error_2;
         if (length === void 0) { length = "medium"; }
         if (style === void 0) { style = "professional"; }
-        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    if (!baseUrl)
+                        throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, apiFetch("".concat(baseUrl, "/generate"), {
                             prompt: prompt,
                             length: length,
                             style: style,
-                        })];
-                case 1:
+                        }, token)];
+                case 2:
                     result = _a.sent();
                     return [2 /*return*/, result.generatedContent];
-                case 2:
-                    error_1 = _a.sent();
-                    console.error("AI Generate Error:", error_1);
-                    throw error_1;
-                case 3: return [2 /*return*/];
+                case 3:
+                    error_2 = _a.sent();
+                    console.error("AI Generate Error:", error_2);
+                    throw error_2;
+                case 4: return [2 /*return*/];
             }
         });
     });
@@ -8511,26 +8568,29 @@ var expandText = function (text_1) {
     for (var _i = 1; _i < arguments.length; _i++) {
         args_1[_i - 1] = arguments[_i];
     }
-    return __awaiter(void 0, __spreadArray([text_1], args_1, true), void 0, function (text, targetLength, baseUrl) {
-        var result, error_2;
+    return __awaiter(void 0, __spreadArray([text_1], args_1, true), void 0, function (text, targetLength, baseUrl, token) {
+        var result, error_3;
         if (targetLength === void 0) { targetLength = "longer"; }
-        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    if (!baseUrl)
+                        throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, apiFetch("".concat(baseUrl, "/expand"), {
                             text: text,
                             targetLength: targetLength,
-                        })];
-                case 1:
+                        }, token)];
+                case 2:
                     result = _a.sent();
                     return [2 /*return*/, result.newText];
-                case 2:
-                    error_2 = _a.sent();
-                    console.error("AI Expand Error:", error_2);
-                    throw error_2;
-                case 3: return [2 /*return*/];
+                case 3:
+                    error_3 = _a.sent();
+                    console.error("AI Expand Error:", error_3);
+                    throw error_3;
+                case 4: return [2 /*return*/];
             }
         });
     });
@@ -8543,28 +8603,31 @@ var rephraseText = function (text_1) {
     for (var _i = 1; _i < arguments.length; _i++) {
         args_1[_i - 1] = arguments[_i];
     }
-    return __awaiter(void 0, __spreadArray([text_1], args_1, true), void 0, function (text, tone, instructions, baseUrl) {
-        var result, error_3;
+    return __awaiter(void 0, __spreadArray([text_1], args_1, true), void 0, function (text, tone, instructions, baseUrl, token) {
+        var result, error_4;
         if (tone === void 0) { tone = "neutral"; }
         if (instructions === void 0) { instructions = "Make it clearer and more engaging"; }
-        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    if (!baseUrl)
+                        throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, apiFetch("".concat(baseUrl, "/rephrase"), {
                             text: text,
                             tone: tone,
                             instructions: instructions,
-                        })];
-                case 1:
+                        }, token)];
+                case 2:
                     result = _a.sent();
                     return [2 /*return*/, result.newText];
-                case 2:
-                    error_3 = _a.sent();
-                    console.error("AI Rephrase Error:", error_3);
-                    throw error_3;
-                case 3: return [2 /*return*/];
+                case 3:
+                    error_4 = _a.sent();
+                    console.error("AI Rephrase Error:", error_4);
+                    throw error_4;
+                case 4: return [2 /*return*/];
             }
         });
     });
@@ -8577,28 +8640,31 @@ var summarizeText = function (text_1) {
     for (var _i = 1; _i < arguments.length; _i++) {
         args_1[_i - 1] = arguments[_i];
     }
-    return __awaiter(void 0, __spreadArray([text_1], args_1, true), void 0, function (text, length, style, baseUrl) {
-        var result, error_4;
+    return __awaiter(void 0, __spreadArray([text_1], args_1, true), void 0, function (text, length, style, baseUrl, token) {
+        var result, error_5;
         if (length === void 0) { length = "medium"; }
         if (style === void 0) { style = "bullet-points"; }
-        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    if (!baseUrl)
+                        throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, apiFetch("".concat(baseUrl, "/summarize"), {
                             text: text,
                             length: length,
                             style: style,
-                        })];
-                case 1:
+                        }, token)];
+                case 2:
                     result = _a.sent();
                     return [2 /*return*/, result.newText];
-                case 2:
-                    error_4 = _a.sent();
-                    console.error("AI Summarize Error:", error_4);
-                    throw error_4;
-                case 3: return [2 /*return*/];
+                case 3:
+                    error_5 = _a.sent();
+                    console.error("AI Summarize Error:", error_5);
+                    throw error_5;
+                case 4: return [2 /*return*/];
             }
         });
     });
@@ -8606,88 +8672,75 @@ var summarizeText = function (text_1) {
 // ---------------------------------------------------------------------------
 // /translate – Translate text or HTML to target language
 // ---------------------------------------------------------------------------
-var translateText = function (text_1, targetLanguage_1) {
-    var args_1 = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        args_1[_i - 2] = arguments[_i];
-    }
-    return __awaiter(void 0, __spreadArray([text_1, targetLanguage_1], args_1, true), void 0, function (text, targetLanguage, baseUrl) {
-        var result, error_5;
-        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, apiFetch("".concat(baseUrl, "/translate"), {
-                            text: text,
-                            targetLanguage: targetLanguage,
-                        })];
-                case 1:
-                    result = _a.sent();
-                    return [2 /*return*/, result.newText];
-                case 2:
-                    error_5 = _a.sent();
-                    console.error("AI Translate Error:", error_5);
-                    throw error_5;
-                case 3: return [2 /*return*/];
-            }
-        });
+var translateText = function (text, targetLanguage, baseUrl, token) { return __awaiter(void 0, void 0, void 0, function () {
+    var result, error_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!baseUrl)
+                    throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, apiFetch("".concat(baseUrl, "/translate"), {
+                        text: text,
+                        targetLanguage: targetLanguage,
+                    }, token)];
+            case 2:
+                result = _a.sent();
+                return [2 /*return*/, result.newText];
+            case 3:
+                error_6 = _a.sent();
+                console.error("AI Translate Error:", error_6);
+                throw error_6;
+            case 4: return [2 /*return*/];
+        }
     });
-};
-var translateHtml = function (html_1, targetLanguage_1) {
-    var args_1 = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        args_1[_i - 2] = arguments[_i];
-    }
-    return __awaiter(void 0, __spreadArray([html_1, targetLanguage_1], args_1, true), void 0, function (html, targetLanguage, baseUrl) {
-        var result, error_6;
-        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, apiFetch("".concat(baseUrl, "/translate"), {
-                            html: html,
-                            targetLanguage: targetLanguage,
-                        })];
-                case 1:
-                    result = _a.sent();
-                    return [2 /*return*/, result.translatedHTML];
-                case 2:
-                    error_6 = _a.sent();
-                    console.error("AI Translate HTML Error:", error_6);
-                    throw error_6;
-                case 3: return [2 /*return*/];
-            }
-        });
+}); };
+var translateHtml = function (html, targetLanguage, baseUrl, token) { return __awaiter(void 0, void 0, void 0, function () {
+    var result, error_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!baseUrl)
+                    throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, apiFetch("".concat(baseUrl, "/translate"), {
+                        html: html,
+                        targetLanguage: targetLanguage,
+                    }, token)];
+            case 2:
+                result = _a.sent();
+                return [2 /*return*/, result.translatedHTML];
+            case 3:
+                error_7 = _a.sent();
+                console.error("AI Translate HTML Error:", error_7);
+                throw error_7;
+            case 4: return [2 /*return*/];
+        }
     });
-};
+}); };
 // ---------------------------------------------------------------------------
 // Convenience wrapper used by AIBubbleMenu
 // ---------------------------------------------------------------------------
-var processSelectedText = function (text_1, action_1, options_1) {
-    var args_1 = [];
-    for (var _i = 3; _i < arguments.length; _i++) {
-        args_1[_i - 3] = arguments[_i];
-    }
-    return __awaiter(void 0, __spreadArray([text_1, action_1, options_1], args_1, true), void 0, function (text, action, options, baseUrl) {
-        if (baseUrl === void 0) { baseUrl = DEFAULT_AI_BASE_URL; }
-        return __generator(this, function (_a) {
-            switch (action) {
-                case "expand":
-                    return [2 /*return*/, expandText(text, "longer", baseUrl)];
-                case "rephrase":
-                    return [2 /*return*/, rephraseText(text, "neutral", "Make it clearer and more engaging", baseUrl)];
-                case "summarize":
-                    return [2 /*return*/, summarizeText(text, "medium", "bullet-points", baseUrl)];
-                case "translate":
-                    return [2 /*return*/, translateText(text, (options === null || options === void 0 ? void 0 : options.targetLanguage) || "English", baseUrl)];
-                default:
-                    throw new Error("Unknown AI action: ".concat(action));
-            }
-        });
+var processSelectedText = function (text, action, options, baseUrl, token) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (action) {
+            case "expand":
+                return [2 /*return*/, expandText(text, "longer", baseUrl, token)];
+            case "rephrase":
+                return [2 /*return*/, rephraseText(text, "neutral", "Make it clearer and more engaging", baseUrl, token)];
+            case "summarize":
+                return [2 /*return*/, summarizeText(text, "medium", "bullet-points", baseUrl, token)];
+            case "translate":
+                return [2 /*return*/, translateText(text, (options === null || options === void 0 ? void 0 : options.targetLanguage) || "English", baseUrl, token)];
+            default:
+                throw new Error("Unknown AI action: ".concat(action));
+        }
     });
-};
+}); };
 
 // Going for a cleaner standard icon: Pencil with sparkles
 function MagicPencilIcon (_a) {
@@ -8703,7 +8756,7 @@ function MagicPencilIcon (_a) {
 }
 
 var AIModal = function (_a) {
-    var isOpen = _a.isOpen, closeModal = _a.closeModal, editor = _a.editor, aiBaseUrl = _a.aiBaseUrl, onAIChange = _a.onAIChange;
+    var isOpen = _a.isOpen, closeModal = _a.closeModal, editor = _a.editor, aiBaseUrl = _a.aiBaseUrl, token = _a.token, onAIChange = _a.onAIChange;
     var _b = React.useState(""), prompt = _b[0], setPrompt = _b[1];
     var _c = React.useState(false), isLoading = _c[0], setIsLoading = _c[1];
     var _d = React.useState('medium'), length = _d[0], setLength = _d[1];
@@ -8727,7 +8780,7 @@ var AIModal = function (_a) {
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, 4, 5]);
-                    return [4 /*yield*/, generateContent(prompt, length, style, aiBaseUrl)];
+                    return [4 /*yield*/, generateContent(prompt, length, style, aiBaseUrl, token)];
                 case 2:
                     content = _b.sent();
                     if (content) {
@@ -8752,38 +8805,117 @@ var AIModal = function (_a) {
     }); };
     if (!isOpen)
         return null;
-    return (React.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40" },
-        React.createElement("div", { className: "w-full max-w-lg rounded-lg bg-white p-6 shadow-xl relative animate-in fade-in zoom-in duration-200" },
-            React.createElement("button", { onClick: closeModal, className: "absolute right-4 top-4 text-gray-500 hover:text-gray-700 focus:outline-none" },
+    // Inline styles for reliable rendering in any consuming project
+    var overlayStyle = {
+        position: 'fixed',
+        inset: 0,
+        zIndex: 50,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backdropFilter: 'blur(4px)',
+        backgroundColor: 'rgba(0,0,0,0.4)',
+    };
+    var modalStyle = {
+        width: '100%',
+        maxWidth: '512px',
+        borderRadius: '8px',
+        backgroundColor: '#ffffff',
+        padding: '24px',
+        boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)',
+        position: 'relative',
+    };
+    var closeBtnStyle = {
+        position: 'absolute',
+        right: '16px',
+        top: '16px',
+        color: '#6b7280',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+    };
+    var labelStyle = {
+        display: 'block',
+        marginBottom: '8px',
+        fontSize: '14px',
+        fontWeight: 500,
+        color: '#374151',
+    };
+    var textareaStyle = {
+        width: '100%',
+        minHeight: '100px',
+        borderRadius: '6px',
+        border: '1px solid #d1d5db',
+        padding: '8px 12px',
+        fontSize: '14px',
+        outline: 'none',
+        boxSizing: 'border-box',
+    };
+    var selectStyle = {
+        width: '100%',
+        borderRadius: '6px',
+        border: '1px solid #d1d5db',
+        padding: '8px 12px',
+        fontSize: '14px',
+        outline: 'none',
+        backgroundColor: '#ffffff',
+    };
+    var cancelBtnStyle = {
+        borderRadius: '6px',
+        border: '1px solid #d1d5db',
+        padding: '8px 16px',
+        fontSize: '14px',
+        fontWeight: 500,
+        color: '#374151',
+        backgroundColor: '#ffffff',
+        cursor: 'pointer',
+    };
+    var submitBtnStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        borderRadius: '6px',
+        border: 'none',
+        padding: '8px 16px',
+        fontSize: '14px',
+        fontWeight: 600,
+        color: '#ffffff',
+        backgroundColor: '#6d28d9',
+        cursor: isLoading ? 'not-allowed' : 'pointer',
+        opacity: isLoading ? 0.6 : 1,
+    };
+    return (React.createElement("div", { style: overlayStyle },
+        React.createElement("div", { style: modalStyle },
+            React.createElement("button", { onClick: closeModal, style: closeBtnStyle },
                 React.createElement(CloseIcon, { className: "w-5 h-5" })),
-            React.createElement("div", { className: "mb-6 flex items-center gap-2" },
-                React.createElement("div", { className: "p-2 bg-purple-100 rounded-full" },
-                    React.createElement(MagicPencilIcon, { className: "w-6 h-6 text-purple-600" })),
-                React.createElement("h2", { className: "text-xl font-bold text-gray-800" }, "Generate Content with AI")),
+            React.createElement("div", { style: { marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' } },
+                React.createElement("div", { style: { padding: '8px', backgroundColor: '#f3e8ff', borderRadius: '50%' } },
+                    React.createElement(MagicPencilIcon, { className: "w-6 h-6" })),
+                React.createElement("h2", { style: { fontSize: '20px', fontWeight: 700, color: '#1f2937', margin: 0 } }, "Generate Content with AI")),
             React.createElement("form", { onSubmit: handleSubmit },
-                React.createElement("div", { className: "mb-4" },
-                    React.createElement("label", { className: "mb-2 block text-sm font-medium text-gray-700" }, "Prompt"),
-                    React.createElement("textarea", { value: prompt, onChange: function (e) { return setPrompt(e.target.value); }, placeholder: "Describe what you want to write about...", className: "w-full min-h-[100px] rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500", required: true })),
-                React.createElement("div", { className: "grid grid-cols-2 gap-4 mb-6" },
+                React.createElement("div", { style: { marginBottom: '16px' } },
+                    React.createElement("label", { style: labelStyle }, "Prompt"),
+                    React.createElement("textarea", { value: prompt, onChange: function (e) { return setPrompt(e.target.value); }, placeholder: "Describe what you want to write about...", style: textareaStyle, required: true })),
+                React.createElement("div", { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' } },
                     React.createElement("div", null,
-                        React.createElement("label", { className: "mb-2 block text-sm font-medium text-gray-700" }, "Length"),
-                        React.createElement("select", { value: length, onChange: function (e) { return setLength(e.target.value); }, className: "w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500" },
+                        React.createElement("label", { style: labelStyle }, "Length"),
+                        React.createElement("select", { value: length, onChange: function (e) { return setLength(e.target.value); }, style: selectStyle },
                             React.createElement("option", { value: "short" }, "Short"),
                             React.createElement("option", { value: "medium" }, "Medium"),
                             React.createElement("option", { value: "long" }, "Long"))),
                     React.createElement("div", null,
-                        React.createElement("label", { className: "mb-2 block text-sm font-medium text-gray-700" }, "Style"),
-                        React.createElement("select", { value: style, onChange: function (e) { return setStyle(e.target.value); }, className: "w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500" },
+                        React.createElement("label", { style: labelStyle }, "Style"),
+                        React.createElement("select", { value: style, onChange: function (e) { return setStyle(e.target.value); }, style: selectStyle },
                             React.createElement("option", { value: "professional" }, "Professional"),
                             React.createElement("option", { value: "casual" }, "Casual"),
                             React.createElement("option", { value: "enthusiastic" }, "Enthusiastic"),
                             React.createElement("option", { value: "informative" }, "Informative")))),
-                React.createElement("div", { className: "flex justify-end gap-3" },
-                    React.createElement("button", { type: "button", onClick: closeModal, className: "rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500", disabled: isLoading }, "Cancel"),
-                    React.createElement("button", { type: "submit", disabled: isLoading, className: "flex items-center gap-2 rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50" }, isLoading ? (React.createElement(React.Fragment, null,
-                        React.createElement("svg", { className: "h-4 w-4 animate-spin text-white", xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24" },
-                            React.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }),
-                            React.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" })),
+                React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end', gap: '12px' } },
+                    React.createElement("button", { type: "button", onClick: closeModal, style: cancelBtnStyle, disabled: isLoading }, "Cancel"),
+                    React.createElement("button", { type: "submit", disabled: isLoading, style: submitBtnStyle }, isLoading ? (React.createElement(React.Fragment, null,
+                        React.createElement("svg", { style: { height: '16px', width: '16px', animation: 'spin 1s linear infinite', color: '#ffffff' }, xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24" },
+                            React.createElement("circle", { style: { opacity: 0.25 }, cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }),
+                            React.createElement("path", { style: { opacity: 0.75 }, fill: "currentColor", d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" })),
                         "Generating...")) : (React.createElement(React.Fragment, null,
                         React.createElement(MagicPencilIcon, { className: "w-4 h-4" }),
                         "Generate"))))))));
@@ -9070,7 +9202,7 @@ var MenuBar = function (_a) {
             }, onUnset: function () {
                 editor.chain().focus().unsetLink().run();
             } }),
-        React.createElement(AIModal, { isOpen: isAIModalOpen, closeModal: function () { return setIsAIModalOpen(false); }, editor: editor, aiBaseUrl: aiBaseUrl, onAIChange: onAIChange })));
+        React.createElement(AIModal, { isOpen: isAIModalOpen, closeModal: function () { return setIsAIModalOpen(false); }, editor: editor, aiBaseUrl: aiBaseUrl, token: token, onAIChange: onAIChange })));
 };
 
 var TranslateIcon = React__namespace.memo(function (_a) {
@@ -9085,38 +9217,70 @@ var TranslateIcon = React__namespace.memo(function (_a) {
 });
 TranslateIcon.displayName = "TranslateIcon";
 
-var LANGUAGES = [
-    { code: 'as', label: 'Assamese' },
-    { code: 'bn', label: 'Bengali' },
-    { code: 'gu', label: 'Gujarati' },
-    { code: 'hi', label: 'Hindi' },
-    { code: 'kn', label: 'Kannada' },
-    { code: 'ml', label: 'Malayalam' },
-    { code: 'mr', label: 'Marathi' },
-    { code: 'ne', label: 'Nepali' },
-    { code: 'or', label: 'Odia' },
-    { code: 'pa', label: 'Punjabi' },
-    { code: 'sd', label: 'Sindhi' },
-    { code: 'si', label: 'Sinhala' },
-    { code: 'ta', label: 'Tamil' },
-    { code: 'te', label: 'Telugu' },
-];
 var AIBubbleMenu = function (_a) {
-    var editor = _a.editor, aiBaseUrl = _a.aiBaseUrl, onAIChange = _a.onAIChange;
+    var editor = _a.editor, aiBaseUrl = _a.aiBaseUrl, adminUserApiUrl = _a.adminUserApiUrl, token = _a.token, onAIChange = _a.onAIChange;
     var _b = React.useState(null), isLoading = _b[0], setIsLoading = _b[1];
     var _c = React.useState(false), showLangPicker = _c[0], setShowLangPicker = _c[1];
+    var _d = React.useState([]), languages = _d[0], setLanguages = _d[1];
+    var _e = React.useState(false), langLoading = _e[0], setLangLoading = _e[1];
     var bubbleMenuRef = React.useRef(null);
     var langPickerRef = React.useRef(null);
+    var translateBtnRef = React.useRef(null);
+    var _f = React.useState({ top: 0, left: 0 }), dropdownPos = _f[0], setDropdownPos = _f[1];
     React.useEffect(function () {
         if (bubbleMenuRef.current) {
             bubbleMenuRef.current.style.zIndex = '99999';
         }
     }, []);
+    // Fetch languages from API when adminUserApiUrl is available
+    React.useEffect(function () {
+        if (!adminUserApiUrl)
+            return;
+        var cancelled = false;
+        setLangLoading(true);
+        fetchLanguages(adminUserApiUrl, token).then(function (langs) {
+            if (!cancelled) {
+                setLanguages(langs);
+                setLangLoading(false);
+            }
+        });
+        return function () { cancelled = true; };
+    }, [adminUserApiUrl, token]);
+    // Position the dropdown relative to the translate button, flipping above if needed
+    var updateDropdownPosition = React.useCallback(function () {
+        if (translateBtnRef.current) {
+            var rect = translateBtnRef.current.getBoundingClientRect();
+            var dropdownHeight = 280;
+            var viewportHeight = window.innerHeight;
+            var spaceBelow = viewportHeight - rect.bottom;
+            var spaceAbove = rect.top;
+            // If not enough space below, position above the button
+            if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
+                setDropdownPos({
+                    top: rect.top - Math.min(dropdownHeight, spaceAbove - 8),
+                    left: Math.max(8, Math.min(rect.left, window.innerWidth - 188)),
+                });
+            }
+            else {
+                setDropdownPos({
+                    top: rect.bottom + 4,
+                    left: Math.max(8, Math.min(rect.left, window.innerWidth - 188)),
+                });
+            }
+        }
+    }, []);
+    React.useEffect(function () {
+        if (showLangPicker) {
+            updateDropdownPosition();
+        }
+    }, [showLangPicker, updateDropdownPosition]);
     // Close language picker on outside click
     React.useEffect(function () {
         var handleClickOutside = function (e) {
             if (langPickerRef.current &&
-                !langPickerRef.current.contains(e.target)) {
+                !langPickerRef.current.contains(e.target) &&
+                translateBtnRef.current &&
+                !translateBtnRef.current.contains(e.target)) {
                 setShowLangPicker(false);
             }
         };
@@ -9140,7 +9304,7 @@ var AIBubbleMenu = function (_a) {
                     _b.trys.push([1, 3, 4, 5]);
                     originalText = editor.state.doc.textBetween(from, to);
                     console.log("[AI BubbleMenu] Action: ".concat(action, ", Selection: \"").concat(originalText, "\" (from: ").concat(from, ", to: ").concat(to, ")"));
-                    return [4 /*yield*/, processSelectedText(originalText, action, { targetLanguage: targetLanguage }, aiBaseUrl)];
+                    return [4 /*yield*/, processSelectedText(originalText, action, { targetLanguage: targetLanguage }, aiBaseUrl, token)];
                 case 2:
                     newText = _b.sent();
                     console.log("[AI BubbleMenu] API returned newText:", newText);
@@ -9171,38 +9335,110 @@ var AIBubbleMenu = function (_a) {
         var editor = _a.editor;
         return !editor.state.selection.empty;
     };
-    return (React.createElement(menus.BubbleMenu, { ref: bubbleMenuRef, editor: editor, options: {
-            placement: 'top',
-            strategy: 'fixed',
-            offset: 10,
-            flip: {
-                fallbackPlacements: ['bottom', 'bottom-start', 'bottom-end', 'top-start', 'top-end'],
-                padding: { top: 130, left: 16, right: 16, bottom: 16 },
-            },
-            shift: {
-                padding: { top: 130, left: 16, right: 16, bottom: 16 },
-                crossAxis: true,
-            },
-        }, shouldShow: shouldShow, className: "flex overflow-visible rounded-lg border border-gray-200 bg-white shadow-xl ring-1 ring-black ring-opacity-5", style: { zIndex: 99999 } },
-        React.createElement("div", { className: "flex p-1 gap-1" },
-            React.createElement(MenuButton, { onClick: function () { return handleAction('rephrase'); }, isActive: isLoading === 'rephrase', label: "Rephrase", icon: React.createElement(MagicPencilIcon, { className: "w-3.5 h-3.5" }) }),
-            React.createElement("div", { className: "w-px bg-gray-200 my-1" }),
-            React.createElement(MenuButton, { onClick: function () { return handleAction('summarize'); }, isActive: isLoading === 'summarize', label: "Summarize" }),
-            React.createElement("div", { className: "w-px bg-gray-200 my-1" }),
-            React.createElement(MenuButton, { onClick: function () { return handleAction('expand'); }, isActive: isLoading === 'expand', label: "Expand" }),
-            React.createElement("div", { className: "w-px bg-gray-200 my-1" }),
-            React.createElement("div", { className: "relative", ref: langPickerRef },
-                React.createElement(MenuButton, { onClick: function () { return setShowLangPicker(function (v) { return !v; }); }, isActive: isLoading === 'translate', label: "Translate", icon: React.createElement(TranslateIcon, { className: "w-3.5 h-3.5" }) }),
-                showLangPicker && (React.createElement("div", { className: "absolute top-full left-0 mt-1 w-40 max-h-52 overflow-y-auto rounded-md border border-gray-200 bg-white shadow-lg z-[100000]" }, LANGUAGES.map(function (lang) { return (React.createElement("button", { key: lang.code, onClick: function () { return handleAction('translate', lang.code); }, className: "w-full text-left px-3 py-1.5 text-xs text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors" }, lang.label)); })))))));
+    // Styles
+    var bubbleMenuStyle = {
+        zIndex: 99999,
+        display: 'flex',
+        overflow: 'visible',
+        borderRadius: '8px',
+        border: '1px solid #e5e7eb',
+        backgroundColor: '#ffffff',
+        boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)',
+    };
+    var menuContainerStyle = {
+        display: 'flex',
+        padding: '4px',
+        gap: '4px',
+        alignItems: 'center',
+    };
+    var dividerStyle = {
+        width: '1px',
+        backgroundColor: '#e5e7eb',
+        margin: '4px 0',
+        alignSelf: 'stretch',
+    };
+    var dropdownStyle = {
+        position: 'fixed',
+        top: "".concat(dropdownPos.top, "px"),
+        left: "".concat(dropdownPos.left, "px"),
+        width: '200px',
+        maxHeight: '300px',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        borderRadius: '8px',
+        border: '1px solid #e5e7eb',
+        backgroundColor: '#ffffff',
+        boxShadow: '0 10px 25px -3px rgba(0,0,0,0.15), 0 4px 6px -2px rgba(0,0,0,0.08)',
+        zIndex: 100001,
+        padding: '4px 0',
+        WebkitOverflowScrolling: 'touch',
+    };
+    var langBtnStyle = {
+        width: '100%',
+        textAlign: 'left',
+        padding: '8px 12px',
+        fontSize: '13px',
+        color: '#374151',
+        backgroundColor: 'transparent',
+        border: 'none',
+        cursor: 'pointer',
+        transition: 'background-color 0.15s, color 0.15s',
+        borderRadius: '0',
+    };
+    return (React.createElement(React.Fragment, null,
+        React.createElement(menus.BubbleMenu, { ref: bubbleMenuRef, editor: editor, options: {
+                placement: 'top',
+                strategy: 'fixed',
+                offset: 10,
+                flip: {
+                    fallbackPlacements: ['bottom', 'bottom-start', 'bottom-end', 'top-start', 'top-end'],
+                    padding: { top: 130, left: 16, right: 16, bottom: 16 },
+                },
+                shift: {
+                    padding: { top: 130, left: 16, right: 16, bottom: 16 },
+                    crossAxis: true,
+                },
+            }, shouldShow: shouldShow, className: "", style: bubbleMenuStyle },
+            React.createElement("div", { style: menuContainerStyle },
+                React.createElement(MenuButton, { onClick: function () { return handleAction('rephrase'); }, isActive: isLoading === 'rephrase', label: "Rephrase", icon: React.createElement(MagicPencilIcon, { className: "w-3.5 h-3.5" }) }),
+                React.createElement("div", { style: dividerStyle }),
+                React.createElement(MenuButton, { onClick: function () { return handleAction('summarize'); }, isActive: isLoading === 'summarize', label: "Summarize" }),
+                React.createElement("div", { style: dividerStyle }),
+                React.createElement(MenuButton, { onClick: function () { return handleAction('expand'); }, isActive: isLoading === 'expand', label: "Expand" }),
+                React.createElement("div", { style: dividerStyle }),
+                React.createElement("div", { style: { position: 'relative' }, ref: translateBtnRef },
+                    React.createElement(MenuButton, { onClick: function () { return setShowLangPicker(function (v) { return !v; }); }, isActive: isLoading === 'translate', label: "Translate", icon: React.createElement(TranslateIcon, { className: "w-3.5 h-3.5" }) })))),
+        showLangPicker && reactDom.createPortal(React.createElement("div", { ref: langPickerRef, style: dropdownStyle }, langLoading ? (React.createElement("div", { style: { padding: '12px', textAlign: 'center', fontSize: '12px', color: '#6b7280' } }, "Loading languages...")) : languages.length === 0 ? (React.createElement("div", { style: { padding: '12px', textAlign: 'center', fontSize: '12px', color: '#6b7280' } }, adminUserApiUrl ? 'No languages available' : 'Set adminUserApiUrl prop to load languages')) : (languages.map(function (lang) { return (React.createElement("button", { key: lang.code, onClick: function () { return handleAction('translate', lang.code); }, style: langBtnStyle, onMouseEnter: function (e) {
+                e.target.style.backgroundColor = '#f3e8ff';
+                e.target.style.color = '#7c3aed';
+            }, onMouseLeave: function (e) {
+                e.target.style.backgroundColor = 'transparent';
+                e.target.style.color = '#374151';
+            } }, lang.label)); }))), document.body)));
 };
 var MenuButton = function (_a) {
     var onClick = _a.onClick, isActive = _a.isActive, label = _a.label, icon = _a.icon;
-    return (React.createElement("button", { onClick: onClick, className: "flex items-center gap-1.5 px-2 py-1.5 text-xs font-medium rounded transition-colors\n        ".concat(isActive ? 'bg-purple-50 text-purple-700 cursor-wait' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900', "\n        "), disabled: isActive },
+    var _b = React.useState(false), hovered = _b[0], setHovered = _b[1];
+    var baseStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
+        padding: '6px 8px',
+        fontSize: '12px',
+        fontWeight: 500,
+        borderRadius: '4px',
+        transition: 'background-color 0.15s, color 0.15s',
+        border: 'none',
+        cursor: isActive ? 'wait' : 'pointer',
+        backgroundColor: isActive ? '#f3e8ff' : hovered ? '#f3f4f6' : 'transparent',
+        color: isActive ? '#7c3aed' : hovered ? '#111827' : '#374151',
+    };
+    return (React.createElement("button", { onClick: onClick, style: baseStyle, disabled: isActive, onMouseEnter: function () { return setHovered(true); }, onMouseLeave: function () { return setHovered(false); } },
         icon,
         label,
-        isActive && (React.createElement("svg", { className: "animate-spin h-3 w-3 text-purple-700 ml-1", xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24" },
-            React.createElement("circle", { className: "opacity-25", cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }),
-            React.createElement("path", { className: "opacity-75", fill: "currentColor", d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" })))));
+        isActive && (React.createElement("svg", { style: { animation: 'spin 1s linear infinite', height: '12px', width: '12px', color: '#7c3aed', marginLeft: '4px' }, xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24" },
+            React.createElement("circle", { style: { opacity: 0.25 }, cx: "12", cy: "12", r: "10", stroke: "currentColor", strokeWidth: "4" }),
+            React.createElement("path", { style: { opacity: 0.75 }, fill: "currentColor", d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" })))));
 };
 
 // Link configuration
@@ -9240,7 +9476,7 @@ var linkConfig = {
     }
 };
 var RichTextEditor = function (_a) {
-    var _b = _a.initialContent, initialContent = _b === void 0 ? "" : _b, onContentChange = _a.onContentChange, onHTMLChange = _a.onHTMLChange, onJSONChange = _a.onJSONChange, token = _a.token, aiBaseUrl = _a.aiBaseUrl, onAIChange = _a.onAIChange;
+    var _b = _a.initialContent, initialContent = _b === void 0 ? "" : _b, onContentChange = _a.onContentChange, onHTMLChange = _a.onHTMLChange, onJSONChange = _a.onJSONChange, token = _a.token, aiBaseUrl = _a.aiBaseUrl, adminUserApiUrl = _a.adminUserApiUrl, onAIChange = _a.onAIChange;
     var _c = React.useState(0), wordCount = _c[0], setWordCount = _c[1];
     var _d = React.useState(0), characterCount = _d[0], setCharacterCount = _d[1];
     var _e = React.useState(false), showFindReplace = _e[0], setShowFindReplace = _e[1];
@@ -9387,14 +9623,14 @@ var RichTextEditor = function (_a) {
                     return __generator(this, function (_b) {
                         switch (_b.label) {
                             case 0:
-                                if (!token)
+                                if (!token || !adminUserApiUrl)
                                     return [2 /*return*/];
                                 _b.label = 1;
                             case 1:
                                 _b.trys.push([1, 4, , 5]);
                                 formData = new FormData();
                                 formData.append('files', file);
-                                return [4 /*yield*/, fetch('https://api.mrmeds.in/admin/file/media', {
+                                return [4 /*yield*/, fetch("".concat(adminUserApiUrl, "/file/media"), {
                                         method: 'POST',
                                         headers: { Authorization: "Bearer ".concat(token) },
                                         body: formData,
@@ -9534,7 +9770,7 @@ var RichTextEditor = function (_a) {
             editor && (React.createElement(MenuBar, { editor: editor, setLink: setLink, unsetLink: unsetLink, token: token, aiBaseUrl: aiBaseUrl, onAIChange: onAIChange }))),
         editor && (React.createElement(EditorContainer, null,
             React.createElement("div", { className: "min-h-[300px] border-t border-gray-200" },
-                React.createElement(AIBubbleMenu, { editor: editor, aiBaseUrl: aiBaseUrl, onAIChange: onAIChange }),
+                React.createElement(AIBubbleMenu, { editor: editor, aiBaseUrl: aiBaseUrl, adminUserApiUrl: adminUserApiUrl, token: token, onAIChange: onAIChange }),
                 React.createElement(react$1.EditorContent, { editor: editor, className: "prose max-w-none -z-500" })))),
         React.createElement("div", { className: "flex justify-end py-2 px-2 sm:px-4 border-t border-gray-200" },
             React.createElement("div", { className: "flex items-center text-xs text-gray-500" },
@@ -9556,6 +9792,7 @@ exports.YouTubeNodeView = YouTubeNodeView;
 exports.YoutubeAlign = YoutubeAlign;
 exports.YoutubeModal = YoutubeModal;
 exports.expandText = expandText;
+exports.fetchLanguages = fetchLanguages;
 exports.generateContent = generateContent;
 exports.processSelectedText = processSelectedText;
 exports.rephraseText = rephraseText;

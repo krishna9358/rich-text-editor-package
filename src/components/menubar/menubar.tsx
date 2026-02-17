@@ -519,6 +519,7 @@ const MenuBar = ({ editor, unsetLink, token, aiBaseUrl, onAIChange }: MenuBarPro
         closeModal={() => setIsAIModalOpen(false)}
         editor={editor}
         aiBaseUrl={aiBaseUrl}
+        token={token}
         onAIChange={onAIChange}
       />
     </div>

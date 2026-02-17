@@ -1,7 +1,59 @@
 export type AIAction = "translate" | "rephrase" | "summarize" | "expand";
 
-const DEFAULT_AI_BASE_URL =
-  "https://able-marmot-loosely.ngrok-free.app/admin/ai-editor";
+export interface LanguageOption {
+  code: string;
+  label: string;
+}
+
+// Fallback languages used when the API is unavailable
+const FALLBACK_LANGUAGES: LanguageOption[] = [
+  { code: "hi", label: "Hindi" },
+  { code: "en", label: "English" },
+];
+
+// ---------------------------------------------------------------------------
+// Fetch available languages from ${adminUserApiUrl}/multi-lingual
+// ---------------------------------------------------------------------------
+export const fetchLanguages = async (
+  adminUserApiUrl: string,
+  token?: string,
+): Promise<LanguageOption[]> => {
+  try {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+    const response = await fetch(`${adminUserApiUrl}/multi-lingual`, {
+      method: "GET",
+      headers,
+    });
+
+    if (!response.ok) {
+      console.warn("[AI Service] Failed to fetch languages, using fallback");
+      return FALLBACK_LANGUAGES;
+    }
+
+    const json = await response.json();
+    // Expecting { data: { languages: [{ code, label }] } } or similar
+    const languages =
+      json?.data?.languages || json?.data || json?.languages || json;
+
+    if (Array.isArray(languages) && languages.length > 0) {
+      return languages.map((lang: any) => ({
+        code: lang.code || lang.language_code || lang.id,
+        label: lang.label || lang.name || lang.language_name || lang.code,
+      }));
+    }
+
+    console.warn(
+      "[AI Service] Unexpected language response format, using fallback",
+    );
+    return FALLBACK_LANGUAGES;
+  } catch (error) {
+    console.error("[AI Service] Error fetching languages:", error);
+    return FALLBACK_LANGUAGES;
+  }
+};
 
 // ---------------------------------------------------------------------------
 // Wrapper response shape from the backend
@@ -74,10 +126,15 @@ interface TranslateHtmlResult {
 async function apiFetch<T>(
   url: string,
   body: Record<string, unknown>,
+  token?: string,
 ): Promise<T> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
   const response = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(body),
   });
 
@@ -102,14 +159,17 @@ export const generateContent = async (
   prompt: string,
   length: "short" | "medium" | "long" = "medium",
   style: string = "professional",
-  baseUrl: string = DEFAULT_AI_BASE_URL,
+  baseUrl?: string,
+  token?: string,
 ): Promise<string> => {
+  if (!baseUrl)
+    throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
   try {
     const result = await apiFetch<GenerateResult>(`${baseUrl}/generate`, {
       prompt,
       length,
       style,
-    });
+    }, token);
     return result.generatedContent;
   } catch (error) {
     console.error("AI Generate Error:", error);
@@ -123,13 +183,16 @@ export const generateContent = async (
 export const expandText = async (
   text: string,
   targetLength: string = "longer",
-  baseUrl: string = DEFAULT_AI_BASE_URL,
+  baseUrl?: string,
+  token?: string,
 ): Promise<string> => {
+  if (!baseUrl)
+    throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
   try {
     const result = await apiFetch<ExpandResult>(`${baseUrl}/expand`, {
       text,
       targetLength,
-    });
+    }, token);
     return result.newText;
   } catch (error) {
     console.error("AI Expand Error:", error);
@@ -144,14 +207,17 @@ export const rephraseText = async (
   text: string,
   tone: string = "neutral",
   instructions: string = "Make it clearer and more engaging",
-  baseUrl: string = DEFAULT_AI_BASE_URL,
+  baseUrl?: string,
+  token?: string,
 ): Promise<string> => {
+  if (!baseUrl)
+    throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
   try {
     const result = await apiFetch<RephraseResult>(`${baseUrl}/rephrase`, {
       text,
       tone,
       instructions,
-    });
+    }, token);
     return result.newText;
   } catch (error) {
     console.error("AI Rephrase Error:", error);
@@ -166,14 +232,17 @@ export const summarizeText = async (
   text: string,
   length: string = "medium",
   style: string = "bullet-points",
-  baseUrl: string = DEFAULT_AI_BASE_URL,
+  baseUrl?: string,
+  token?: string,
 ): Promise<string> => {
+  if (!baseUrl)
+    throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
   try {
     const result = await apiFetch<SummarizeResult>(`${baseUrl}/summarize`, {
       text,
       length,
       style,
-    });
+    }, token);
     return result.newText;
   } catch (error) {
     console.error("AI Summarize Error:", error);
@@ -187,13 +256,16 @@ export const summarizeText = async (
 export const translateText = async (
   text: string,
   targetLanguage: string,
-  baseUrl: string = DEFAULT_AI_BASE_URL,
+  baseUrl?: string,
+  token?: string,
 ): Promise<string> => {
+  if (!baseUrl)
+    throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
   try {
     const result = await apiFetch<TranslateTextResult>(`${baseUrl}/translate`, {
       text,
       targetLanguage,
-    });
+    }, token);
     return result.newText;
   } catch (error) {
     console.error("AI Translate Error:", error);
@@ -204,13 +276,16 @@ export const translateText = async (
 export const translateHtml = async (
   html: string,
   targetLanguage: string,
-  baseUrl: string = DEFAULT_AI_BASE_URL,
+  baseUrl?: string,
+  token?: string,
 ): Promise<string> => {
+  if (!baseUrl)
+    throw new Error("AI base URL is required. Pass it via the aiBaseUrl prop.");
   try {
     const result = await apiFetch<TranslateHtmlResult>(`${baseUrl}/translate`, {
       html,
       targetLanguage,
-    });
+    }, token);
     return result.translatedHTML;
   } catch (error) {
     console.error("AI Translate HTML Error:", error);
@@ -225,22 +300,24 @@ export const processSelectedText = async (
   text: string,
   action: AIAction,
   options?: { targetLanguage?: string },
-  baseUrl: string = DEFAULT_AI_BASE_URL,
+  baseUrl?: string,
+  token?: string,
 ): Promise<string> => {
   switch (action) {
     case "expand":
-      return expandText(text, "longer", baseUrl);
+      return expandText(text, "longer", baseUrl, token);
     case "rephrase":
       return rephraseText(
         text,
         "neutral",
         "Make it clearer and more engaging",
         baseUrl,
+        token,
       );
     case "summarize":
-      return summarizeText(text, "medium", "bullet-points", baseUrl);
+      return summarizeText(text, "medium", "bullet-points", baseUrl, token);
     case "translate":
-      return translateText(text, options?.targetLanguage || "English", baseUrl);
+      return translateText(text, options?.targetLanguage || "English", baseUrl, token);
     default:
       throw new Error(`Unknown AI action: ${action}`);
   }

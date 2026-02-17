@@ -1,0 +1,187 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1771328745876,
+  "projectRoot": "/Users/krishnamohan/Desktop/mrmed/mrmed-rte-package",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "rollup",
+        "version": "3.0.0",
+        "category": "build"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {
+      "build": "rollup -c",
+      "clean": "rimraf dist",
+      "prepare": "npm run build"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "src"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 6,
+      "lastAccessed": 1771328745865,
+      "keyFiles": [
+        "index.d.ts",
+        "index.esm.js",
+        "index.esm.js.map",
+        "index.js",
+        "index.js.map"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 2,
+      "lastAccessed": 1771328745866,
+      "keyFiles": [
+        "index.ts"
+      ]
+    },
+    "dist/assets": {
+      "path": "dist/assets",
+      "purpose": "Static assets",
+      "fileCount": 4,
+      "lastAccessed": 1771328745871,
+      "keyFiles": [
+        "Add-Row.svg",
+        "Add-column.svg",
+        "Delete-Row.svg"
+      ]
+    },
+    "dist/components": {
+      "path": "dist/components",
+      "purpose": "UI components",
+      "fileCount": 0,
+      "lastAccessed": 1771328745871,
+      "keyFiles": []
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 1,
+      "lastAccessed": 1771328745872,
+      "keyFiles": []
+    },
+    "src/services": {
+      "path": "src/services",
+      "purpose": "Business logic services",
+      "fileCount": 1,
+      "lastAccessed": 1771328745873,
+      "keyFiles": [
+        "aiService.ts"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src/services/aiService.ts",
+      "accessCount": 10,
+      "lastAccessed": 1771329187562,
+      "type": "file"
+    },
+    {
+      "path": "src/components/editor/AIBubbleMenu.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1771329188251,
+      "type": "file"
+    },
+    {
+      "path": "src/components/modals/AIModal.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1771329189141,
+      "type": "file"
+    },
+    {
+      "path": "src/components/editor/RichTextEditor.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1771329189848,
+      "type": "file"
+    },
+    {
+      "path": "src/components/menubar/menubar.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1771329172721,
+      "type": "file"
+    },
+    {
+      "path": "src/components/menubar",
+      "accessCount": 1,
+      "lastAccessed": 1771328859135,
+      "type": "directory"
+    },
+    {
+      "path": "src/components",
+      "accessCount": 1,
+      "lastAccessed": 1771328859685,
+      "type": "directory"
+    },
+    {
+      "path": "src/components/modals/imageModal.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771328864848,
+      "type": "file"
+    },
+    {
+      "path": "src/components/tiptap-icons",
+      "accessCount": 1,
+      "lastAccessed": 1771328933211,
+      "type": "directory"
+    },
+    {
+      "path": "src/components/tiptap-icons/magic-pencil-icon.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771328936613,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 1,
+      "lastAccessed": 1771328937210,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

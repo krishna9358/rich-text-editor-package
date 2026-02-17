@@ -10,6 +10,7 @@ export {
   translateText,
   translateHtml,
   processSelectedText,
+  fetchLanguages,
 } from "./services/aiService";
-export type { AIAction } from "./services/aiService";
+export type { AIAction, LanguageOption } from "./services/aiService";
 export type { AIChangeEvent } from "./components/editor/AIBubbleMenu";

@@ -7,7 +7,8 @@ interface RichTextEditorProps {
     onJSONChange?: (json: any) => void;
     token?: string;
     aiBaseUrl?: string;
+    adminUserApiUrl?: string;
     onAIChange?: (event: AIChangeEvent) => void;
 }
-declare const RichTextEditor: ({ initialContent, onContentChange, onHTMLChange, onJSONChange, token, aiBaseUrl, onAIChange, }: RichTextEditorProps) => React.JSX.Element;
+declare const RichTextEditor: ({ initialContent, onContentChange, onHTMLChange, onJSONChange, token, aiBaseUrl, adminUserApiUrl, onAIChange, }: RichTextEditorProps) => React.JSX.Element;
 export default RichTextEditor;

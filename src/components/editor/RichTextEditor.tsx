@@ -73,6 +73,7 @@ interface RichTextEditorProps {
   onJSONChange?: (json: any) => void;
   token?: string;
   aiBaseUrl?: string;
+  adminUserApiUrl?: string;
   onAIChange?: (event: AIChangeEvent) => void;
 }
 
@@ -83,6 +84,7 @@ const RichTextEditor = ({
   onJSONChange,
   token,
   aiBaseUrl,
+  adminUserApiUrl,
   onAIChange,
 }: RichTextEditorProps) => {
   const [wordCount, setWordCount] = useState(0);
@@ -234,11 +236,11 @@ const RichTextEditor = ({
         event.preventDefault();
 
         const maybeUploadAndReplace = async (file: File, tempSrc: string) => {
-          if (!token) return;
+          if (!token || !adminUserApiUrl) return;
           try {
             const formData = new FormData();
             formData.append('files', file);
-            const res = await fetch('https://api.mrmeds.in/admin/file/media', {
+            const res = await fetch(`${adminUserApiUrl}/file/media`, {
               method: 'POST',
               headers: { Authorization: `Bearer ${token}` },
               body: formData,
@@ -400,7 +402,7 @@ const RichTextEditor = ({
       {editor && (
         <EditorContainer>
           <div className="min-h-[300px] border-t border-gray-200">
-            <AIBubbleMenu editor={editor} aiBaseUrl={aiBaseUrl} onAIChange={onAIChange} />
+            <AIBubbleMenu editor={editor} aiBaseUrl={aiBaseUrl} adminUserApiUrl={adminUserApiUrl} token={token} onAIChange={onAIChange} />
             <EditorContent editor={editor} className="prose max-w-none -z-500" />
           </div>
           {/* TableControls moved to toolbar - see MenuBar component */}
