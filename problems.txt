@@ -1,8 +1,15 @@
 
 2. Remove unnecessary code and files. 
-3. Fix the lint issues.
-4. Fix the ai thing : 
-    a. generate model has black backdrop background .
-    b. The bubble menu has less z index.
-    d. Need to add the backend thing.
 5. The css style it takes from the codebase, it should have one.  
+6. fix cjs issue. 
+
+
+  Usage in @mrmed-admin
+
+  <RichTextEditor
+    token={authToken}
+    aiBaseUrl="https://api.mrmeds.in/admin/ai-editor"  // for AI endpoints
+    adminUserApiUrl="https://api.mrmeds.in/admin"       // for /multi-lingual
+  and /file/media
+    onAIChange={(event) => console.log(event)}
+  />
