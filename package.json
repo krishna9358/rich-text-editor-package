@@ -1,6 +1,6 @@
 {
   "name": "@krishna9358/rich-text-editor",
-  "version": "2.3.4",
+  "version": "3.0.0",
   "description": "A customizable rich text editor component for React applications",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
